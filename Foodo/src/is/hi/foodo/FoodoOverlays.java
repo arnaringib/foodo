@@ -7,7 +7,7 @@ import android.graphics.drawable.Drawable;
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.OverlayItem;
 
-public class FoodoOverlays extends ItemizedOverlay {
+public class FoodoOverlays extends ItemizedOverlay<OverlayItem> {
 	private ArrayList<OverlayItem> mRestaurantsOverlays = new ArrayList<OverlayItem>(); 
 	
 	public FoodoOverlays(Drawable defaultMarker) {

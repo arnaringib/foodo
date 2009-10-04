@@ -19,7 +19,7 @@ public class FoodoMap extends MapActivity {
 	MapView mapView;
 	List<Overlay> mapRestaurantsOverlays;
 	Drawable drawable;
-	FoodoOverlays foodoRestaurantsOverlays;
+	FoodoOverlays foodoRestaurantsOverlays; 
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,13 +32,13 @@ public class FoodoMap extends MapActivity {
         //Overlays
         mapRestaurantsOverlays = mapView.getOverlays();
         //Need some new icon
-        drawable = this.getResources().getDrawable(R.drawable.burger_joint);
+        drawable = this.getResources().getDrawable(R.drawable.minifork);
         foodoRestaurantsOverlays = new FoodoOverlays(drawable);
         
         // Test(Arnar) - Can be commented out!
         GeoPoint point = new GeoPoint(64139603,-21955812);
         OverlayItem overlayItem = new OverlayItem(point, "", "");
-        
+             
         foodoRestaurantsOverlays.addOverlay(overlayItem);
         mapRestaurantsOverlays.add(foodoRestaurantsOverlays);
         

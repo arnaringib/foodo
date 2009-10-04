@@ -11,7 +11,7 @@ public class FoodoOverlays extends ItemizedOverlay<OverlayItem> {
 	private ArrayList<OverlayItem> mRestaurantsOverlays = new ArrayList<OverlayItem>(); 
 	
 	public FoodoOverlays(Drawable defaultMarker) {
-		super(boundCenter(defaultMarker));
+		super(boundCenterBottom(defaultMarker));
 	}
 	
 	/**

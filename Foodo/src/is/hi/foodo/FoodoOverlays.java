@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
-import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.ItemizedOverlay;
@@ -56,9 +55,14 @@ public class FoodoOverlays extends ItemizedOverlay<OverlayItem> {
 					mRestaurantsOverlays.get(count).getPoint().getLatitudeE6() - 1000 <= p.getLatitudeE6()) &&
 					(mRestaurantsOverlays.get(count).getPoint().getLongitudeE6() + 1000 >= p.getLongitudeE6() &&
 					mRestaurantsOverlays.get(count).getPoint().getLongitudeE6() - 1000 <= p.getLongitudeE6())){
-					Toast.makeText(mapView.getContext(), 
+					
+					/*Toast.makeText(mapView.getContext(), 
 						mRestaurantsOverlays.get(count).getTitle(), 
-						Toast.LENGTH_LONG).show();
+						Toast.LENGTH_LONG).show();*/
+					
+					FoodoMap fMap = (FoodoMap) mapView.getContext();
+					fMap.startDetails(1);
+					
 				}
 				count++;
 			}

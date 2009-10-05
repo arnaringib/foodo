@@ -2,6 +2,7 @@ package is.hi.foodo;
 
 import java.util.List;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.widget.LinearLayout;
@@ -49,6 +50,12 @@ public class FoodoMap extends MapActivity {
 	protected boolean isRouteDisplayed() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+	
+	public void startDetails(int id) {
+		Intent i = new Intent(this, FoodoDetails.class);
+		//i.putExtra(Restaurant.ROW_ID, id);
+    	startActivityForResult(i, 1);
 	}
   
  

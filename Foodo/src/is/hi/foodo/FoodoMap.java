@@ -41,7 +41,7 @@ public class FoodoMap extends MapActivity {
         
         // Test(Arnar) - Can be commented out!
         GeoPoint point = new GeoPoint(64139603,-21955812);
-        OverlayItem overlayItem = new OverlayItem(point, "", "");
+        OverlayItem overlayItem = new OverlayItem(point, "Burger Joint", "");
              
         foodoRestaurantsOverlays.addOverlay(overlayItem);
         mapRestaurantsOverlays.add(foodoRestaurantsOverlays);

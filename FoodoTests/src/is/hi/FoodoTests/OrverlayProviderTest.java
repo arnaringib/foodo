@@ -1,5 +1,6 @@
 package is.hi.FoodoTests;
 
+import is.hi.foodo.FoodoOverlayProvider;
 import is.hi.foodo.OverlayProvider;
 import is.hi.foodo.SimpleOverlayProvider;
 
@@ -33,4 +34,25 @@ public class OrverlayProviderTest extends TestCase {
 		assertEquals(item.getPoint().getLongitudeE6(), -21954812);
 	}
 
+	public void testFoodoProvider() {
+		OverlayProvider op;
+		OverlayItem item;
+		ArrayList<OverlayItem> list;
+		
+		op = new FoodoOverlayProvider();
+		list = op.getAllOverlays();
+		
+		assertTrue(list.size() > 0);
+		
+		item = list.get(0);
+		assertEquals(item.getTitle(), "Burger Joint");
+		assertEquals(item.getPoint().getLatitudeE6(), 64139603);
+		assertEquals(item.getPoint().getLongitudeE6(), -21955812);
+		
+		item = list.get(1);
+		assertEquals(item.getTitle(), "Pizza Joint");
+		assertEquals(item.getPoint().getLatitudeE6(), 64135603);
+		assertEquals(item.getPoint().getLongitudeE6(), -21954812);
+		
+	}
 }

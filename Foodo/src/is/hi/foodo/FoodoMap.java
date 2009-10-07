@@ -40,7 +40,7 @@ public class FoodoMap extends MapActivity {
         
         
         //Get overlays
-        op = new SimpleOverlayProvider();
+        op = new FoodoOverlayProvider();
         foodoRestaurantsOverlays.setOverlays(op.getAllOverlays());
         
         mapRestaurantsOverlays.add(foodoRestaurantsOverlays);

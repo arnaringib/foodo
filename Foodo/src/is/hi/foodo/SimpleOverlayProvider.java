@@ -15,7 +15,7 @@ public class SimpleOverlayProvider implements OverlayProvider {
 		GeoPoint point = new GeoPoint(64139603,-21955812);
 		overlays.add(new OverlayItem(point, "Burger Joint", ""));
 		
-		GeoPoint point2 = new GeoPoint(64135603,-21955812);
+		GeoPoint point2 = new GeoPoint(64135603,-21954812);
 		overlays.add(new OverlayItem(point2, "Pizza Joint", ""));
         	
 		return overlays;

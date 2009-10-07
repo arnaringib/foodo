@@ -88,4 +88,9 @@ public class FoodoOverlays extends ItemizedOverlay<OverlayItem> {
 		}
 		return false;
 	}
+
+	public void setOverlays(ArrayList<OverlayItem> allOverlays) {
+		mRestaurantsOverlays = allOverlays;
+		populate();
+	}
 }

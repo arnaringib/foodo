@@ -11,11 +11,9 @@ import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
-import com.google.android.maps.OverlayItem;
 
 public class FoodoMap extends MapActivity {
 	
@@ -23,7 +21,8 @@ public class FoodoMap extends MapActivity {
 	MapView mapView;
 	List<Overlay> mapRestaurantsOverlays;
 	Drawable drawable;
-	FoodoOverlays foodoRestaurantsOverlays; 
+	FoodoOverlays foodoRestaurantsOverlays;
+	OverlayProvider op; 
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,11 +38,11 @@ public class FoodoMap extends MapActivity {
         drawable = this.getResources().getDrawable(R.drawable.minifork);
         foodoRestaurantsOverlays = new FoodoOverlays(drawable);
         
-        // Test(Arnar) - Can be commented out!
-        GeoPoint point = new GeoPoint(64139603,-21955812);
-        OverlayItem overlayItem = new OverlayItem(point, "Burger Joint", "");
-             
-        foodoRestaurantsOverlays.addOverlay(overlayItem);
+        
+        //Get overlays
+        op = new SimpleOverlayProvider();
+        foodoRestaurantsOverlays.setOverlays(op.getAllOverlays());
+        
         mapRestaurantsOverlays.add(foodoRestaurantsOverlays);
         
     }

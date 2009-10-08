@@ -1,11 +1,13 @@
 package is.hi.foodo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
@@ -14,6 +16,7 @@ import android.widget.Toast;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
+import com.google.android.maps.OverlayItem;
 
 public class FoodoMap extends MapActivity {
 	
@@ -22,7 +25,8 @@ public class FoodoMap extends MapActivity {
 	List<Overlay> mapRestaurantsOverlays;
 	Drawable drawable;
 	FoodoOverlays foodoRestaurantsOverlays;
-	OverlayProvider op; 
+	Handler mHandler;
+	ArrayList<OverlayItem> mOverlays;
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,22 +36,10 @@ public class FoodoMap extends MapActivity {
         mapView = (MapView) findViewById(R.id.mapview);
         mapView.setBuiltInZoomControls(true);
         
-        //Overlays
-        mapRestaurantsOverlays = mapView.getOverlays();
-        //Need some new icon
-        drawable = this.getResources().getDrawable(R.drawable.minifork);
-        foodoRestaurantsOverlays = new FoodoOverlays(drawable);
-        
-        
-        //Get overlays
-        op = new FoodoOverlayProvider();
-        foodoRestaurantsOverlays.setOverlays(op.getAllOverlays());
-        
-        mapRestaurantsOverlays.add(foodoRestaurantsOverlays);
-        
+        mHandler = new Handler();
+        setupOverlays();
     }
 
-	/** Called when the activity is first created. */
 	@Override
 	protected boolean isRouteDisplayed() {
 		// TODO Auto-generated method stub
@@ -82,20 +74,50 @@ public class FoodoMap extends MapActivity {
 		Context context = getApplicationContext();
 		switch (item.getItemId()) {
 		case 0:
-			Toast toast1 = Toast.makeText(context, text1, duration);
-			toast1.show();
+			Toast.makeText(context, text1, duration).show();
 			return true;
 		case 1:
-			Toast toast2 = Toast.makeText(context, text2, duration);
-			toast2.show();
+			Toast.makeText(context, text2, duration).show();
 			return true;
 		case 2:
-			Toast toast3 = Toast.makeText(context, text3, duration);
-			toast3.show();
+			Toast.makeText(context, text3, duration).show();
 			return true;
 		}
 		return false;
 	}
+	
+	private void setupOverlays() {
+		updateOverlays.start();	
+	}
+	
+	private void displayOverlays() {
+		//Overlays
+        mapRestaurantsOverlays = mapView.getOverlays();
+        
+        //Need some new icon
+        drawable = this.getResources().getDrawable(R.drawable.minifork);
+        foodoRestaurantsOverlays = new FoodoOverlays(drawable);
+        
+        //Load and display
+        foodoRestaurantsOverlays.setOverlays(mOverlays);
+        mapRestaurantsOverlays.add(foodoRestaurantsOverlays);
+        
+        Toast.makeText(FoodoMap.this, "Loaded restaurants", Toast.LENGTH_LONG).show();
+	}
+	
+	private Thread updateOverlays = new Thread() {
+		public void run() {
+			FoodoOverlayProvider op = new FoodoOverlayProvider();
+			mOverlays = op.getAllOverlays();
+			mHandler.post(showOverlays);
+		}
+	};
+	
+	private Runnable showOverlays = new Runnable() {
+		public void run() {
+			displayOverlays();
+		}
+	};
   
  
 }

@@ -14,7 +14,6 @@ import com.google.android.maps.OverlayItem;
 
 public class FoodoOverlayProvider implements OverlayProvider {
 	
-	
 	@Override
 	public ArrayList<OverlayItem> getAllOverlays() {
 

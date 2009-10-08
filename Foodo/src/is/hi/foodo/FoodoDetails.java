@@ -16,7 +16,17 @@ public class FoodoDetails extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.details);
+		setupButtons();
+	}
 	
+	/* create the menu items */
+	@Override 
+	public boolean onCreateOptionsMenu(Menu menu) {
+		 menu.add(0,0,0,"Info");		 
+		 return true;
+	}
+	
+	public void setupButtons() {
 		this.btn1 = (Button)this.findViewById(R.id.Button01);
 		this.btn2 = (Button)this.findViewById(R.id.Button02);
 		this.btn3 = (Button)this.findViewById(R.id.Button03);
@@ -25,14 +35,7 @@ public class FoodoDetails extends Activity {
 		btn1.setOnClickListener(new clicker());
 		btn2.setOnClickListener(new clicker());
 		btn3.setOnClickListener(new clicker());
-		btn4.setOnClickListener(new clicker());
-	}
-	
-	/* create the menu items */
-	@Override 
-	public boolean onCreateOptionsMenu(Menu menu) {
-		 menu.add(0,0,0,"Info");		 
-		 return true;
+		btn4.setOnClickListener(new clicker());	
 	}
 	
 	

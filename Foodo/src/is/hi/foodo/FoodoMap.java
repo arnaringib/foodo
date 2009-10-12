@@ -95,7 +95,7 @@ public class FoodoMap extends MapActivity {
         mapRestaurantsOverlays = mapView.getOverlays();
         
         //Need some new icon
-        drawable = this.getResources().getDrawable(R.drawable.minifork);
+        drawable = this.getResources().getDrawable(R.drawable.bubble);
         foodoRestaurantsOverlays = new FoodoOverlays(drawable);
         
         //Load and display

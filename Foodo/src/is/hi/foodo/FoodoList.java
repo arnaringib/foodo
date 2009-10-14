@@ -9,14 +9,9 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.google.android.maps.GeoPoint;
-import com.google.android.maps.OverlayItem;
-
 import android.app.ListActivity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
-import android.widget.SimpleAdapter;
 
 public class FoodoList extends ListActivity {
 	ArrayList<String> mList;

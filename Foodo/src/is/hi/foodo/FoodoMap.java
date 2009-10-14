@@ -62,11 +62,9 @@ public class FoodoMap extends MapActivity {
 		 return true;
 	}
 	
-	CharSequence text1 = "Sorry no list view available yet";
 	CharSequence text2 = "Sorry no filter available yet";
 	CharSequence text3 = "Want more??";
 	int duration = Toast.LENGTH_SHORT;
-
 	
 	/* when menu button option selected */
 	@Override 
@@ -74,7 +72,8 @@ public class FoodoMap extends MapActivity {
 		Context context = getApplicationContext();
 		switch (item.getItemId()) {
 		case 0:
-			Toast.makeText(context, text1, duration).show();
+			Intent listView = new Intent(this, FoodoList.class);
+			startActivityForResult(listView, 1);
 			return true;
 		case 1:
 			Toast.makeText(context, text2, duration).show();

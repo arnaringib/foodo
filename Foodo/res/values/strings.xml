@@ -3,4 +3,5 @@
     <string name="hello">Hello World, Whatup from Foodo!</string>
     <string name="app_name">Foodo</string>
     <string name="api_path">http://foodo.siggijons.net/api/</string>
+    <string name="no_rest">No restaurants found.</string>
 </resources>

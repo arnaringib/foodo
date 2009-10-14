@@ -12,6 +12,7 @@
             </intent-filter>
         </activity>
          <activity android:name=".FoodoDetails"/>
+         <activity android:name=".FoodoList"/>
         <uses-library android:name="com.google.android.maps" />
     </application>
     <uses-permission android:name="android.permission.INTERNET" />

@@ -1,5 +1,14 @@
 package is.hi.foodo;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -23,14 +32,22 @@ public class RestaurantDbAdapter {
      * Database creation SQL statement
      */
     private static final String DATABASE_CREATE =
-            "create table restaurants (_id integer primary key autoincrement, "
+            "create table restaurants (_id integer primary key, "
                     + "name text not null, lat integer, lng integer);";
+   
+    private static final String DATABASE_EMPTY = "DELETE FROM restaurants;";
     
     private static final String DATABASE_NAME = "data";
     private static final String DATABASE_TABLE = "restaurants";
     private static final int DATABASE_VERSION = 2;
     
     private final Context mCtx;
+    
+    /**
+     * Web service address
+     * @author siggijons
+     */
+    private static final String WEBSERVICE_URL = "http://foodo.siggijons.net/api/restaurants.json";
     
     
     private static class DatabaseHelper extends SQLiteOpenHelper {
@@ -86,11 +103,33 @@ public class RestaurantDbAdapter {
      * Create a new restaurant using the data provided. If the restaurant is
      * successfully created return the new rowId for that restaurant, 
      * otherwise return a -1 to indicate failure.
-     * 
+     *
+     * @param id the id of the restaurant
      * @param name the name of the restaurant
      * @param lat restaurant GPS latitude
      * @param lng restaurant GPS longitude
      * @return rowId or -1 if failed
+     */
+    public long createRestaurant(int id, String name, int lat, int lng) {
+        ContentValues initialValues = new ContentValues();
+        initialValues.put(KEY_ROWID, id);
+        initialValues.put(KEY_NAME, name);
+        initialValues.put(KEY_LAT, lat);
+        initialValues.put(KEY_LNG, lng);
+
+        return mDb.insert(DATABASE_TABLE, null, initialValues);
+    }
+    
+    /**
+     * Create a new restaurant using the data provided. If the restaurant is
+     * successfully created return the new rowId for that restaurant, 
+     * otherwise return a -1 to indicate failure.
+     *
+     * @param name the name of the restaurant
+     * @param lat restaurant GPS latitude
+     * @param lng restaurant GPS longitude
+     * @return rowId or -1 if failed
+     * @deprecated Restaurants are loaded from web service
      */
     public long createRestaurant(String name, int lat, int lng) {
         ContentValues initialValues = new ContentValues();
@@ -163,5 +202,40 @@ public class RestaurantDbAdapter {
 
         return mDb.update(DATABASE_TABLE, args, KEY_ROWID + "=" + rowId, null) > 0;
     }
-
+    
+    public boolean loadFromWebService() {
+    	try {
+    		URL url = new URL(WEBSERVICE_URL);
+    		URLConnection connection = url.openConnection();
+    		
+    		BufferedReader reader = new BufferedReader( new InputStreamReader(connection.getInputStream()));
+    		StringBuilder builder = new StringBuilder();
+    		String line;
+    		while (( line = reader.readLine()) != null)
+    		{
+    			builder.append(line);
+    		}
+    		
+    		JSONObject json = new JSONObject(builder.toString());
+    		JSONArray list = json.getJSONObject("responseData").getJSONArray("Restaurants");
+    		
+    		//Empty database
+    		mDb.execSQL(DATABASE_EMPTY);
+    		
+    		int n = list.length();
+    		for (int i = 0; i < n; i++) {
+    			JSONObject o = list.getJSONObject(i);
+    			createRestaurant(o.getInt("id"), o.getString("name"), o.getInt("lat"), o.getInt("lng"));
+    		}
+    		return true;
+    	}
+    	catch (MalformedURLException e) {
+    		//TODO log this
+    		return false;
+    	}
+    	catch (Exception e) {
+    		//TODO log this
+    		return false;
+    	}
+    }
 }

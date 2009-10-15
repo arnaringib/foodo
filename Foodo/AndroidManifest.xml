@@ -13,6 +13,7 @@
         </activity>
          <activity android:name=".FoodoDetails"/>
          <activity android:name=".FoodoList"/>
+         <activity android:name=".FoodoFilter"/>
         <uses-library android:name="com.google.android.maps" />
     </application>
     

@@ -26,22 +26,26 @@ public class RestaurantsDbTest extends AndroidTestCase {
         mDb.close();
     }
 
+	@SuppressWarnings("deprecation")
 	public void testCreateRestaurant() {
 		long id = mDb.createRestaurant("Test", 10, 20);
 		assertTrue("Failed to create node", id > 0);
 	}
 	
-	public void testReadSingleNode() {
-		Cursor r = mDb.fetchRestaurant(1);
-		assertEquals(r.getString(r.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_NAME)), "Test");
-		assertEquals(r.getInt(r.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_LAT)), 10);
-		assertEquals(r.getInt(r.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_LNG)), 20);
-		r.deactivate();
-	}
 	
 	public void testFetchAll() {
 		Cursor rs = mDb.fetchAllRestaurants();
 		assertTrue("no restaurants found", rs.getCount() > 0);
+	}
+	
+	public void testWebService() {
+		assertTrue("not able to load from webservice", mDb.loadFromWebService());
+		
+		Cursor r = mDb.fetchRestaurant(1);
+		assertEquals(r.getString(r.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_NAME)), "Burger Joint");
+		assertEquals(r.getInt(r.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_LAT)), 64139603);
+		assertEquals(r.getInt(r.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_LNG)), -21955812);
+		r.deactivate();
 	}
 
 }

@@ -1,12 +1,11 @@
 
 package is.hi.foodo.tests;
 
-import android.content.ContentResolver;
 import android.test.InstrumentationTestCase;
 
 public class ProviderTest extends InstrumentationTestCase {
 	
-	private ContentResolver mResolver;
+	//private ContentResolver mResolver;
 	
 	public void setUp() {
 		//mResolver = getInstrumentation().getContext().getContentResolver();

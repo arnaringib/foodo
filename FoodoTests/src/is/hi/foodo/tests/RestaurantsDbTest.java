@@ -28,7 +28,7 @@ public class RestaurantsDbTest extends AndroidTestCase {
 
 	@SuppressWarnings("deprecation")
 	public void testCreateRestaurant() {
-		long id = mDb.createRestaurant("Test", 10, 20);
+		long id = mDb.createRestaurant("Test", 10, 20, 5.0);
 		assertTrue("Failed to create node", id > 0);
 	}
 	
@@ -45,6 +45,7 @@ public class RestaurantsDbTest extends AndroidTestCase {
 		assertEquals(r.getString(r.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_NAME)), "Burger Joint");
 		assertEquals(r.getInt(r.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_LAT)), 64139603);
 		assertEquals(r.getInt(r.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_LNG)), -21955812);
+		assertEquals(r.getFloat(r.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_RATING)), 5.0);
 		r.deactivate();
 	}
 

@@ -23,6 +23,7 @@ public class RestaurantDbAdapter {
 	public static final String KEY_NAME = "name";
 	public static final String KEY_LAT = "lat";
 	public static final String KEY_LNG = "lng";
+	public static final String KEY_RATING = "rating";
 	
     private static final String TAG = "RestaurantsDbAdapter";
     private DatabaseHelper mDbHelper;
@@ -33,13 +34,13 @@ public class RestaurantDbAdapter {
      */
     private static final String DATABASE_CREATE =
             "create table restaurants (_id integer primary key, "
-                    + "name text not null, lat integer, lng integer);";
+                    + "name text not null, lat integer, lng integer, rating double);";
    
     private static final String DATABASE_EMPTY = "DELETE FROM restaurants;";
     
     private static final String DATABASE_NAME = "data";
     private static final String DATABASE_TABLE = "restaurants";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
     
     private final Context mCtx;
     
@@ -108,14 +109,16 @@ public class RestaurantDbAdapter {
      * @param name the name of the restaurant
      * @param lat restaurant GPS latitude
      * @param lng restaurant GPS longitude
+     * @param rating restaurants rating
      * @return rowId or -1 if failed
      */
-    public long createRestaurant(int id, String name, int lat, int lng) {
+    public long createRestaurant(int id, String name, int lat, int lng, double rating) {
         ContentValues initialValues = new ContentValues();
         initialValues.put(KEY_ROWID, id);
         initialValues.put(KEY_NAME, name);
         initialValues.put(KEY_LAT, lat);
         initialValues.put(KEY_LNG, lng);
+        initialValues.put(KEY_RATING, rating);
 
         return mDb.insert(DATABASE_TABLE, null, initialValues);
     }
@@ -128,14 +131,16 @@ public class RestaurantDbAdapter {
      * @param name the name of the restaurant
      * @param lat restaurant GPS latitude
      * @param lng restaurant GPS longitude
+     * @param rating restaurants rating
      * @return rowId or -1 if failed
      * @deprecated Restaurants are loaded from web service
      */
-    public long createRestaurant(String name, int lat, int lng) {
+    public long createRestaurant(String name, int lat, int lng, double rating) {
         ContentValues initialValues = new ContentValues();
         initialValues.put(KEY_NAME, name);
         initialValues.put(KEY_LAT, lat);
         initialValues.put(KEY_LNG, lng);
+        initialValues.put(KEY_RATING, rating);
 
         return mDb.insert(DATABASE_TABLE, null, initialValues);
     }
@@ -158,7 +163,7 @@ public class RestaurantDbAdapter {
      */
     public Cursor fetchAllRestaurants() {
         return mDb.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_NAME,
-                KEY_LAT, KEY_LNG}, null, null, null, null, null);
+                KEY_LAT, KEY_LNG, KEY_RATING}, null, null, null, null, null);
     }
     
     /**
@@ -173,7 +178,7 @@ public class RestaurantDbAdapter {
         Cursor mCursor =
 
                 mDb.query(true, DATABASE_TABLE, new String[] {KEY_ROWID, KEY_NAME,
-                        KEY_LAT, KEY_LNG}, KEY_ROWID + "=" + rowId, null,
+                        KEY_LAT, KEY_LNG, KEY_RATING}, KEY_ROWID + "=" + rowId, null,
                         null, null, null, null);
         if (mCursor != null) {
             mCursor.moveToFirst();
@@ -190,15 +195,17 @@ public class RestaurantDbAdapter {
      * @param name value to set name to
      * @param lat value to set latitude to
      * @param lng value to set longitude to
+     * @param rating value to set rating to
      * @return true if the restaurant was successfully updated, false otherwise
      */
-    public boolean updateRestaurant(long rowId, String name, int lat, int lng) {
+    public boolean updateRestaurant(long rowId, String name, int lat, int lng, double rating) {
         ContentValues args = new ContentValues();
         
         
         args.put(KEY_NAME, name);
         args.put(KEY_LAT, lat);
         args.put(KEY_LNG, lng);
+        args.put(KEY_RATING, rating);
 
         return mDb.update(DATABASE_TABLE, args, KEY_ROWID + "=" + rowId, null) > 0;
     }
@@ -225,16 +232,22 @@ public class RestaurantDbAdapter {
     		int n = list.length();
     		for (int i = 0; i < n; i++) {
     			JSONObject o = list.getJSONObject(i);
-    			createRestaurant(o.getInt("id"), o.getString("name"), o.getInt("lat"), o.getInt("lng"));
+    			createRestaurant(
+    					o.getInt("id"), 
+    					o.getString("name"), 
+    					o.getInt("lat"),
+    					o.getInt("lng"), 
+    					o.getDouble("rating"));
     		}
     		return true;
     	}
     	catch (MalformedURLException e) {
-    		//TODO log this
+    		Log.d(TAG, "MalformedURLException in loadFromWebService");
     		return false;
     	}
     	catch (Exception e) {
     		//TODO log this
+    		Log.d(TAG, "Exception in loadFromWebService");
     		return false;
     	}
     }

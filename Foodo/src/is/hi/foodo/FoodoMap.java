@@ -80,7 +80,7 @@ public class FoodoMap extends MapActivity {
 			Toast.makeText(context, "Update...", Toast.LENGTH_SHORT).show();
 			
 			mDbHelper.loadFromWebService();
-			
+			setupOverlays();
 			Toast.makeText(context, "Update complete", Toast.LENGTH_SHORT).show();
 			return true;
 		}

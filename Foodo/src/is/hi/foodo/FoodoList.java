@@ -1,25 +1,32 @@
 package is.hi.foodo;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import android.app.ListActivity;
+import android.database.Cursor;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
+import android.widget.SimpleCursorAdapter;
 
 public class FoodoList extends ListActivity {
+	
+	private RestaurantDbAdapter mDbHelper;
+	private Cursor mRestaurantCursor;
+	
 	ArrayList<String> mList;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.list);
 		
+		mDbHelper = new RestaurantDbAdapter(this);
+		mDbHelper.open();
+
+		fillData();
+		getListView().setTextFilterEnabled(true);
+		registerForContextMenu(getListView());
+		
+		/*
 		getList();
 		
 		ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(this,
@@ -28,8 +35,26 @@ public class FoodoList extends ListActivity {
 				mList);
 		setListAdapter(listAdapter);
 		getListView().setTextFilterEnabled(true); //Let user search by typing the name.
+		*/
 	}
 	
+	private void fillData() {
+		//Get all rows from database
+		mRestaurantCursor = mDbHelper.fetchAllRestaurants();
+		startManagingCursor(mRestaurantCursor);
+		
+		//Create an array of fields we want to display
+		String[] from = new String[]{RestaurantDbAdapter.KEY_NAME, RestaurantDbAdapter.KEY_RATING};
+		
+		//Fields we want to bind to
+		int[] to = new int[]{R.id.restaurant, R.id.ReRating};
+		
+		SimpleCursorAdapter restaurants = 
+				new SimpleCursorAdapter(this, R.layout.listrow, mRestaurantCursor, from, to);
+		setListAdapter(restaurants);
+		
+	}
+	/*
 	public void getList(){
 		this.mList = new ArrayList<String>();
 		try {
@@ -71,5 +96,6 @@ public class FoodoList extends ListActivity {
 			return null;
 		}
 	}
+	*/
 	
 }

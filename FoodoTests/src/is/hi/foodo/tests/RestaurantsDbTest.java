@@ -45,7 +45,7 @@ public class RestaurantsDbTest extends AndroidTestCase {
 		assertEquals(r.getString(r.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_NAME)), "Burger Joint");
 		assertEquals(r.getInt(r.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_LAT)), 64139603);
 		assertEquals(r.getInt(r.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_LNG)), -21955812);
-		assertEquals(r.getFloat(r.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_RATING)), 5.0);
+		assertTrue(new Float(5.0).equals(r.getFloat(r.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_RATING))));
 		r.deactivate();
 	}
 

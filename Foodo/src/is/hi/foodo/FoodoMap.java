@@ -42,6 +42,12 @@ public class FoodoMap extends MapActivity {
         
         setupOverlays();
     }
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		mDbHelper.close();
+	}
 
 	@Override
 	protected boolean isRouteDisplayed() {

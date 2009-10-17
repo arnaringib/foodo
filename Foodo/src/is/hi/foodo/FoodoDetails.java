@@ -46,7 +46,15 @@ public class FoodoDetails extends Activity {
         }
         
         populateView();
+        
 	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		mDbHelper.close();
+	}
+	
 	
 	/**
 	 * Fills data into the view

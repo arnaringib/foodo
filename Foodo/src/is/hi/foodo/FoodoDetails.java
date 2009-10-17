@@ -7,7 +7,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RatingBar;
+
 import android.widget.Toast;
+
+
 
 public class FoodoDetails extends Activity {
 
@@ -61,28 +65,45 @@ public class FoodoDetails extends Activity {
 	// button click listener
 	class clicker implements Button.OnClickListener
     {     
-	@Override
-	public void onClick(View v)
-	{
-		Context context = getApplicationContext();
-		if(v==btn1){
-			Toast toast2 = Toast.makeText(context, textb1, duration);
-			toast2.show();
+		@Override
+		public void onClick(View v)
+		{
+			Context context = getApplicationContext();
+			if(v==btn1){
+				Toast toast2 = Toast.makeText(context, textb1, duration);
+				toast2.show();
+			}
+			else if(v==btn2){
+				Toast toast3 = Toast.makeText(context, textb2, duration);
+				toast3.show();
+			}
+			else if(v==btn3){
+				Toast toast4 = Toast.makeText(context, textb3, duration);
+				toast4.show();
+			}
+			else if(v==btn4){
+				Toast toast5 = Toast.makeText(context, textb4, duration);
+				toast5.show();
+			}
 		}
-		else if(v==btn2){
-			Toast toast3 = Toast.makeText(context, textb2, duration);
-			toast3.show();
-		}
-		else if(v==btn3){
-			Toast toast4 = Toast.makeText(context, textb3, duration);
-			toast4.show();
-		}
-		else if(v==btn4){
-			Toast toast5 = Toast.makeText(context, textb4, duration);
-			toast5.show();
-		}
-	}
-
     }
+	// Pretty much taken from a tutorial.
+	public class RatingBar1 extends Activity implements RatingBar.OnRatingBarChangeListener {
+	    
+	    @Override
+	    protected void onCreate(Bundle savedInstanceState) {
+	        super.onCreate(savedInstanceState);
 
+	        setContentView(R.layout.details);
+	        
+	        ((RatingBar)findViewById(R.id.ratingbar1)).setOnRatingBarChangeListener(this);
+
+	    }
+
+	    public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromTouch) {
+	    	// Basically onclick listener.
+	    }
+
+	}
+	
 }

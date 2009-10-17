@@ -9,10 +9,9 @@ import android.widget.Toast;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.MapView;
-import com.google.android.maps.OverlayItem;
 
-public class FoodoOverlays extends ItemizedOverlay<OverlayItem> {
-	private ArrayList<OverlayItem> mRestaurantsOverlays = new ArrayList<OverlayItem>();
+public class FoodoOverlays extends ItemizedOverlay<FoodoOverlayItem> {
+	private ArrayList<FoodoOverlayItem> mRestaurantsOverlays = new ArrayList<FoodoOverlayItem>();
 	private long b = -1;
 	
 	public FoodoOverlays(Drawable defaultMarker) {
@@ -24,13 +23,13 @@ public class FoodoOverlays extends ItemizedOverlay<OverlayItem> {
 	 * @param overlay
 	 * Add a new restaurant overlay.
 	 */
-	public void addOverlay(OverlayItem overlay){
+	public void addOverlay(FoodoOverlayItem overlay){
 		mRestaurantsOverlays.add(overlay);
 		populate(); //Every overlayItem is read and prepared to be drawned
 	}	
 	
 	@Override
-	protected OverlayItem createItem(int i) {
+	protected FoodoOverlayItem createItem(int i) {
 		return mRestaurantsOverlays.get(i);
 	}
 
@@ -63,7 +62,7 @@ public class FoodoOverlays extends ItemizedOverlay<OverlayItem> {
 						mRestaurantsOverlays.get(count).getPoint().getLongitudeE6() - 1000 <= p.getLongitudeE6())){
 					
 						FoodoMap fMap = (FoodoMap) mapView.getContext();
-						fMap.startDetails(1);
+						fMap.startDetails(mRestaurantsOverlays.get(count).id);
 					
 					}
 					count++;
@@ -77,7 +76,7 @@ public class FoodoOverlays extends ItemizedOverlay<OverlayItem> {
 						(mRestaurantsOverlays.get(count).getPoint().getLongitudeE6() + 1000 >= p.getLongitudeE6() &&
 						mRestaurantsOverlays.get(count).getPoint().getLongitudeE6() - 1000 <= p.getLongitudeE6())){
 					
-						Toast.makeText(mapView.getContext(), 
+						Toast.makeText(mapView.getContext(),
 							mRestaurantsOverlays.get(count).getTitle(), 
 							Toast.LENGTH_SHORT).show();
 			
@@ -89,7 +88,7 @@ public class FoodoOverlays extends ItemizedOverlay<OverlayItem> {
 		return false;
 	}
 
-	public void setOverlays(ArrayList<OverlayItem> allOverlays) {
+	public void setOverlays(ArrayList<FoodoOverlayItem> allOverlays) {
 		mRestaurantsOverlays = allOverlays;
 		populate();
 	}

@@ -16,7 +16,6 @@ import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
-import com.google.android.maps.OverlayItem;
 
 public class FoodoMap extends MapActivity {
 	
@@ -28,6 +27,7 @@ public class FoodoMap extends MapActivity {
 	
 	RestaurantDbAdapter mDbHelper;
 	List<Overlay> mapRestaurantsOverlays;
+
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,10 +48,10 @@ public class FoodoMap extends MapActivity {
 		return false;
 	}
 	
-	public void startDetails(int id) {
+	public void startDetails(long id) {
 		Intent i = new Intent(this, FoodoDetails.class);
-		//i.putExtra(Restaurant.ROW_ID, id);
-    	startActivityForResult(i, 1);
+		i.putExtra(RestaurantDbAdapter.KEY_ROWID, id);
+    	startActivity(i);
 	}
 	
 	/* Create the menu items */
@@ -94,6 +94,7 @@ public class FoodoMap extends MapActivity {
 		if (c.moveToFirst())
 		{
 			mapRestaurantsOverlays = mapView.getOverlays();
+			mapRestaurantsOverlays.clear();
 			
 			drawable = getResources().getDrawable(R.drawable.bubble);
 	        foodoRestaurantsOverlays = new FoodoOverlays(drawable);
@@ -103,7 +104,13 @@ public class FoodoMap extends MapActivity {
 						c.getInt(c.getColumnIndex(RestaurantDbAdapter.KEY_LAT)), 
 						c.getInt(c.getColumnIndex(RestaurantDbAdapter.KEY_LNG))
 				);	
-				OverlayItem item = new OverlayItem(p, c.getString(c.getColumnIndex(RestaurantDbAdapter.KEY_NAME)), "");
+				FoodoOverlayItem item = 
+					new FoodoOverlayItem(
+							p, 
+							c.getString(c.getColumnIndex(RestaurantDbAdapter.KEY_NAME)), 
+							"",
+							c.getLong(c.getColumnIndex(RestaurantDbAdapter.KEY_ROWID))
+					);
 				foodoRestaurantsOverlays.addOverlay(item);
 				Log.d(TAG, item.getTitle());
 				

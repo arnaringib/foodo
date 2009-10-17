@@ -2,25 +2,68 @@ package is.hi.foodo;
 
 import android.app.Activity;
 import android.content.Context;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RatingBar;
-
+import android.widget.TextView;
 import android.widget.Toast;
 
 
-
 public class FoodoDetails extends Activity {
-
+	
+	private Long mRowId;
+	RestaurantDbAdapter mDbHelper;
+	
+	//View items
 	private Button btn1, btn2, btn3, btn4;
+	private TextView mNameText;
+		
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
 		setContentView(R.layout.details);
 		setupButtons();
+		
+		mNameText = (TextView) findViewById(R.id.ReName);
+		
+		//Open connection to DB adapter
+		mDbHelper = new RestaurantDbAdapter(this);
+        mDbHelper.open();
+        
+        //Check if resuming from a saved instance state
+        mRowId = (savedInstanceState != null ? savedInstanceState.getLong(RestaurantDbAdapter.KEY_ROWID) : null);
+        
+        //Get id from intent if not set
+        if (mRowId == null)
+        {
+        	Bundle extras = getIntent().getExtras();
+        	mRowId = extras != null ? extras.getLong(RestaurantDbAdapter.KEY_ROWID) : null;
+        }
+        
+        populateView();
+	}
+	
+	/**
+	 * Fills data into the view
+	 */
+	protected void populateView() {
+    	if (mRowId != null)
+    	{
+    		Cursor restaurant = mDbHelper.fetchRestaurant(mRowId);
+    		startManagingCursor(restaurant);
+    		mNameText.setText(restaurant.getString(restaurant.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_NAME)));
+    	}
+	}
+	
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putLong(RestaurantDbAdapter.KEY_ROWID, mRowId);
 	}
 	
 	/* create the menu items */

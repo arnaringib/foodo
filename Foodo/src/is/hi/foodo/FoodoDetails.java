@@ -1,9 +1,13 @@
 package is.hi.foodo;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,6 +18,8 @@ import android.widget.Toast;
 
 
 public class FoodoDetails extends Activity {
+	
+	static final int RATING_DIALOG = 0;
 	
 	private Long mRowId;
 	RestaurantDbAdapter mDbHelper;
@@ -54,7 +60,31 @@ public class FoodoDetails extends Activity {
 		super.onDestroy();
 		mDbHelper.close();
 	}
-	
+	// Frekar mikið tekið úr tutorial, sjáum til með þetta.
+	protected Dialog onCreateDialog(int id) {
+		switch(id) {
+			case RATING_DIALOG:
+		            LayoutInflater factory = LayoutInflater.from(this);
+		            final View textEntryView = factory.inflate(R.layout.ratingdialog, null);
+		            return new AlertDialog.Builder(FoodoDetails.this)
+		                .setTitle("Rating")
+		                .setView(textEntryView)
+		                .setPositiveButton("Rate!", new DialogInterface.OnClickListener() {
+		                    public void onClick(DialogInterface dialog, int whichButton) {
+		    
+		                        /* User clicked OK so do some stuff */
+		                    }
+		                })
+		                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+		                    public void onClick(DialogInterface dialog, int whichButton) {
+
+		                        /* User clicked cancel so do some stuff */
+		                    }
+		                })
+		                .create();
+		        }
+		return null;
+	}
 	
 	/**
 	 * Fills data into the view
@@ -116,7 +146,7 @@ public class FoodoDetails extends Activity {
 	// button click listener
 	class clicker implements Button.OnClickListener
     {     
-		@Override
+
 		public void onClick(View v)
 		{
 			Context context = getApplicationContext();
@@ -129,8 +159,7 @@ public class FoodoDetails extends Activity {
 				toast3.show();
 			}
 			else if(v==btn3){
-				Toast toast4 = Toast.makeText(context, textb3, duration);
-				toast4.show();
+				showDialog(RATING_DIALOG);
 			}
 			else if(v==btn4){
 				Toast toast5 = Toast.makeText(context, textb4, duration);
@@ -138,23 +167,6 @@ public class FoodoDetails extends Activity {
 			}
 		}
     }
-	// Pretty much taken from a tutorial.
-	public class RatingBar1 extends Activity implements RatingBar.OnRatingBarChangeListener {
-	    
-	    @Override
-	    protected void onCreate(Bundle savedInstanceState) {
-	        super.onCreate(savedInstanceState);
 
-	        setContentView(R.layout.details);
-	        
-	        ((RatingBar)findViewById(R.id.ratingbar1)).setOnRatingBarChangeListener(this);
-
-	    }
-
-	    public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromTouch) {
-	    	// Basically onclick listener.
-	    }
-
-	}
 	
 }

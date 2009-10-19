@@ -59,7 +59,7 @@ public class FoodoDetails extends Activity {
 		super.onDestroy();
 		mDbHelper.close();
 	}
-	// Frekar mikið tekið úr tutorial, sjáum til með þetta.
+	// Frekar mikid tekid ur tutorial sjaum til med thetta
 	protected Dialog onCreateDialog(int id) {
 		switch(id) {
 			case RATING_DIALOG:

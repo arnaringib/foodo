@@ -47,5 +47,16 @@ public class FoodoFilter extends Activity {
 		} ;
 		
 		bFilterTypes.setOnClickListener(lFilterTypes);
+		
+		final Button bSaveChanges = (Button) findViewById(R.id.bSave);
+		View.OnClickListener lSaveChanges = new View.OnClickListener(){
+			public void onClick(View v){
+				//Save changes
+				setResult(RESULT_OK);
+				finish();
+			}
+		} ;
+		
+		bSaveChanges.setOnClickListener(lSaveChanges);
 	}
 }

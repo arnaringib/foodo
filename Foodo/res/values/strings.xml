@@ -4,6 +4,7 @@
     <string name="app_name">Foodo</string>
     <string name="api_path">http://foodo.siggijons.net/api/</string>
     <string name="no_rest">No restaurants found.</string>
+    <string name="type_prompt">Choose a type</string>   
     <string name="menu_listview">List View</string>
     <string name="menu_filter">Filter</string>
     <string name="menu_update">Update</string>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent"
+  android:orientation="vertical"
+  android:scrollbars="vertical">
+	  <LinearLayout
+	   xmlns:android="http://schemas.android.com/apk/res/android"
+	   android:layout_width="fill_parent"
+	   android:layout_height="wrap_content"
+	   android:orientation="vertical">
+			<TextView 
+			 android:text="Location" 
+			 android:textStyle="bold"
+			 android:layout_width="wrap_content" 
+			 android:layout_height="wrap_content"
+			 android:textSize="18px" android:layout_marginLeft="0px"/>
+			<LinearLayout
+	   		 xmlns:android="http://schemas.android.com/apk/res/android"
+	         android:layout_width="fill_parent"
+	   	     android:layout_height="wrap_content"
+	   	     android:layout_marginTop="3px"
+	   		 android:orientation="horizontal">			
+				<TextView 
+				 android:text="Radius:" 
+				 android:layout_width="wrap_content" 
+				 android:layout_height="wrap_content"
+				 android:textSize="14px" 
+				 android:layout_marginLeft="0px"/>
+	 			<EditText
+	 				android:id="@+id/RadiusEdit"
+	 				android:layout_width="100px"
+	 				android:layout_height="wrap_content"
+	 				android:numeric="integer"
+	 				/>
+	 			<TextView 
+				 android:text="Max: ???" 
+				 android:layout_width="wrap_content" 
+				 android:layout_height="wrap_content"
+				 android:textSize="13px" 
+				 android:layout_marginLeft="10px"/>
+			</LinearLayout>
+			<SeekBar 
+		 	 android:id="@+id/RadiusBar" 
+		 	 android:layout_width="fill_parent" 
+		 	 android:layout_height="wrap_content"
+		 	 android:layout_marginTop="6px"/>
+	  </LinearLayout>
+	  <LinearLayout
+	   xmlns:android="http://schemas.android.com/apk/res/android"
+	   android:layout_width="fill_parent"
+	   android:layout_height="wrap_content"
+	   android:orientation="vertical">
+			<TextView 
+			 android:text="Restaurant type"
+			 android:textStyle="bold"
+			 android:layout_width="wrap_content" 
+			 android:layout_height="wrap_content"
+			 android:textSize="18px" 
+			 android:layout_marginLeft="0px"/>
+			<LinearLayout
+	   		 xmlns:android="http://schemas.android.com/apk/res/android"
+	         android:layout_width="fill_parent"
+	   	     android:layout_height="wrap_content"
+	   	     android:layout_marginTop="0px"
+	   		 android:orientation="horizontal">
+   		 		<TextView 
+			 	 android:text="Press the button to filter out\ndifferent types of restaurants" 
+			 	 android:layout_width="wrap_content" 
+			 	 android:layout_height="wrap_content"
+			 	 android:textSize="14px"
+			 	 />
+	   		 	<Button
+	   		 	 android:id="@+id/bFilterTypes"	
+	   		 	 android:layout_width="wrap_content"
+	   		 	 android:layout_height="wrap_content"
+	   		 	 android:text="Filter types" 
+	   		 	 android:layout_marginTop="2px"
+	   		 	 android:layout_marginLeft="10px"/>		
+			</LinearLayout>
+	  </LinearLayout>
+	   <LinearLayout
+	   xmlns:android="http://schemas.android.com/apk/res/android"
+	   android:layout_width="fill_parent"
+	   android:layout_height="wrap_content"
+	   android:orientation="vertical">
+			<TextView 
+			 android:text="Pricing"
+			 android:textStyle="bold"
+			 android:layout_width="wrap_content" 
+			 android:layout_height="wrap_content"
+			 android:textSize="18px" 
+			 android:layout_marginLeft="0px"/>
+			<LinearLayout
+	   		 xmlns:android="http://schemas.android.com/apk/res/android"
+	         android:layout_width="fill_parent"
+	   	     android:layout_height="wrap_content"
+	   	     android:layout_marginTop="0px"
+	   		 android:orientation="vertical">
+	   		<CheckBox android:id="@+id/lowPrice"
+			    android:layout_width="wrap_content"
+    			android:layout_height="wrap_content"
+    			android:text="Low" />
+			<CheckBox android:id="@+id/mediumPrice"
+			    android:layout_width="wrap_content"
+    			android:layout_height="wrap_content"
+    			android:text="Medium" />
+    		<CheckBox android:id="@+id/highPrice"
+			    android:layout_width="wrap_content"
+    			android:layout_height="wrap_content"
+    			android:text="High" />
+			</LinearLayout>
+	  </LinearLayout>
+	  <Button
+	  	 android:id="@+id/bSave"	
+	  	 android:layout_width="wrap_content"
+	   	 android:layout_height="wrap_content"
+	   	 android:text="Save changes" 
+	   	 android:layout_marginTop="2px"
+	   	 android:layout_marginLeft="110px"/>		
+</LinearLayout>

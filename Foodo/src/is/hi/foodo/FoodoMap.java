@@ -70,6 +70,9 @@ public class FoodoMap extends MapActivity {
 		 return true;
 	}
 	
+	CharSequence text3 = "Want more??";
+	int duration = Toast.LENGTH_SHORT;
+	
 	/* when menu button option selected */
 	@Override 
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -80,7 +83,8 @@ public class FoodoMap extends MapActivity {
 			startActivityForResult(listView, 1);
 			return true;
 		case 1:
-			Toast.makeText(context, "Sorry no filter available yet", Toast.LENGTH_SHORT).show();
+			Intent filter = new Intent(this, FoodoFilter.class);
+			startActivityForResult(filter, 1);
 			return true;
 		case 2:
 			Toast.makeText(context, "Update...", Toast.LENGTH_SHORT).show();

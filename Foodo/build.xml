@@ -58,4 +58,15 @@
          targets are used.
     -->
     <setup />
+	
+	<target name="svnupdate">
+		<exec executable="svn">
+            <arg value="update"/> 
+        </exec>
+	</target>
+
+    <target name="ccupdate" depends="svnupdate,debug"/>
+
+
+
 </project>

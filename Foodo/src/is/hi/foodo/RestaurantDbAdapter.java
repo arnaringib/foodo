@@ -1,14 +1,5 @@
 package is.hi.foodo;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -19,13 +10,14 @@ import android.util.Log;
 
 public class RestaurantDbAdapter {
 	
+	private static final String TAG = "RestaurantsDbAdapter";
+	
 	public static final String KEY_ROWID = "_id";
 	public static final String KEY_NAME = "name";
 	public static final String KEY_LAT = "lat";
 	public static final String KEY_LNG = "lng";
 	public static final String KEY_RATING = "rating";
 	
-    private static final String TAG = "RestaurantsDbAdapter";
     private DatabaseHelper mDbHelper;
     private SQLiteDatabase mDb;
     
@@ -43,12 +35,6 @@ public class RestaurantDbAdapter {
     private static final int DATABASE_VERSION = 4;
     
     private final Context mCtx;
-    
-    /**
-     * Web service address
-     * @author siggijons
-     */
-    private static final String WEBSERVICE_URL = "http://foodo.siggijons.net/api/restaurants.json";
     
     
     private static class DatabaseHelper extends SQLiteOpenHelper {
@@ -112,7 +98,7 @@ public class RestaurantDbAdapter {
      * @param rating restaurants rating
      * @return rowId or -1 if failed
      */
-    public long createRestaurant(int id, String name, int lat, int lng, double rating) {
+    public long createRestaurant(long id, String name, int lat, int lng, double rating) {
         ContentValues initialValues = new ContentValues();
         initialValues.put(KEY_ROWID, id);
         initialValues.put(KEY_NAME, name);
@@ -208,47 +194,10 @@ public class RestaurantDbAdapter {
         args.put(KEY_RATING, rating);
 
         return mDb.update(DATABASE_TABLE, args, KEY_ROWID + "=" + rowId, null) > 0;
-    }
+    }   
     
-    public boolean loadFromWebService() {
-    	try {
-    		URL url = new URL(WEBSERVICE_URL);
-    		URLConnection connection = url.openConnection();
-    		
-    		BufferedReader reader = new BufferedReader( new InputStreamReader(connection.getInputStream()));
-    		StringBuilder builder = new StringBuilder();
-    		String line;
-    		while (( line = reader.readLine()) != null)
-    		{
-    			builder.append(line);
-    		}
-    		
-    		JSONObject json = new JSONObject(builder.toString());
-    		JSONArray list = json.getJSONObject("responseData").getJSONArray("Restaurants");
-    		
-    		//Empty database
-    		mDb.execSQL(DATABASE_EMPTY);
-    		
-    		int n = list.length();
-    		for (int i = 0; i < n; i++) {
-    			JSONObject o = list.getJSONObject(i);
-    			createRestaurant(
-    					o.getInt("id"), 
-    					o.getString("name"), 
-    					o.getInt("lat"),
-    					o.getInt("lng"), 
-    					o.getDouble("rating"));
-    		}
-    		return true;
-    	}
-    	catch (MalformedURLException e) {
-    		Log.d(TAG, "MalformedURLException in loadFromWebService");
-    		return false;
-    	}
-    	catch (Exception e) {
-    		//TODO log this
-    		Log.d(TAG, "Exception in loadFromWebService");
-    		return false;
-    	}
+    public void emptyDatabase() {
+    	mDb.execSQL(DATABASE_EMPTY);
     }
+   
 }

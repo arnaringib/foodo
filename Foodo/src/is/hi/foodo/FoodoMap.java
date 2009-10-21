@@ -27,6 +27,8 @@ public class FoodoMap extends MapActivity {
 	
 	RestaurantDbAdapter mDbHelper;
 	List<Overlay> mapRestaurantsOverlays;
+	
+	RestaurantWebService mService;
 
 	
 	@Override
@@ -88,13 +90,26 @@ public class FoodoMap extends MapActivity {
 			return true;
 		case 2:
 			Toast.makeText(context, "Update...", Toast.LENGTH_SHORT).show();
+
+			if (updateOverlays())
+			{
+				Toast.makeText(context, "Update complete", Toast.LENGTH_SHORT).show();
+				setupOverlays();
+			}
+			else {
+				Toast.makeText(context, "Update failed", Toast.LENGTH_SHORT).show();
+			}
 			
-			mDbHelper.loadFromWebService();
-			setupOverlays();
-			Toast.makeText(context, "Update complete", Toast.LENGTH_SHORT).show();
 			return true;
 		}
 		return false;
+	}
+	
+	private boolean updateOverlays() 
+	{
+		if (mService == null)
+			mService = new RestaurantWebService(mDbHelper);
+		return mService.updateAll();
 	}
 	
 	private void setupOverlays() {

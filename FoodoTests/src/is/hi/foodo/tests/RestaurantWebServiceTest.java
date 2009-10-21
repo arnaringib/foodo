@@ -1,14 +1,18 @@
 package is.hi.foodo.tests;
 
 import is.hi.foodo.RestaurantDbAdapter;
+import is.hi.foodo.RestaurantWebService;
 import android.database.Cursor;
 import android.test.AndroidTestCase;
 import android.util.Log;
 
-public class RestaurantsDbTest extends AndroidTestCase {
+
+public class RestaurantWebServiceTest extends AndroidTestCase {
 	
-	private static final String TAG = "RestaurantsDbAdapterTests";
+	private static final String TAG = "RestaurantWebServiceTest";
+	
 	private RestaurantDbAdapter mDb;
+	private RestaurantWebService mService;
 
 	public void setUp() throws Exception {
 		super.setUp();
@@ -17,6 +21,7 @@ public class RestaurantsDbTest extends AndroidTestCase {
 		mDb = new RestaurantDbAdapter(this.getContext());
 		mDb.open();
 		mDb.emptyDatabase();
+		mService = new RestaurantWebService(mDb);
 	}
 	
     protected void tearDown() throws Exception {
@@ -25,29 +30,10 @@ public class RestaurantsDbTest extends AndroidTestCase {
         Log.d(TAG, "In tearDown");
         mDb.close();
     }
-
-	public void testCreateRestaurant() 
-	{		
-		long id = 1;
-		String name = "Test";
-		int lat = 10;
-		int lng = 20;
-		double rating = 5.0;
-		
-		//Create data
-		mDb.createRestaurant(id, name, lat, lng, rating);
-		
-		//Read data
-		Cursor r = mDb.fetchRestaurant(id);
-		assertEquals(r.getString(r.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_NAME)), name);
-		assertEquals(r.getInt(r.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_LAT)), lat);
-		assertEquals(r.getInt(r.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_LNG)), lng);
-		assertTrue(new Double(rating).equals(r.getDouble(r.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_RATING))));
-	}
-	
-	/*
-	public void testWebService() {
-		assertTrue("not able to load from webservice", mDb.loadFromWebService());
+    
+    public void testUpdateAll() {
+    	
+    	assertTrue("not able to load from webservice", mService.updateAll());
 		
 		Cursor r = mDb.fetchRestaurant(1);
 		assertEquals(r.getString(r.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_NAME)), "Burger Joint");
@@ -55,7 +41,8 @@ public class RestaurantsDbTest extends AndroidTestCase {
 		assertEquals(r.getInt(r.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_LNG)), -21955812);
 		assertTrue(new Float(5.0).equals(r.getFloat(r.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_RATING))));
 		r.deactivate();
-	}
-	*/
+
+    }
+
 
 }

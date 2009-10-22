@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='utf-8'?> 
+<info> 
+ <restaurant> 
+  <title>Argentína </title> 
+   <address> Barónstíg 11a </address> 
+   <zip>101</zip> 
+   <city> Reykjavík </city> 
+   <phone>551 9555</phone> 
+   <website>www.argentina.is</website> 
+   <email>salur@argentina.is </email> 
+ </restaurant> 
+ <restaurant> 
+  <title>Austur Indíafélagið </title> 
+   <address> Hverfisgötu 56 </address> 
+   <zip>101</zip> 
+   <city> Reykjavík </city> 
+   <phone>552 1630</phone> 
+   <website>www.austurindia.is</website> 
+   <email>austurindia@austurindia.is </email> 
+ </restaurant> 
+ <restaurant> 
+  <title>Cafe París </title> 
+   <address> Austurstræti 14 </address> 
+   <zip>101</zip> 
+   <city> Reykjavík </city> 
+   <phone>551 1020</phone> 
+   <website>www.cafeparis.is</website> 
+   <email>cafeparis@cafeparis.is </email> 
+ </restaurant> 
+ <restaurant> 
+  <title>Caruso </title> 
+   <address> Þingholtsstræti 1 </address> 
+   <zip>101</zip> 
+   <city> Reykjavík </city> 
+   <phone>562 7335</phone> 
+   <website>www.caruso.is</website> 
+   <email>caruso@caruso.is </email> 
+ </restaurant> 
+ <restaurant> 
+  <title>Einar Ben </title> 
+   <address> Veltusund 1 </address> 
+   <zip>101</zip> 
+   <city> Reykjavík </city> 
+   <phone>511 5090</phone> 
+   <website>www.einarben.is</website> 
+   <email>einarben@einarben.is </email> 
+ </restaurant> 
+ <restaurant> 
+  <title>Fiskmarkaðurinn </title> 
+   <address> Aðalstræti 12 </address> 
+   <zip>101</zip> 
+   <city> Reykjavík </city> 
+   <phone>578 8877</phone> 
+   <website>www.fiskmarkadurinn.is</website> 
+   <email>info@fiskmarkadurinn.is </email> 
+ </restaurant> 
+ <restaurant> 
+  <title>Fjalakötturinn </title> 
+   <address> Aðalstræti </address> 
+   <zip>101</zip> 
+   <city> Reykjavík </city> 
+   <phone>514 6000</phone> 
+   <website>www.reykjavikhotels.is</website> 
+   <email>/centrum/islenska/...dining@hotelcentrum.is </email> 
+ </restaurant> 
+ <restaurant> 
+  <title>Friðrik V. Brasserie </title> 
+   <address> Kaupvangsstræti 6  </address> 
+   <zip>600</zip> 
+   <city> Akureyri </city> 
+   <phone>461 5775</phone> 
+   <website>www.fridrikv.is</website> 
+   <email>fridrikv@fridrikv.is </email> 
+ </restaurant> 
+ <restaurant> 
+  <title>Gallery Restaurant, Hótel Holti </title> 
+   <address> Bergstaðastræti 37 </address> 
+   <zip>101</zip> 
+   <city> Reykjavík </city> 
+   <phone>552 5700</phone> 
+   <website>www.holt.is</website> 
+   <email>gallery@holt.is </email> 
+ </restaurant> 
+ <restaurant> 
+  <title>Grillið </title> 
+   <address> v/Hagatorg </address> 
+   <zip>107</zip> 
+   <city> Reykjavík </city> 
+   <phone>525 9960</phone> 
+   <website>www.grillid.is</website> 
+   <email>grillid@grillid.is </email> 
+ </restaurant> 
+ <restaurant> 
+  <title>Gullfoss Seafood & Grill </title> 
+   <address> Pósthússtræti 2 </address> 
+   <zip>101</zip> 
+   <city> Reykjavík </city> 
+   <phone>599 1030</phone> 
+   <website>www.taste.is</website> 
+   <email>gullfoss@1919.is </email> 
+ </restaurant> 
+ <restaurant> 
+  <title>Hótel Rangá </title> 
+   <address> V/Suðurlandsveg </address> 
+   <zip>851</zip> 
+   <city> Hella </city> 
+   <phone>487 5700</phone> 
+   <website>www.allseasonhotels.is</website> 
+   <email>hotelranga@hotelranga.is </email> 
+ </restaurant> 
+ <restaurant> 
+  <title>Hótel Örk </title> 
+   <address> Breiðumörk 1c </address> 
+   <zip>810</zip> 
+   <city> Hveragerði +</city> 
+   <phone>354 483</phone> 
+   <website>www.hotel-ork.is</website> 
+   <email>info@hotel-ork.is </email> 
+ </restaurant> 
+ <restaurant> 
+  <title>Humarskipið </title> 
+   <address> Suðurbugt </address> 
+   <zip>101</zip> 
+   <city> Reykjavík </city> 
+   <phone>562 2300</phone> 
+   <website>www.humarskipid.is</website> 
+   <email>info@humarskipid.is </email> 
+ </restaurant> 
+ <restaurant> 
+  <title>Lækjarbrekka </title> 
+   <address> Bankastræti 2 </address> 
+   <zip>101</zip> 
+   <city> Reykjavík </city> 
+   <phone>551 4430</phone> 
+   <website>www.laek

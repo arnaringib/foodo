@@ -1,0 +1,191 @@
+<?xml version='1.0' encoding='utf-8'?> 
+<info> 
+ <restaurant> 
+  <title>Argentína </title> 
+   <address> Barónstíg 11a </address> 
+   <zip>101</zip> 
+   <city> Reykjavík </city> 
+   <phone>551 9555</phone> 
+   <website>www.argentina.is</website> 
+   <email>salur@argentina.is </email> 
+   <gps>
+	<lat>64° 8,644'N</lat>
+	<long>21°55,106'W</long>
+	</gps>
+ </restaurant> 
+ <restaurant> 
+  <title>Austur Indíafélagið </title> 
+   <address> Hverfisgötu 56 </address> 
+   <zip>101</zip> 
+   <city> Reykjavík </city> 
+   <phone>552 1630</phone> 
+   <website>www.austurindia.is</website> 
+   <email>austurindia@austurindia.is </email> 
+   <gps>
+	<lat>64° 8,739'N</lat>
+	<long>21° 55,536'W</long>
+	</gps>
+ </restaurant> 
+ <restaurant> 
+  <title>Cafe París </title> 
+   <address> Austurstræti 14 </address> 
+   <zip>101</zip> 
+   <city> Reykjavík </city> 
+   <phone>551 1020</phone> 
+   <website>www.cafeparis.is</website> 
+   <email>cafeparis@cafeparis.is </email>
+   <gps>
+	<lat>64° 8,851'N</lat>
+	<long>21° 56,335'W</long>
+	</gps>   
+ </restaurant> 
+ <restaurant> 
+  <title>Caruso </title> 
+   <address> Þingholtsstræti 1 </address> 
+   <zip>101</zip> 
+   <city> Reykjavík </city> 
+   <phone>562 7335</phone> 
+   <website>www.caruso.is</website> 
+   <email>caruso@caruso.is </email>
+   <gps>
+	<lat>64° 8,800'N</lat>
+	<long>21° 56,058'W</long>
+	</gps>   
+ </restaurant> 
+ <restaurant> 
+  <title>Einar Ben </title> 
+   <address> Veltusund 1 </address> 
+   <zip>101</zip> 
+   <city> Reykjavík </city> 
+   <phone>511 5090</phone> 
+   <website>www.einarben.is</website> 
+   <email>einarben@einarben.is </email> 
+   <gps>
+	<lat>64° 8,869'N</lat>
+	<long>21° 8,869'W</long>
+	</gps>
+ </restaurant> 
+ <restaurant> 
+  <title>Fiskmarkaðurinn </title> 
+   <address> Aðalstræti 12 </address> 
+   <zip>101</zip> 
+   <city> Reykjavík </city> 
+   <phone>578 8877</phone> 
+   <website>www.fiskmarkadurinn.is</website> 
+   <email>info@fiskmarkadurinn.is </email> 
+   <gps>
+	<lat>64° 8,864'N</lat>
+	<long>21° 56,533'W</long>
+    </gps>
+ </restaurant> 
+ <restaurant> 
+  <title>Fjalakötturinn </title> 
+   <address> Aðalstræti </address> 
+   <zip>101</zip> 
+   <city> Reykjavík </city> 
+   <phone>514 6000</phone> 
+   <website>www.reykjavikhotels.is</website> 
+   <email>/centrum/islenska/...dining@hotelcentrum.is </email>
+   <gps>
+	<lat>64° 8,851'N</lat>
+	<long>21° 56,543'W</long>
+    </gps>   
+ </restaurant> 
+ <restaurant> 
+  <title>Friðrik V. Brasserie </title> 
+   <address> Kaupvangsstræti 6  </address> 
+   <zip>600</zip> 
+   <city> Akureyri </city> 
+   <phone>461 5775</phone> 
+   <website>www.fridrikv.is</website> 
+   <email>fridrikv@fridrikv.is </email>
+   <gps>
+	<lat>65° 40,761'N</lat>
+	<long>18° 5,663'W</long>
+	</gps>   
+ </restaurant> 
+ <restaurant> 
+  <title>Gallery Restaurant, Hótel Holti </title> 
+   <address> Bergstaðastræti 37 </address> 
+   <zip>101</zip> 
+   <city> Reykjavík </city> 
+   <phone>552 5700</phone> 
+   <website>www.holt.is</website> 
+   <email>gallery@holt.is </email>
+   <gps>
+	<lat>64° 8,572'N</lat>
+	<long>21° 56,095'W</long>
+	</gps>   
+ </restaurant> 
+ <restaurant> 
+  <title>Grillið </title> 
+   <address> v/Hagatorg </address> 
+   <zip>107</zip> 
+   <city> Reykjavík </city> 
+   <phone>525 9960</phone> 
+   <website>www.grillid.is</website> 
+   <email>grillid@grillid.is </email>
+   <gps>
+	<lat>64° 8,414'N</lat>
+	<long>21° 57,257'W</long>
+	</gps>   
+ </restaurant> 
+ <restaurant> 
+  <title>Gullfoss Seafood & Grill </title> 
+   <address> Pósthússtræti 2 </address> 
+   <zip>101</zip> 
+   <city> Reykjavík </city> 
+   <phone>599 1030</phone> 
+   <website>www.taste.is</website> 
+   <email>gullfoss@1919.is </email>
+   <gps>
+	<lat>64° 8,893'N</lat>
+	<long>21° 56,314'W</long>
+	</gps>   
+ </restaurant> 
+ <restaurant> 
+  <title>Hótel Rangá </title> 
+   <address> V/Suðurlandsveg </address> 
+   <zip>851</zip> 
+   <city> Hella </city> 
+   <phone>487 5700</phone> 
+   <website>www.allseasonhotels.is</website> 
+   <email>hotelranga@hotelranga.is </email>
+   <gps>
+	<lat>63° 49,833'N</lat>
+	<long>20° 25,338'W</long>
+	</gps>   
+ </restaurant> 
+ <restaurant> 
+  <title>Hótel Örk </title> 
+   <address> Breiðumörk 1c </address> 
+   <zip>810</zip> 
+   <city> Hveragerði +</city> 
+   <phone>354 483</phone> 
+   <website>www.hotel-ork.is</website> 
+   <email>info@hotel-ork.is </email>
+   <gps>
+	<lat>63° 59,840'N</lat>
+	<long>21° 11,540'W</long>
+	</gps>   
+ </restaurant> 
+ <restaurant> 
+  <title>Humarskipið </title> 
+   <address> Suðurbugt </address> 
+   <zip>101</zip> 
+   <city> Reykjavík </city> 
+   <phone>562 2300</phone> 
+   <website>www.humarskipid.is</website> 
+   <email>info@humarskipid.is </email>
+   <gps>
+	<lat>64° 9,053'N</lat>
+	<long>21° 56,527'W</long>
+	</gps>   
+ </restaurant> 
+ <restaurant> 
+  <title>Lækjarbrekka </title> 
+   <address> Bankastræti 2 </address> 
+   <zip>101</zip> 
+   <city> Reykjavík </city> 
+   <phone>551 4430</phone> 
+   <website>www.laek

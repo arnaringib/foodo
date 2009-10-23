@@ -7,19 +7,23 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
 public class FoodoDetails extends Activity {
 	
+	private static final String TAG = "FoodoDetails";
 	static final int RATING_DIALOG = 0;
-	
+	RatingBar showRatingbar;
+	public RatingBar giveRatingbar;
 	private Long mRowId;
 	RestaurantDbAdapter mDbHelper;
 	
@@ -33,6 +37,8 @@ public class FoodoDetails extends Activity {
 		
 		setContentView(R.layout.details);
 		setupButtons();
+		
+		showRatingbar = (RatingBar) findViewById(R.id.indicator_ratingbar);
 		
 		mNameText = (TextView) findViewById(R.id.ReName);
 		
@@ -64,13 +70,14 @@ public class FoodoDetails extends Activity {
 		switch(id) {
 			case RATING_DIALOG:
 		            LayoutInflater factory = LayoutInflater.from(this);
-		            final View textEntryView = factory.inflate(R.layout.ratingdialog, null);
+		            final View layout = factory.inflate(R.layout.ratingdialog, null);
 		            return new AlertDialog.Builder(FoodoDetails.this)
 		                .setTitle("Rating")
-		                .setView(textEntryView)
+		                .setView(layout)
 		                .setPositiveButton("Rate!", new DialogInterface.OnClickListener() {
 		                    public void onClick(DialogInterface dialog, int whichButton) {
-		    
+		                    	RatingBar rb = (RatingBar) layout.findViewById(R.id.ratingbar);
+		                    	showRatingbar.setRating(rb.getRating());
 		                        /* User clicked OK so do some stuff */
 		                    }
 		                })
@@ -166,6 +173,7 @@ public class FoodoDetails extends Activity {
 			}
 		}
     }
+
 
 	
 }

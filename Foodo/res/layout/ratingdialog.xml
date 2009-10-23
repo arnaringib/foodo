@@ -6,11 +6,7 @@
 		android:layout_height="fill_parent"
 		android:padding="10dp"
 		>
-    <TextView android:id="@+id/text"
-		android:layout_width="wrap_content"
-		android:layout_height="fill_parent"
-		android:textColor="#FFF"/>
-    <RatingBar android:id="@+id/ratingbar1"
+    <RatingBar android:id="@+id/ratingbar"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:numStars="5"

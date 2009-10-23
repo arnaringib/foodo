@@ -63,14 +63,14 @@
 	    	
 		<Button 
 		android:text="View on map" 
-		android:id="@+id/Button04" 
+		android:id="@+id/bViewOnMap" 
 		android:layout_width="150dip"
 		android:layout_height="wrap_content">
 		</Button>
 		
 		<Button 
 		android:text="Description" 
-		android:id="@+id/Button01" 
+		android:id="@+id/bDescription" 
 		android:layout_width="150dip"
 		android:layout_height="wrap_content">
 		</Button>
@@ -81,14 +81,14 @@
     	android:orientation="horizontal">
     	
 		<Button android:text="Call" 
-		android:id="@+id/Button03" 
+		android:id="@+id/bCall" 
 		android:layout_width="150dip" 
 		android:layout_height="wrap_content">
 		</Button>
 		
 		<Button 
 		android:text="Reviews" 
-		android:id="@+id/Button02" 
+		android:id="@+id/bReviews" 
 		android:layout_width="150dip" 
 		android:layout_height="wrap_content">
 		</Button>

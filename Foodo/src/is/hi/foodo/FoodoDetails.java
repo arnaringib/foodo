@@ -29,7 +29,7 @@ public class FoodoDetails extends Activity {
 	RestaurantDbAdapter mDbHelper;
 	
 	//View items
-	private Button btn1, btn2, btn3, btn4;
+	private Button btnDescr, btnReviews, btnCall, btnViewOnMap;
 	private TextView mNameText;
 		
 	@Override
@@ -115,28 +115,29 @@ public class FoodoDetails extends Activity {
 	/* create the menu items */
 	@Override 
 	public boolean onCreateOptionsMenu(Menu menu) {
-		 menu.add(0,0,0,"Info");		 
+		 menu.add(0,0,0,"Info");
+		 menu.add(0,1,1,"Rate!");
 		 return true;
 	}
 	
 	public void setupButtons() {
-		this.btn1 = (Button)this.findViewById(R.id.Button01);
-		this.btn2 = (Button)this.findViewById(R.id.Button02);
-		this.btn3 = (Button)this.findViewById(R.id.Button03);
-		this.btn4 = (Button)this.findViewById(R.id.Button04);
+		this.btnDescr = (Button)this.findViewById(R.id.bDescription);
+		this.btnReviews = (Button)this.findViewById(R.id.bReviews);
+		this.btnCall = (Button)this.findViewById(R.id.bCall);
+		this.btnViewOnMap = (Button)this.findViewById(R.id.bViewOnMap);
 		
-		btn1.setOnClickListener(new clicker());
-		btn2.setOnClickListener(new clicker());
-		btn3.setOnClickListener(new clicker());
-		btn4.setOnClickListener(new clicker());	
+		btnDescr.setOnClickListener(new clicker());
+		btnReviews.setOnClickListener(new clicker());
+		btnCall.setOnClickListener(new clicker());
+		btnViewOnMap.setOnClickListener(new clicker());	
 	}
 	
 	
-	CharSequence text1 = "In progress";
-	CharSequence textb4 = "Cant view on map ..";
-	CharSequence textb1 = "No description ..";
-	CharSequence textb3 = "I cant call ..";
-	CharSequence textb2 = "No reviews... :(";
+	CharSequence mText1 = "In progress";
+	CharSequence bTextDescr = "Cant view on map ..";
+	CharSequence bTextReviews = "No description ..";
+	CharSequence bTextCall = "I cant call ..";
+	CharSequence bTextViewOnMap = "No reviews... :(";
 	int duration = Toast.LENGTH_SHORT;
 
 	/* when menu button option selected */
@@ -145,8 +146,11 @@ public class FoodoDetails extends Activity {
 		Context context = getApplicationContext();
 		switch (item.getItemId()) {
 		case 0:
-			Toast toast1 = Toast.makeText(context, text1, duration);
+			Toast toast1 = Toast.makeText(context, mText1, duration);
 			toast1.show();
+			return true;
+		case 1:
+			showDialog(RATING_DIALOG);
 			return true;
 		}
 		return false;
@@ -158,19 +162,20 @@ public class FoodoDetails extends Activity {
 		public void onClick(View v)
 		{
 			Context context = getApplicationContext();
-			if(v==btn1){
-				Toast toast2 = Toast.makeText(context, textb1, duration);
+			if(v==btnDescr){
+				Toast toast2 = Toast.makeText(context, bTextDescr, duration);
 				toast2.show();
 			}
-			else if(v==btn2){
-				Toast toast3 = Toast.makeText(context, textb2, duration);
+			else if(v==btnReviews){
+				Toast toast3 = Toast.makeText(context, bTextReviews, duration);
 				toast3.show();
 			}
-			else if(v==btn3){
-				showDialog(RATING_DIALOG);
+			else if(v==btnCall){
+				Toast toast4 = Toast.makeText(context, bTextCall, duration);
+				toast4.show();
 			}
-			else if(v==btn4){
-				Toast toast5 = Toast.makeText(context, textb4, duration);
+			else if(v==btnViewOnMap){
+				Toast toast5 = Toast.makeText(context, bTextViewOnMap, duration);
 				toast5.show();
 			}
 		}

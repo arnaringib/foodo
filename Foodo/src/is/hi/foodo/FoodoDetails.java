@@ -25,6 +25,7 @@ public class FoodoDetails extends Activity {
 	RatingBar showRatingbar;
 	public RatingBar giveRatingbar;
 	private Long mRowId;
+	private Long mRating;
 	RestaurantDbAdapter mDbHelper;
 	
 	//View items
@@ -48,13 +49,13 @@ public class FoodoDetails extends Activity {
         
         //Check if resuming from a saved instance state
         mRowId = (savedInstanceState != null ? savedInstanceState.getLong(RestaurantDbAdapter.KEY_ROWID) : null);
-        
         //Get id from intent if not set
         if (mRowId == null)
         {
         	Bundle extras = getIntent().getExtras();
         	mRowId = extras != null ? extras.getLong(RestaurantDbAdapter.KEY_ROWID) : null;
         }
+        
         
         populateView();
         
@@ -101,9 +102,10 @@ public class FoodoDetails extends Activity {
     		Cursor restaurant = mDbHelper.fetchRestaurant(mRowId);
     		startManagingCursor(restaurant);
     		mNameText.setText(restaurant.getString(restaurant.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_NAME)));
+    		showRatingbar.setRating(restaurant.getLong(restaurant.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_RATING)));
     	}
 	}
-	
+
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);

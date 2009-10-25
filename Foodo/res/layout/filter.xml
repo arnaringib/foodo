@@ -33,9 +33,12 @@
 	 				android:layout_width="100px"
 	 				android:layout_height="wrap_content"
 	 				android:numeric="integer"
+	 				android:digits="0123456789"
+	 				android:maxLength="8"
+	 				android:hint="km"
 	 				/>
 	 			<TextView 
-				 android:text="Max: ???" 
+				 android:text="Max: 20 km" 
 				 android:layout_width="wrap_content" 
 				 android:layout_height="wrap_content"
 				 android:textSize="13px" 
@@ -47,6 +50,12 @@
 		 	 android:layout_height="wrap_content"
 		 	 android:layout_marginTop="6px"/>
 	  </LinearLayout>
+	  <View
+    	android:layout_width="fill_parent"
+    	android:layout_height="2px"
+    	android:layout_marginTop="3px"
+    	android:background="?android:attr/listDivider"
+    	/> 
 	  <LinearLayout
 	   xmlns:android="http://schemas.android.com/apk/res/android"
 	   android:layout_width="fill_parent"
@@ -80,6 +89,12 @@
 	   		 	 android:layout_marginLeft="10px"/>		
 			</LinearLayout>
 	  </LinearLayout>
+	  <View
+    	android:layout_width="fill_parent"
+    	android:layout_height="2px"
+    	android:layout_marginTop="3px"
+    	android:background="?android:attr/listDivider"
+    	/> 
 	   <LinearLayout
 	   xmlns:android="http://schemas.android.com/apk/res/android"
 	   android:layout_width="fill_parent"
@@ -97,8 +112,32 @@
 	         android:layout_width="fill_parent"
 	   	     android:layout_height="wrap_content"
 	   	     android:layout_marginTop="0px"
-	   		 android:orientation="vertical">
-	   		<CheckBox android:id="@+id/lowPrice"
+	   		 android:orientation="horizontal">
+	   		 <TextView 
+			 	 android:text="From" 
+			 	 android:layout_width="wrap_content" 
+			 	 android:layout_height="wrap_content"
+			 	 android:textSize="14px"
+			 	 />
+			 	<EditText
+			 	 android:id="@+id/fPriceFrom"
+	 			 android:layout_width="100px"
+	 			 android:layout_height="wrap_content"
+	 			 android:numeric="decimal"
+	 			/>
+	 			<TextView 
+			 	 android:text="To" 
+			 	 android:layout_width="wrap_content" 
+			 	 android:layout_height="wrap_content"
+			 	 android:textSize="14px"
+			 	 />
+			 	<EditText
+			 	 android:id="@+id/fPriceTo"
+	 			 android:layout_width="100px"
+	 			 android:layout_height="wrap_content"
+	 			 android:numeric="decimal"
+	 			/>
+	   		<!-- <CheckBox android:id="@+id/lowPrice"
 			    android:layout_width="wrap_content"
     			android:layout_height="wrap_content"
     			android:text="Low" />
@@ -109,9 +148,67 @@
     		<CheckBox android:id="@+id/highPrice"
 			    android:layout_width="wrap_content"
     			android:layout_height="wrap_content"
-    			android:text="High" />
+    			android:text="High" /> -->
 			</LinearLayout>
 	  </LinearLayout>
+	  <View
+    	android:layout_width="fill_parent"
+    	android:layout_height="2px"
+    	android:layout_marginTop="3px"
+    	android:background="?android:attr/listDivider"
+    	/> 
+	   <LinearLayout
+	   xmlns:android="http://schemas.android.com/apk/res/android"
+	   android:layout_width="fill_parent"
+	   android:layout_height="wrap_content"
+	   android:orientation="vertical">
+			<TextView 
+			 android:text="Rating"
+			 android:textStyle="bold"
+			 android:layout_width="wrap_content" 
+			 android:layout_height="wrap_content"
+			 android:textSize="18px" 
+			 android:layout_marginLeft="0px"/>
+			<LinearLayout
+	   		 xmlns:android="http://schemas.android.com/apk/res/android"
+	         android:layout_width="fill_parent"
+	   	     android:layout_height="wrap_content"
+	   	     android:layout_marginTop="0px"
+	   		 android:orientation="horizontal">
+	   			<TextView 
+			 	 android:text="From" 
+			 	 android:layout_width="wrap_content" 
+			 	 android:layout_height="wrap_content"
+			 	 android:textSize="14px"
+			 	 />
+			 	<EditText
+			 	 android:id="@+id/fRatingFrom"
+	 			 android:text="0.0"
+	 			 android:layout_width="100px"
+	 			 android:layout_height="wrap_content"
+	 			 android:numeric="decimal"
+	 			/>
+	 			<TextView 
+			 	 android:text="To" 
+			 	 android:layout_width="wrap_content" 
+			 	 android:layout_height="wrap_content"
+			 	 android:textSize="14px"
+			 	 />
+			 	<EditText
+			 	 android:id="@+id/fRatingTo"
+	 			 android:text="5.0"
+	 			 android:layout_width="100px"
+	 			 android:layout_height="wrap_content"
+	 			 android:numeric="decimal"
+	 			/>
+			</LinearLayout>
+	  </LinearLayout>
+	  <View
+    	android:layout_width="fill_parent"
+    	android:layout_height="2px"
+    	android:layout_marginTop="3px"
+    	android:background="?android:attr/listDivider"
+    	/> 
 	  <Button
 	  	 android:id="@+id/bSave"	
 	  	 android:layout_width="wrap_content"

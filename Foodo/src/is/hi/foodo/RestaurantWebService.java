@@ -9,6 +9,7 @@ import java.net.URLConnection;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import android.database.Cursor;
 import android.util.Log;
 
 public class RestaurantWebService {
@@ -63,6 +64,40 @@ public class RestaurantWebService {
     		Log.d(TAG, "Exception in loadFromWebService");
     		return false;
     	}
+    }
+    /**
+     * Add restaurant rating
+     * 
+     * @param restaurant_id Restaurant Id
+     * @param new_rating Given rating
+     * @return new rating
+     */
+    public double addRating(long restaurant_id, double new_rating) {
+    	//TODO talk to webservice
+    	Cursor cr = mDb.fetchRestaurant(restaurant_id);
+    	
+    	double old_rating;
+    	double rating;
+    	double count;
+    	
+    	old_rating = cr.getDouble(cr.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_RATING));
+    	count = cr.getLong(cr.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_RATING_COUNT));
+    	
+    	rating = (old_rating * count) + new_rating;
+    	count++;
+    	rating /= count;
+    	
+    	
+    	mDb.updateRestaurant(
+    			cr.getLong(cr.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_ROWID)), 
+    			cr.getString(cr.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_NAME)), 
+    			cr.getInt(cr.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_LAT)), 
+    			cr.getInt(cr.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_LNG)), 
+    			rating,
+    			count
+    	);
+    	
+    	return rating;
     }
 
 }

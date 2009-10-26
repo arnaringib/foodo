@@ -43,6 +43,18 @@ public class RestaurantWebServiceTest extends AndroidTestCase {
 		r.deactivate();
 
     }
+    
+    public void testRating() {
+    	
+    	mDb.createRestaurant(1, "test", 0, 0, 5.0, 1);
+    	
+    	long id = 1;
+    	double newRating = 2.0;
+    	double resRating = mService.addRating(id, newRating);
+    	
+    	assertEquals(resRating, 3.5);
+    	
+    }
 
 
 }

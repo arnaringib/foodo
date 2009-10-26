@@ -134,6 +134,62 @@ public class FoodoFilter extends Activity {
 			}};
 			
 		eRadiusText.addTextChangedListener(lRadiusText);
+		
+		// ------------- Rating From -----------------
+		final EditText eRatingFrom = (EditText) findViewById(R.id.fRatingFrom);
+		TextWatcher lRatingFrom = new TextWatcher(){
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
+				// Nothing
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				if(s.length() != 0){
+					if(Double.parseDouble(s.toString()) > 5.0){
+						Filter.ratingFrom = "5.0";
+						final EditText fRatingFrom = (EditText) findViewById(R.id.fRatingFrom);
+						fRatingFrom.setText(Filter.ratingFrom);
+					}
+				}
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+				// Nothing			
+			}};
+			
+		eRatingFrom.addTextChangedListener(lRatingFrom);
+		
+		// ------------- Rating To -----------------
+		final EditText eRatingTo = (EditText) findViewById(R.id.fRatingTo);
+		TextWatcher lRatingTo = new TextWatcher(){
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
+				// Nothing
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				if(s.length() != 0){
+					if(Double.parseDouble(s.toString()) > 5.0){
+						Filter.ratingTo = "5.0";
+						final EditText fRatingTo = (EditText) findViewById(R.id.fRatingTo);
+						fRatingTo.setText(Filter.ratingTo);
+					}
+				}
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+				// Nothing			
+			}};
+			
+		eRatingTo.addTextChangedListener(lRatingTo);
 	}
 	
 	public void getFilterInfo(View v){

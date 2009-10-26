@@ -29,23 +29,22 @@
 				 android:textSize="14px" 
 				 android:layout_marginLeft="0px"/>
 	 			<EditText
-	 				android:id="@+id/RadiusEdit"
+	 				android:id="@+id/fRadiusEdit"
 	 				android:layout_width="100px"
 	 				android:layout_height="wrap_content"
-	 				android:numeric="integer"
-	 				android:digits="0123456789"
-	 				android:maxLength="8"
-	 				android:hint="km"
+	 				android:numeric="decimal"
+	 				android:maxLength="5"
+	 				android:hint="m"
 	 				/>
 	 			<TextView 
-				 android:text="Max: 20 km" 
+				 android:text="Max: 20.000 m" 
 				 android:layout_width="wrap_content" 
 				 android:layout_height="wrap_content"
 				 android:textSize="13px" 
 				 android:layout_marginLeft="10px"/>
 			</LinearLayout>
 			<SeekBar 
-		 	 android:id="@+id/RadiusBar" 
+		 	 android:id="@+id/fRadiusBar" 
 		 	 android:layout_width="fill_parent" 
 		 	 android:layout_height="wrap_content"
 		 	 android:layout_marginTop="6px"/>
@@ -183,7 +182,7 @@
 			 	 />
 			 	<EditText
 			 	 android:id="@+id/fRatingFrom"
-	 			 android:text="0.0"
+	 			 android:text=""
 	 			 android:layout_width="100px"
 	 			 android:layout_height="wrap_content"
 	 			 android:numeric="decimal"
@@ -196,7 +195,7 @@
 			 	 />
 			 	<EditText
 			 	 android:id="@+id/fRatingTo"
-	 			 android:text="5.0"
+	 			 android:text=""
 	 			 android:layout_width="100px"
 	 			 android:layout_height="wrap_content"
 	 			 android:numeric="decimal"

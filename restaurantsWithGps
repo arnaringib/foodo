@@ -8,9 +8,10 @@
    <phone>551 9555</phone> 
    <website>www.argentina.is</website> 
    <email>salur@argentina.is </email> 
+<img>http://veitingastadir.is/resources/thumbnails/veitingastadir.is/Logo/Argentina_80_60.jpg</img>
    <gps>
-	<lat>64° 8,644'N</lat>
-	<long>21°55,106'W</long>
+	<lat>64144066</lat>
+	<long>21918433</long>
 	</gps>
  </restaurant> 
  <restaurant> 
@@ -21,9 +22,10 @@
    <phone>552 1630</phone> 
    <website>www.austurindia.is</website> 
    <email>austurindia@austurindia.is </email> 
+<img>http://veitingastadir.is/resources/thumbnails/veitingastadir.is/Logo/austurindiafelagid_80_60.jpg </img>
    <gps>
-	<lat>64° 8,739'N</lat>
-	<long>21° 55,536'W</long>
+	<lat>64145650</lat>
+	<long>21925600</long>
 	</gps>
  </restaurant> 
  <restaurant> 
@@ -34,9 +36,10 @@
    <phone>551 1020</phone> 
    <website>www.cafeparis.is</website> 
    <email>cafeparis@cafeparis.is </email>
+<img>http://veitingastadir.is/resources/images/veitingastadir_is/Logo/CafeParis_logo_sml.gif </img>
    <gps>
-	<lat>64° 8,851'N</lat>
-	<long>21° 56,335'W</long>
+	<lat>64147516</lat>
+	<long>21938916</long>
 	</gps>   
  </restaurant> 
  <restaurant> 
@@ -47,9 +50,10 @@
    <phone>562 7335</phone> 
    <website>www.caruso.is</website> 
    <email>caruso@caruso.is </email>
+ <img>http://veitingastadir.is/resources/thumbnails/caruso_80_60.jpg </img>
    <gps>
-	<lat>64° 8,800'N</lat>
-	<long>21° 56,058'W</long>
+	<lat>64146666</lat>
+	<long>21934300</long>
 	</gps>   
  </restaurant> 
  <restaurant> 
@@ -60,9 +64,10 @@
    <phone>511 5090</phone> 
    <website>www.einarben.is</website> 
    <email>einarben@einarben.is </email> 
+<img>http://veitingastadir.is/resources/thumbnails/veitingastadir_is/Logo/logo_80_60.jpg </img>
    <gps>
-	<lat>64° 8,869'N</lat>
-	<long>21° 8,869'W</long>
+	<lat>64147816</lat>
+	<long>21147816</long>
 	</gps>
  </restaurant> 
  <restaurant> 
@@ -72,10 +77,11 @@
    <city> Reykjavík </city> 
    <phone>578 8877</phone> 
    <website>www.fiskmarkadurinn.is</website> 
-   <email>info@fiskmarkadurinn.is </email> 
+   <email>info@fiskmarkadurinn.is </email>
+<img>http://veitingastadir.is/resources/thumbnails/veitingastadir_is/Logo/Fishmarket_logo_120_80_60.jpg </img>   
    <gps>
-	<lat>64° 8,864'N</lat>
-	<long>21° 56,533'W</long>
+	<lat>64147733</lat>
+	<long>21942216</long>
     </gps>
  </restaurant> 
  <restaurant> 
@@ -86,9 +92,10 @@
    <phone>514 6000</phone> 
    <website>www.reykjavikhotels.is</website> 
    <email>/centrum/islenska/...dining@hotelcentrum.is </email>
+<img>http://veitingastadir.is/resources/thumbnails/veitingastadir_is/Logo/fjalakotturinn_logo_1_80_60.jpg </img>
    <gps>
-	<lat>64° 8,851'N</lat>
-	<long>21° 56,543'W</long>
+	<lat>64147516</lat>
+	<long>21942383</long>
     </gps>   
  </restaurant> 
  <restaurant> 
@@ -99,9 +106,10 @@
    <phone>461 5775</phone> 
    <website>www.fridrikv.is</website> 
    <email>fridrikv@fridrikv.is </email>
+<img>http://veitingastadir.is/resources/thumbnails/veitingastadir_is/Logo/fridrik-V-logo_80_60.jpg </img>
    <gps>
-	<lat>65° 40,761'N</lat>
-	<long>18° 5,663'W</long>
+	<lat>65679350</lat>
+	<long>18094383</long>
 	</gps>   
  </restaurant> 
  <restaurant> 
@@ -112,9 +120,10 @@
    <phone>552 5700</phone> 
    <website>www.holt.is</website> 
    <email>gallery@holt.is </email>
+<img>http://veitingastadir.is/resources/thumbnails/veitingastadir_is/Logo/Gallery-restaurant-logo-vefur_80_60.jpg </img>
    <gps>
-	<lat>64° 8,572'N</lat>
-	<long>21° 56,095'W</long>
+	<lat>64142866</lat>
+	<long>21934916</long>
 	</gps>   
  </restaurant> 
  <restaurant> 
@@ -125,22 +134,10 @@
    <phone>525 9960</phone> 
    <website>www.grillid.is</website> 
    <email>grillid@grillid.is </email>
+<img>http://veitingastadir.is/resources/thumbnails/veitingastadir.is/Logo/grillid_radisonsas_80_60.jpg </img>
    <gps>
-	<lat>64° 8,414'N</lat>
-	<long>21° 57,257'W</long>
-	</gps>   
- </restaurant> 
- <restaurant> 
-  <title>Gullfoss Seafood & Grill </title> 
-   <address> Pósthússtræti 2 </address> 
-   <zip>101</zip> 
-   <city> Reykjavík </city> 
-   <phone>599 1030</phone> 
-   <website>www.taste.is</website> 
-   <email>gullfoss@1919.is </email>
-   <gps>
-	<lat>64° 8,893'N</lat>
-	<long>21° 56,314'W</long>
+	<lat>64140233</lat>
+	<long>21954283</long>
 	</gps>   
  </restaurant> 
  <restaurant> 
@@ -151,22 +148,24 @@
    <phone>487 5700</phone> 
    <website>www.allseasonhotels.is</website> 
    <email>hotelranga@hotelranga.is </email>
+<img>http://veitingastadir.is/resources/thumbnails/visitorsguide_is/Logo/hotel-ranga_80_60.jpg </img>
    <gps>
-	<lat>63° 49,833'N</lat>
-	<long>20° 25,338'W</long>
+	<lat>63830550/lat>
+	<long>20422300</long>
 	</gps>   
  </restaurant> 
  <restaurant> 
   <title>Hótel Örk </title> 
    <address> Breiðumörk 1c </address> 
    <zip>810</zip> 
-   <city> Hveragerði +</city> 
+   <city> Hveragerði </city> 
    <phone>354 483</phone> 
    <website>www.hotel-ork.is</website> 
    <email>info@hotel-ork.is </email>
+<img>http://veitingastadir.is/resources/thumbnails/veitingastadir_is/Logo/hotel_ork_logo_80_60.jpg </img>
    <gps>
-	<lat>63° 59,840'N</lat>
-	<long>21° 11,540'W</long>
+	<lat>63997333</lat>
+	<long>21192333</long>
 	</gps>   
  </restaurant> 
  <restaurant> 
@@ -177,15 +176,9 @@
    <phone>562 2300</phone> 
    <website>www.humarskipid.is</website> 
    <email>info@humarskipid.is </email>
+<img>http://veitingastadir.is/resources/thumbnails/logo_humarskipid_litil_80_60.jpg </img>
    <gps>
-	<lat>64° 9,053'N</lat>
-	<long>21° 56,527'W</long>
+	<lat>64150883</lat>
+	<long>21942116</long>
 	</gps>   
  </restaurant> 
- <restaurant> 
-  <title>Lækjarbrekka </title> 
-   <address> Bankastræti 2 </address> 
-   <zip>101</zip> 
-   <city> Reykjavík </city> 
-   <phone>551 4430</phone> 
-   <website>www.laek

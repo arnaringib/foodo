@@ -29,7 +29,8 @@ public class FoodoMap extends MapActivity {
 	List<Overlay> mapRestaurantsOverlays;
 	
 	RestaurantWebService mService;
-
+	
+	Filter filter;
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,6 +43,7 @@ public class FoodoMap extends MapActivity {
         mDbHelper = new RestaurantDbAdapter(this);
         mDbHelper.open();
         
+        filter = new Filter();
         setupOverlays();
     }
 	
@@ -99,7 +101,6 @@ public class FoodoMap extends MapActivity {
 			else {
 				Toast.makeText(context, "Update failed", Toast.LENGTH_SHORT).show();
 			}
-			
 			return true;
 		}
 		return false;
@@ -148,5 +149,5 @@ public class FoodoMap extends MapActivity {
 		}
 		c.close();
 	}
- 
+	
 }

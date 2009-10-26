@@ -15,11 +15,14 @@ import android.widget.Toast;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapView;
+import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.Overlay;
 
 public class FoodoMap extends MapActivity {
 	
 	private static final String TAG = "FoodoMap";
+	
+	private MyLocationOverlay myLocOverlay;
 	
 	MapView mapView;
 	Drawable drawable;
@@ -42,8 +45,9 @@ public class FoodoMap extends MapActivity {
         
         mDbHelper = new RestaurantDbAdapter(this);
         mDbHelper.open();
-        
+       
         filter = new Filter();
+        initMyLocation();
         setupOverlays();
     }
 	
@@ -112,7 +116,12 @@ public class FoodoMap extends MapActivity {
 			mService = new RestaurantWebService(mDbHelper);
 		return mService.updateAll();
 	}
-	
+	private void initMyLocation() {
+		myLocOverlay = new MyLocationOverlay(this, mapView);
+		myLocOverlay.enableMyLocation();
+ 
+	}
+ 
 	private void setupOverlays() {
 		Cursor c = mDbHelper.fetchAllRestaurants();
 		startManagingCursor(c);
@@ -143,6 +152,7 @@ public class FoodoMap extends MapActivity {
 			} while (c.moveToNext());
 			
 			mapView.getOverlays().add(foodoRestaurantsOverlays);
+			mapView.getOverlays().add(myLocOverlay);
 		}
 		else {
 			Log.d(TAG, "Failed to move to first!");

@@ -82,6 +82,37 @@ class RestaurantDb {
 		return $items;
 	}
 	
+	public function rate($id, $rating) {
+		
+		$sql = "INSERT INTO ratings (restaurant_id, rating) VALUES (:rid, :rating)";
+		$q = $this->pdo->prepare($sql);
+		return $q->execute(array(':rid'=>$id, ':rating'=>$rating));
+	}
+	
+	public function selectFromId($id) {
+		
+		$stmt = $this->pdo->prepare("SELECT 
+				R.*, 
+				FORMAT(AVG(ratings.rating),1) as rating, 
+				COUNT(ratings.id) as rating_count
+				FROM 
+				restaurants R
+				LEFT JOIN ratings 
+				ON R.id = ratings.restaurant_id
+				WHERE R.id=?
+				GROUP BY R.id");
+		$stmt->execute(array($id));
+		$r = $stmt->fetch(PDO::FETCH_ASSOC);
+		
+		if ($r)
+		{
+			return $this->createRestaurant($r);
+		}
+		else {
+			return false;
+		}
+	}
+	
 	private function createRestaurant($row) {
 		$r = new Restaurant();
 		

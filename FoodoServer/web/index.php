@@ -1,6 +1,6 @@
 <?php
 	require('../conf/init.php');
-	
+
 	if ($_GET['setup']) {
 		$rdb = new RestaurantDb();
 		$rdb->createTable();

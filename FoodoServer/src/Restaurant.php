@@ -7,6 +7,7 @@ class Restaurant
 	private $name;
 	private $description;
 	private $rating;
+	private $rating_count;
 	private $phone;
 	private $lat;
 	private $lng;
@@ -51,6 +52,16 @@ class Restaurant
 	public function getRating()
 	{
 		return $this->rating;
+	}
+	
+	public function setRatingCount($count)
+	{
+		$this->rating_count = $count;
+	}
+
+	public function getRatingCount()
+	{
+		return $this->rating_count;
 	}
 
 	public function setPhone($phone)
@@ -108,6 +119,7 @@ class Restaurant
 			"id" => $this->getId() * 1,
 			"name" => $this->getName(),
 			"rating" => number_format($this->getRating(), 1),
+			"rating_count" => $this->getRatingCount(),
 			"lat" => $this->getLat(),
 			"lng" => $this->getLng()
 		);

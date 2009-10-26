@@ -3,7 +3,7 @@
 
 	if ($_GET['setup']) {
 		$rdb = new RestaurantDb();
-		$rdb->createTable();
+		$rdb->createTables();
 		$rdb->insertInitialData();
 	}
 	else {

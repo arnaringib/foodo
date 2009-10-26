@@ -26,7 +26,9 @@ public class FoodoDetails extends Activity {
 	public RatingBar giveRatingbar;
 	private Long mRowId;
 	private Long mRating;
+	
 	RestaurantDbAdapter mDbHelper;
+	RestaurantWebService mService;
 	
 	//View items
 	private Button btnDescr, btnReviews, btnCall, btnViewOnMap;
@@ -46,6 +48,8 @@ public class FoodoDetails extends Activity {
 		//Open connection to DB adapter
 		mDbHelper = new RestaurantDbAdapter(this);
         mDbHelper.open();
+        
+        mService = new RestaurantWebService(mDbHelper);
         
         //Check if resuming from a saved instance state
         mRowId = (savedInstanceState != null ? savedInstanceState.getLong(RestaurantDbAdapter.KEY_ROWID) : null);
@@ -77,9 +81,11 @@ public class FoodoDetails extends Activity {
 		                .setView(layout)
 		                .setPositiveButton("Rate!", new DialogInterface.OnClickListener() {
 		                    public void onClick(DialogInterface dialog, int whichButton) {
+		                        /* User clicked OK, add new rating */
 		                    	RatingBar rb = (RatingBar) layout.findViewById(R.id.ratingbar);
-		                    	showRatingbar.setRating(rb.getRating());
-		                        /* User clicked OK so do some stuff */
+		                    	showRatingbar.setRating(
+		                    			(float) mService.addRating(mRowId, rb.getRating())
+		                    	);
 		                    }
 		                })
 		                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

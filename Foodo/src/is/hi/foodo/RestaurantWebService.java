@@ -49,7 +49,8 @@ public class RestaurantWebService {
     					o.getString("name"), 
     					o.getInt("lat"),
     					o.getInt("lng"), 
-    					o.getDouble("rating"));
+    					o.getDouble("rating"),
+    					o.getLong("rating_count"));
     		}
     		return true;
     	}

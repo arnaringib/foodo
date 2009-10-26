@@ -17,6 +17,7 @@ public class RestaurantDbAdapter {
 	public static final String KEY_LAT = "lat";
 	public static final String KEY_LNG = "lng";
 	public static final String KEY_RATING = "rating";
+	public static final String KEY_RATING_COUNT = "rating_count";
 	
     private DatabaseHelper mDbHelper;
     private SQLiteDatabase mDb;
@@ -26,13 +27,13 @@ public class RestaurantDbAdapter {
      */
     private static final String DATABASE_CREATE =
             "create table restaurants (_id integer primary key, "
-                    + "name text not null, lat integer, lng integer, rating double);";
+                    + "name text not null, lat integer, lng integer, rating double, rating_count long);";
    
     private static final String DATABASE_EMPTY = "DELETE FROM restaurants;";
     
     private static final String DATABASE_NAME = "data";
     private static final String DATABASE_TABLE = "restaurants";
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 5;
     
     private final Context mCtx;
     
@@ -98,13 +99,14 @@ public class RestaurantDbAdapter {
      * @param rating restaurants rating
      * @return rowId or -1 if failed
      */
-    public long createRestaurant(long id, String name, int lat, int lng, double rating) {
+    public long createRestaurant(long id, String name, int lat, int lng, double rating, long rating_count) {
         ContentValues initialValues = new ContentValues();
         initialValues.put(KEY_ROWID, id);
         initialValues.put(KEY_NAME, name);
         initialValues.put(KEY_LAT, lat);
         initialValues.put(KEY_LNG, lng);
         initialValues.put(KEY_RATING, rating);
+        initialValues.put(KEY_RATING_COUNT, rating_count);
 
         return mDb.insert(DATABASE_TABLE, null, initialValues);
     }
@@ -121,12 +123,13 @@ public class RestaurantDbAdapter {
      * @return rowId or -1 if failed
      * @deprecated Restaurants are loaded from web service
      */
-    public long createRestaurant(String name, int lat, int lng, double rating) {
+    public long createRestaurant(String name, int lat, int lng, double rating, long rating_count) {
         ContentValues initialValues = new ContentValues();
         initialValues.put(KEY_NAME, name);
         initialValues.put(KEY_LAT, lat);
         initialValues.put(KEY_LNG, lng);
         initialValues.put(KEY_RATING, rating);
+        initialValues.put(KEY_RATING_COUNT, rating_count);
 
         return mDb.insert(DATABASE_TABLE, null, initialValues);
     }
@@ -149,7 +152,7 @@ public class RestaurantDbAdapter {
      */
     public Cursor fetchAllRestaurants() {
         return mDb.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_NAME,
-                KEY_LAT, KEY_LNG, KEY_RATING}, null, null, null, null, null);
+                KEY_LAT, KEY_LNG, KEY_RATING, KEY_RATING_COUNT}, null, null, null, null, null);
     }
     
     /**
@@ -164,7 +167,7 @@ public class RestaurantDbAdapter {
         Cursor mCursor =
 
                 mDb.query(true, DATABASE_TABLE, new String[] {KEY_ROWID, KEY_NAME,
-                        KEY_LAT, KEY_LNG, KEY_RATING}, KEY_ROWID + "=" + rowId, null,
+                        KEY_LAT, KEY_LNG, KEY_RATING, KEY_RATING_COUNT}, KEY_ROWID + "=" + rowId, null,
                         null, null, null, null);
         if (mCursor != null) {
             mCursor.moveToFirst();
@@ -184,7 +187,7 @@ public class RestaurantDbAdapter {
      * @param rating value to set rating to
      * @return true if the restaurant was successfully updated, false otherwise
      */
-    public boolean updateRestaurant(long rowId, String name, int lat, int lng, double rating) {
+    public boolean updateRestaurant(long rowId, String name, int lat, int lng, double rating, double rating_count) {
         ContentValues args = new ContentValues();
         
         
@@ -192,6 +195,7 @@ public class RestaurantDbAdapter {
         args.put(KEY_LAT, lat);
         args.put(KEY_LNG, lng);
         args.put(KEY_RATING, rating);
+        args.put(KEY_RATING_COUNT, rating_count);
 
         return mDb.update(DATABASE_TABLE, args, KEY_ROWID + "=" + rowId, null) > 0;
     }   

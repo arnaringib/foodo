@@ -33,9 +33,10 @@ public class RestaurantsDbTest extends AndroidTestCase {
 		int lat = 10;
 		int lng = 20;
 		double rating = 5.0;
+		long rating_count = 1;
 		
 		//Create data
-		mDb.createRestaurant(id, name, lat, lng, rating);
+		mDb.createRestaurant(id, name, lat, lng, rating, rating_count);
 		
 		//Read data
 		Cursor r = mDb.fetchRestaurant(id);
@@ -43,6 +44,7 @@ public class RestaurantsDbTest extends AndroidTestCase {
 		assertEquals(r.getInt(r.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_LAT)), lat);
 		assertEquals(r.getInt(r.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_LNG)), lng);
 		assertTrue(new Double(rating).equals(r.getDouble(r.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_RATING))));
+		assertEquals(r.getInt(r.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_RATING_COUNT)), rating_count);
 	}
 	
 	/*

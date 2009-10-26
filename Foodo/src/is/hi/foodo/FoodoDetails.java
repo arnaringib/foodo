@@ -21,11 +21,12 @@ import android.widget.Toast;
 public class FoodoDetails extends Activity {
 	
 	private static final String TAG = "FoodoDetails";
+	
 	static final int RATING_DIALOG = 0;
-	RatingBar showRatingbar;
+	private RatingBar showRatingbar;
 	public RatingBar giveRatingbar;
 	private Long mRowId;
-	private Long mRating;
+	private float mRating;
 	
 	RestaurantDbAdapter mDbHelper;
 	RestaurantWebService mService;
@@ -76,6 +77,10 @@ public class FoodoDetails extends Activity {
 			case RATING_DIALOG:
 		            LayoutInflater factory = LayoutInflater.from(this);
 		            final View layout = factory.inflate(R.layout.ratingdialog, null);
+	            	
+		            RatingBar rb = (RatingBar) layout.findViewById(R.id.ratingbar);
+	            	rb.setRating(mRating);
+	            	
 		            return new AlertDialog.Builder(FoodoDetails.this)
 		                .setTitle("Rating")
 		                .setView(layout)
@@ -83,6 +88,7 @@ public class FoodoDetails extends Activity {
 		                    public void onClick(DialogInterface dialog, int whichButton) {
 		                        /* User clicked OK, add new rating */
 		                    	RatingBar rb = (RatingBar) layout.findViewById(R.id.ratingbar);
+		                    	Log.d(TAG, "Giving rating: " + rb.getRating());
 		                    	showRatingbar.setRating(
 		                    			(float) mService.addRating(mRowId, rb.getRating())
 		                    	);
@@ -107,8 +113,11 @@ public class FoodoDetails extends Activity {
     	{
     		Cursor restaurant = mDbHelper.fetchRestaurant(mRowId);
     		startManagingCursor(restaurant);
+    		
+    		mRating = restaurant.getFloat(restaurant.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_RATING));
+    		
     		mNameText.setText(restaurant.getString(restaurant.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_NAME)));
-    		showRatingbar.setRating(restaurant.getLong(restaurant.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_RATING)));
+    		showRatingbar.setRating(mRating);
     	}
 	}
 
@@ -161,6 +170,7 @@ public class FoodoDetails extends Activity {
 		}
 		return false;
 	}
+	
 	// button click listener
 	class clicker implements Button.OnClickListener
     {     

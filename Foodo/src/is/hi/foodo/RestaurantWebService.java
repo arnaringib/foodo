@@ -15,7 +15,7 @@ import android.util.Log;
 public class RestaurantWebService {
 	
 	private static final String TAG = "RestaurantWebService";
-    private static final String WEBSERVICE_URL = "http://foodo.siggijons.net/api/restaurants.json";
+    private static final String WEBSERVICE_URL = "http://foodo.nord.is/api/";
 	
 	RestaurantDbAdapter mDb;
     
@@ -23,20 +23,33 @@ public class RestaurantWebService {
     	mDb = db;
     }
     
+    private JSONObject loadData(String path) {
+    	try {
+	    	URL url = new URL(path);
+			URLConnection connection = url.openConnection();
+			
+			BufferedReader reader = new BufferedReader( new InputStreamReader(connection.getInputStream()));
+			StringBuilder builder = new StringBuilder();
+			String line;
+			while (( line = reader.readLine()) != null)
+			{
+				builder.append(line);	
+			}
+			return new JSONObject(builder.toString());
+    	}
+    	catch (MalformedURLException e) {
+    		Log.d(TAG, "MalformedURLException in loadFromWebService");
+    		return null;
+    	}
+    	catch (Exception e) {
+    		Log.d(TAG, "Exception in WebService");
+    		return null;
+    	}
+    }
+    
     public boolean updateAll() {
     	try {
-    		URL url = new URL(WEBSERVICE_URL);
-    		URLConnection connection = url.openConnection();
-    		
-    		BufferedReader reader = new BufferedReader( new InputStreamReader(connection.getInputStream()));
-    		StringBuilder builder = new StringBuilder();
-    		String line;
-    		while (( line = reader.readLine()) != null)
-    		{
-    			builder.append(line);
-    		}
-    		
-    		JSONObject json = new JSONObject(builder.toString());
+    		JSONObject json = loadData(WEBSERVICE_URL + "/restaurants");
     		JSONArray list = json.getJSONObject("responseData").getJSONArray("Restaurants");
     		
     		//Empty database
@@ -55,13 +68,10 @@ public class RestaurantWebService {
     		}
     		return true;
     	}
-    	catch (MalformedURLException e) {
-    		Log.d(TAG, "MalformedURLException in loadFromWebService");
-    		return false;
-    	}
     	catch (Exception e) {
     		//TODO log this
     		Log.d(TAG, "Exception in loadFromWebService");
+    		Log.d(TAG, e.toString());
     		return false;
     	}
     }
@@ -74,30 +84,40 @@ public class RestaurantWebService {
      */
     public double addRating(long restaurant_id, double new_rating) {
     	//TODO talk to webservice
-    	Cursor cr = mDb.fetchRestaurant(restaurant_id);
-    	
-    	double old_rating;
-    	double rating;
-    	double count;
-    	
-    	old_rating = cr.getDouble(cr.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_RATING));
-    	count = cr.getLong(cr.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_RATING_COUNT));
-    	
-    	rating = (old_rating * count) + new_rating;
-    	count++;
-    	rating /= count;
-    	
-    	
-    	mDb.updateRestaurant(
-    			cr.getLong(cr.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_ROWID)), 
-    			cr.getString(cr.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_NAME)), 
-    			cr.getInt(cr.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_LAT)), 
-    			cr.getInt(cr.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_LNG)), 
-    			rating,
-    			count
-    	);
-    	
-    	return rating;
+    	try {
+    		JSONObject json = loadData(WEBSERVICE_URL + "/api/restaurant/id/" + restaurant_id + "/rate/" + new_rating);
+    		JSONObject o = json.getJSONObject("responseData").getJSONObject("Restaurants");
+    		
+    		//JSONObject o = list.getJSONObject(0);
+    		mDb.updateRestaurant(
+    				o.getLong("id"), 
+    				o.getString("name"), 
+    				o.getInt("lat"),
+    				o.getInt("lng"), 
+    				o.getDouble("rating"),
+    				o.getLong("rating_count")
+    	    );
+    		
+    		return o.getDouble("rating");
+    	}
+    	catch (Exception e) {
+    		Log.d(TAG, "Could not upload rating, changing locally");
+    		Log.d(TAG, e.toString());
+    		Cursor cr = mDb.fetchRestaurant(restaurant_id);
+        	
+        	double old_rating;
+        	double rating;
+        	double count;
+        	
+        	old_rating = cr.getDouble(cr.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_RATING));
+        	count = cr.getLong(cr.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_RATING_COUNT));
+        	
+        	rating = (old_rating * count) + new_rating;
+        	count++;
+        	rating /= count;
+        	
+        	return rating;
+    	}
     }
 
 }

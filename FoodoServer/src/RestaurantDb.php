@@ -32,9 +32,15 @@ class RestaurantDb {
 		
 		$sql = "CREATE TABLE IF NOT EXISTS `restaurants` (
 			  `id` int(11) NOT NULL auto_increment,
-			  `name` varchar(255) character set latin1 NOT NULL,
-			  `description` text character set latin1,
-			  `phone` varchar(32) character set latin1 default NULL,
+			  `name` varchar(255) NOT NULL,
+			  `description` text,
+			  `phone` varchar(32) default NULL,
+			  `address` varchar(40) NOT NULL default '',
+			  `zip` int(11) default NULL,
+			  `city` varchar(30) default NULL,
+			  `website` varchar(50) default NULL,
+			  `email` varchar(30) default NULL,
+			  `img` varchar(50) default NULL,
 			  `lat` int(11) default NULL,
 			  `lng` int(11) default NULL,
 			  `created_at` datetime default NULL,

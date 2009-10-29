@@ -28,7 +28,7 @@ public class DetailsActivityTest extends ActivityUnitTestCase<FoodoDetails>{
 	}
 	
 	public void testTitle() {
-		assertEquals(mNameText.getText(), "Burger Joint");
+		assertEquals(mNameText.getText(), "Argent’na");
 	}
 
 }

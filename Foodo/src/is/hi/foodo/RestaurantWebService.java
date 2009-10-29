@@ -53,7 +53,7 @@ public class RestaurantWebService {
     		JSONArray list = json.getJSONObject("responseData").getJSONArray("Restaurants");
     		
     		//Empty database
-    		//mDb.execSQL(DATABASE_EMPTY);
+    		mDb.emptyDatabase();
     		
     		int n = list.length();
     		for (int i = 0; i < n; i++) {
@@ -65,6 +65,7 @@ public class RestaurantWebService {
     					o.getInt("lng"), 
     					o.getDouble("rating"),
     					o.getLong("rating_count"));
+    			Log.d(TAG, o.getString("name"));
     		}
     		return true;
     	}

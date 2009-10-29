@@ -11,7 +11,7 @@
 <img>http://veitingastadir.is/resources/thumbnails/veitingastadir.is/Logo/Argentina_80_60.jpg</img>
    <gps>
 	<lat>64144066</lat>
-	<long>21918433</long>
+	<long>-21918433</long>
 	</gps>
  </restaurant> 
  <restaurant> 
@@ -25,7 +25,7 @@
 <img>http://veitingastadir.is/resources/thumbnails/veitingastadir.is/Logo/austurindiafelagid_80_60.jpg </img>
    <gps>
 	<lat>64145650</lat>
-	<long>21925600</long>
+	<long>-21925600</long>
 	</gps>
  </restaurant> 
  <restaurant> 
@@ -39,7 +39,7 @@
 <img>http://veitingastadir.is/resources/images/veitingastadir_is/Logo/CafeParis_logo_sml.gif </img>
    <gps>
 	<lat>64147516</lat>
-	<long>21938916</long>
+	<long>-21938916</long>
 	</gps>   
  </restaurant> 
  <restaurant> 
@@ -53,7 +53,7 @@
  <img>http://veitingastadir.is/resources/thumbnails/caruso_80_60.jpg </img>
    <gps>
 	<lat>64146666</lat>
-	<long>21934300</long>
+	<long>-21934300</long>
 	</gps>   
  </restaurant> 
  <restaurant> 
@@ -67,7 +67,7 @@
 <img>http://veitingastadir.is/resources/thumbnails/veitingastadir_is/Logo/logo_80_60.jpg </img>
    <gps>
 	<lat>64147816</lat>
-	<long>21147816</long>
+	<long>-21147816</long>
 	</gps>
  </restaurant> 
  <restaurant> 
@@ -81,7 +81,7 @@
 <img>http://veitingastadir.is/resources/thumbnails/veitingastadir_is/Logo/Fishmarket_logo_120_80_60.jpg </img>   
    <gps>
 	<lat>64147733</lat>
-	<long>21942216</long>
+	<long>-21942216</long>
     </gps>
  </restaurant> 
  <restaurant> 
@@ -95,7 +95,7 @@
 <img>http://veitingastadir.is/resources/thumbnails/veitingastadir_is/Logo/fjalakotturinn_logo_1_80_60.jpg </img>
    <gps>
 	<lat>64147516</lat>
-	<long>21942383</long>
+	<long>-21940800</long>
     </gps>   
  </restaurant> 
  <restaurant> 
@@ -109,7 +109,7 @@
 <img>http://veitingastadir.is/resources/thumbnails/veitingastadir_is/Logo/fridrik-V-logo_80_60.jpg </img>
    <gps>
 	<lat>65679350</lat>
-	<long>18094383</long>
+	<long>-18094383</long>
 	</gps>   
  </restaurant> 
  <restaurant> 
@@ -123,7 +123,7 @@
 <img>http://veitingastadir.is/resources/thumbnails/veitingastadir_is/Logo/Gallery-restaurant-logo-vefur_80_60.jpg </img>
    <gps>
 	<lat>64142866</lat>
-	<long>21934916</long>
+	<long>-21934916</long>
 	</gps>   
  </restaurant> 
  <restaurant> 
@@ -137,7 +137,7 @@
 <img>http://veitingastadir.is/resources/thumbnails/veitingastadir.is/Logo/grillid_radisonsas_80_60.jpg </img>
    <gps>
 	<lat>64140233</lat>
-	<long>21954283</long>
+	<long>-21954283</long>
 	</gps>   
  </restaurant> 
  <restaurant> 
@@ -151,7 +151,7 @@
 <img>http://veitingastadir.is/resources/thumbnails/visitorsguide_is/Logo/hotel-ranga_80_60.jpg </img>
    <gps>
 	<lat>63830550/lat>
-	<long>20422300</long>
+	<long>-20422300</long>
 	</gps>   
  </restaurant> 
  <restaurant> 
@@ -165,7 +165,7 @@
 <img>http://veitingastadir.is/resources/thumbnails/veitingastadir_is/Logo/hotel_ork_logo_80_60.jpg </img>
    <gps>
 	<lat>63997333</lat>
-	<long>21192333</long>
+	<long>-21192333</long>
 	</gps>   
  </restaurant> 
  <restaurant> 
@@ -179,6 +179,6 @@
 <img>http://veitingastadir.is/resources/thumbnails/logo_humarskipid_litil_80_60.jpg </img>
    <gps>
 	<lat>64150883</lat>
-	<long>21942116</long>
+	<long>-21942116</long>
 	</gps>   
  </restaurant> 

@@ -13,7 +13,13 @@ class Restaurant
 	private $lng;
 	private $created_at;
 	private $modified_at;
-
+	
+	private $address;
+	private $zip;
+	private $city;
+	private $website;
+	private $email;
+	
 	public function setId($id)
 	{
 		$this->id = $id;
@@ -114,6 +120,55 @@ class Restaurant
 		return $this->modified_at;
 	}
 	
+	public function setAddress($address)
+	{
+		$this->address = $address;
+	}
+	
+	public function getAddress() {
+		return $this->address;
+	}
+	
+	public function setZip($zip)
+	{
+		$this->zip = $zip;
+	}
+	
+	public function getZip() {
+		return $this->zip;
+	}
+	
+	public function setCity($city) {
+		$this->city = $city;
+	}
+	
+	public function getCity() {
+		return $this->city;
+	}
+	
+	public function setWebsite($website) {
+		$this->website = $website;
+	}
+	
+	public function getWebsite() {
+		return $this->website;
+	}
+	
+	public function setEmail($email) {
+		$this->email = $email;
+	}
+	
+	public function getEmail() {
+		return $this->email;
+	}
+	
+	/*
+	private $address;
+	private $zip;
+	private $city;
+	private $website;
+	private $email;
+	*/
 	public function toArray() {
 		return array(
 			"id" => $this->getId() * 1,
@@ -121,7 +176,12 @@ class Restaurant
 			"rating" => number_format($this->getRating(), 1),
 			"rating_count" => $this->getRatingCount(),
 			"lat" => $this->getLat(),
-			"lng" => $this->getLng()
+			"lng" => $this->getLng(),
+			"address" => $this->getAddress(),
+			"zip" => $this->getZip(),
+			"city" => $this->getCity(),
+			"website" => $this->getWebsite(),
+			"email" => $this->getEmail()
 		);
 	}
 

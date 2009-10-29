@@ -10,6 +10,11 @@ class FoodoRunner {
 		
 		switch(self::$scope)
 		{
+			case "setup":
+				$pdo = new RestaurantDb();
+				$pdo->createTables();
+				$pdo->insertInitialData();
+				break;
 			case "api":
 				self::runApi();
 				break;

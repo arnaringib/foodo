@@ -131,6 +131,12 @@ class RestaurantDb {
 		$r->setLat($row['lat']);
 		$r->setLng($row['lng']);
 		$r->setCreated($row['created_at']);
+		$r->setAddress($row['address']);
+		$r->setZip($row['zip']);
+		$r->setCity($row['city']);
+		$r->setWebsite($row['website']);
+		$r->setEmail($row['email']);
+		
 		//$r->setModified($row['modified_at']);
 
 		return $r;

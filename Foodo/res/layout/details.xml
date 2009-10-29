@@ -41,13 +41,12 @@
 		</LinearLayout>
 	</LinearLayout>
 	
-	<TextView android:text="Burger Avenue
-101 Reykjavík
-555-5000" 
+	<TextView 
 		android:id="@+id/ReInfo" 
 		android:layout_width="wrap_content" 
 		android:layout_height="wrap_content"
-		android:singleLine="false"
+		android:inputType="textMultiLine"
+		android:maxLines="4"
 	/>
 	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 		    	android:layout_width="wrap_content"

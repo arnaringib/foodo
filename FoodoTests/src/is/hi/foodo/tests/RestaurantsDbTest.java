@@ -35,8 +35,14 @@ public class RestaurantsDbTest extends AndroidTestCase {
 		double rating = 5.0;
 		long rating_count = 1;
 		
+		String address = "Testagata 10";
+		int zip = 101;
+		String city = "Reykjav’k";
+		String website = "www.website.is";
+		String email = "email@email.com";
+
 		//Create data
-		mDb.createRestaurant(id, name, lat, lng, rating, rating_count);
+		mDb.createRestaurant(id, name, lat, lng, rating, rating_count, address, zip, city, website, email);
 		
 		//Read data
 		Cursor r = mDb.fetchRestaurant(id);
@@ -45,6 +51,12 @@ public class RestaurantsDbTest extends AndroidTestCase {
 		assertEquals(r.getInt(r.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_LNG)), lng);
 		assertTrue(new Double(rating).equals(r.getDouble(r.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_RATING))));
 		assertEquals(r.getInt(r.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_RATING_COUNT)), rating_count);
+		
+		assertEquals(r.getString(r.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_ADDRESS)), address);
+		assertEquals(r.getInt(r.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_ZIP)), zip);
+		assertEquals(r.getString(r.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_CITY)), city);
+		assertEquals(r.getString(r.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_WEBSITE)), website);
+		assertEquals(r.getString(r.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_EMAIL)), email);
 	}
 	
 	/*

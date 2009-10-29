@@ -34,6 +34,14 @@ public class FoodoDetails extends Activity {
 	//View items
 	private Button btnDescr, btnReviews, btnCall, btnViewOnMap;
 	private TextView mNameText;
+	private TextView mInfo;
+	
+	//Temporary stings for toasts
+	static final CharSequence bTextDescr = "No description ..";
+	static final CharSequence bTextReviews = "No reviews... :(";
+	static final CharSequence bTextCall = "I cant call ..";
+	static final CharSequence bTextViewOnMap = "Cant view on map ..";
+	
 		
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +53,7 @@ public class FoodoDetails extends Activity {
 		showRatingbar = (RatingBar) findViewById(R.id.indicator_ratingbar);
 		
 		mNameText = (TextView) findViewById(R.id.ReName);
+		mInfo = (TextView) findViewById(R.id.ReInfo);
 		
 		//Open connection to DB adapter
 		mDbHelper = new RestaurantDbAdapter(this);
@@ -118,6 +127,17 @@ public class FoodoDetails extends Activity {
     		
     		mNameText.setText(restaurant.getString(restaurant.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_NAME)));
     		showRatingbar.setRating(mRating);
+    		
+    		mInfo.setText(restaurant.getString(restaurant.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_ADDRESS))
+		    				+ '\n'  
+		    				+ restaurant.getString(restaurant.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_ZIP))
+		    				+ ' '
+		    				+ restaurant.getString(restaurant.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_CITY))
+		    				+ '\n'
+		    				+ restaurant.getString(restaurant.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_EMAIL))
+		    				+ '\n' 
+		    				+ restaurant.getString(restaurant.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_WEBSITE))
+    		);
     	}
 	}
 
@@ -146,14 +166,6 @@ public class FoodoDetails extends Activity {
 		btnCall.setOnClickListener(new clicker());
 		btnViewOnMap.setOnClickListener(new clicker());	
 	}
-	
-	
-	CharSequence mText1 = "In progress";
-	CharSequence bTextDescr = "Cant view on map ..";
-	CharSequence bTextReviews = "No description ..";
-	CharSequence bTextCall = "I cant call ..";
-	CharSequence bTextViewOnMap = "No reviews... :(";
-	int duration = Toast.LENGTH_SHORT;
 
 	/* when menu button option selected */
 	@Override 
@@ -161,8 +173,7 @@ public class FoodoDetails extends Activity {
 		Context context = getApplicationContext();
 		switch (item.getItemId()) {
 		case 0:
-			Toast toast1 = Toast.makeText(context, mText1, duration);
-			toast1.show();
+			Toast.makeText(context, "Not implemented", Toast.LENGTH_SHORT).show();
 			return true;
 		case 1:
 			showDialog(RATING_DIALOG);
@@ -179,20 +190,16 @@ public class FoodoDetails extends Activity {
 		{
 			Context context = getApplicationContext();
 			if(v==btnDescr){
-				Toast toast2 = Toast.makeText(context, bTextDescr, duration);
-				toast2.show();
+				Toast.makeText(context, bTextDescr, Toast.LENGTH_SHORT).show();
 			}
 			else if(v==btnReviews){
-				Toast toast3 = Toast.makeText(context, bTextReviews, duration);
-				toast3.show();
+				Toast.makeText(context, bTextReviews, Toast.LENGTH_SHORT).show();
 			}
 			else if(v==btnCall){
-				Toast toast4 = Toast.makeText(context, bTextCall, duration);
-				toast4.show();
+				Toast.makeText(context, bTextCall, Toast.LENGTH_SHORT).show();
 			}
 			else if(v==btnViewOnMap){
-				Toast toast5 = Toast.makeText(context, bTextViewOnMap, duration);
-				toast5.show();
+				Toast.makeText(context, bTextViewOnMap, Toast.LENGTH_SHORT).show();
 			}
 		}
     }

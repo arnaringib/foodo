@@ -64,7 +64,13 @@ public class RestaurantWebService {
     					o.getInt("lat"),
     					o.getInt("lng"), 
     					o.getDouble("rating"),
-    					o.getLong("rating_count"));
+    					o.getLong("rating_count"),
+    	   				o.getString("address"),
+        				o.getInt("zip"),
+        				o.getString("city"),
+        				o.getString("website"),
+        				o.getString("email")
+        		);
     			Log.d(TAG, o.getString("name"));
     		}
     		return true;
@@ -96,7 +102,12 @@ public class RestaurantWebService {
     				o.getInt("lat"),
     				o.getInt("lng"), 
     				o.getDouble("rating"),
-    				o.getLong("rating_count")
+    				o.getLong("rating_count"),
+    				o.getString("address"),
+    				o.getInt("zip"),
+    				o.getString("city"),
+    				o.getString("website"),
+    				o.getString("email")
     	    );
     		
     		return o.getDouble("rating");

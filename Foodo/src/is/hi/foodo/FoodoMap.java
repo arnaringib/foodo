@@ -39,14 +39,14 @@ public class FoodoMap extends MapActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        
+               
         mapView = (MapView) findViewById(R.id.mapview);
         mapView.setBuiltInZoomControls(true);
         
         mDbHelper = new RestaurantDbAdapter(this);
         mDbHelper.open();
        
-        filter = new Filter();
+        initFilter();
         initMyLocation();
         setupOverlays();
     }
@@ -122,6 +122,48 @@ public class FoodoMap extends MapActivity {
  
 	}
  
+	private void initFilter(){
+		filter = new Filter();
+		
+		Filter.types = new CharSequence[numberOfTypes()];    
+		Filter.checkedTypes = new boolean[numberOfTypes()]; 
+		Filter.priceFrom = "0";
+		Filter.priceTo = "10000";
+		Filter.radius = 10000;
+		Filter.ratingFrom = "0.0";
+		Filter.ratingTo = "5.0";
+		
+		// Collect data for types.
+		collectTypes();
+	}
+	
+	// Post: updates Filter.types and checkedTypes
+	//		data gotten from server.
+	private void collectTypes(){
+		// Need to get this from server this is
+		// temp data.
+		// -Arnar
+		CharSequence[] tmpT = {"Fast", "Fine dining",
+				"Family", "Casual", "Sea", "Launch", "Mexican",
+				"Asian", "Vegetarian", "Buffet", "Sandwiches",
+				"Bistro", "Drive-in", "Take out", "Steakhouse",
+				"Sushi"};
+		boolean[] tmpB = {true, true,
+				true, true, true, true, true,
+				true, true, true, true,
+				true, true, true, true,
+				true};
+		for(int i = 0; i != numberOfTypes(); i++){
+			Filter.types[i] = tmpT[i];
+			Filter.checkedTypes[i] = tmpB[i];			
+		}
+	}
+	
+	// Post: returns the number of types of restaurants.
+	private int numberOfTypes(){
+		return 16;
+	}
+	
 	private void setupOverlays() {
 		Cursor c = mDbHelper.fetchAllRestaurants();
 		startManagingCursor(c);

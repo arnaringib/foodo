@@ -129,7 +129,7 @@ public class FoodoDetails extends Activity {
     		showRatingbar.setRating(mRating);
     		
     		mInfo.setText(restaurant.getString(restaurant.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_ADDRESS))
-		    				+ '\n'  
+		    				+ '\n'
 		    				+ restaurant.getString(restaurant.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_ZIP))
 		    				+ ' '
 		    				+ restaurant.getString(restaurant.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_CITY))
@@ -156,7 +156,7 @@ public class FoodoDetails extends Activity {
 	}
 	
 	public void setupButtons() {
-		this.btnDescr = (Button)this.findViewById(R.id.bDescription);
+	/*	this.btnDescr = (Button)this.findViewById(R.id.bDescription);
 		this.btnReviews = (Button)this.findViewById(R.id.bReviews);
 		this.btnCall = (Button)this.findViewById(R.id.bCall);
 		this.btnViewOnMap = (Button)this.findViewById(R.id.bViewOnMap);
@@ -164,7 +164,8 @@ public class FoodoDetails extends Activity {
 		btnDescr.setOnClickListener(new clicker());
 		btnReviews.setOnClickListener(new clicker());
 		btnCall.setOnClickListener(new clicker());
-		btnViewOnMap.setOnClickListener(new clicker());	
+		btnViewOnMap.setOnClickListener(new clicker());
+		*/	
 	}
 
 	/* when menu button option selected */

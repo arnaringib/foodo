@@ -170,7 +170,9 @@ public class RestaurantDbAdapter {
      */
     public Cursor fetchAllRestaurants() {
         return mDb.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_NAME,
-                KEY_LAT, KEY_LNG, KEY_RATING, KEY_RATING_COUNT}, null, null, null, null, null);
+                KEY_LAT, KEY_LNG, KEY_RATING, KEY_RATING_COUNT}, KEY_RATING + ">= " +
+                Filter.ratingFrom + " AND " + KEY_RATING + "<=" + Filter.ratingTo, 
+                null, null, null, null);
     }
     
     /**

@@ -8,4 +8,5 @@
     <string name="menu_listview">List View</string>
     <string name="menu_filter">Filter</string>
     <string name="menu_update">Update</string>
+    <string name="menu_login">Login</string>
 </resources>

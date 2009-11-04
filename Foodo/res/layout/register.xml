@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  	xmlns:android="http://schemas.android.com/apk/res/android"
+  	android:layout_width="fill_parent"
+  	android:layout_height="wrap_content"
+  	android:orientation="vertical"
+	android:padding="5dip" >
+ 
+      
+    <TextView android:id="@+id/firstname_text" 
+     android:text = "First name:"     
+     android:layout_width="wrap_content" 
+     android:layout_height="wrap_content" 
+     /> 
+    
+    <EditText android:id="@+id/txt_firstname" 
+              android:layout_height="wrap_content" 
+              android:layout_width="250px" 
+              android:singleLine="true"
+              /> 
+              
+     <TextView android:id="@+id/lastname_text" 
+	     android:text = "Last name:"     
+	     android:layout_width="wrap_content" 
+	     android:layout_height="wrap_content" 
+     /> 
+    
+    <EditText android:id="@+id/txt_lastname" 
+              android:layout_height="wrap_content" 
+              android:layout_width="250px" 
+              android:singleLine="true" /> 
+    
+    <TextView android:id="@+id/desireName_text" 
+	     android:text = "Desired Username:"     
+	     android:layout_width="wrap_content" 
+	     android:layout_height="wrap_content" 
+     /> 
+    
+    <EditText android:id="@+id/txt_desireName" 
+              android:layout_height="wrap_content" 
+              android:layout_width="250px" 
+              android:singleLine="true"
+              />
+              
+    <TextView android:id="@+id/newPassword_text" 
+	     android:text = "Choose a password:"     
+	     android:layout_width="wrap_content" 
+	     android:layout_height="wrap_content" /> 
+	     
+    <EditText android:id="@+id/txt_newPassword" 
+              android:password="true" 
+              android:layout_height="wrap_content" 
+              android:layout_width="250px" 
+              android:singleLine="true" />
+              
+    <TextView android:id="@+id/rePassword_text" 
+     android:text = "Re-enter password:"     
+     android:layout_width="wrap_content" 
+     android:layout_height="wrap_content" 
+
+     /> 
+    
+    <EditText android:id="@+id/txt_rePassword" 
+              android:password="true" 
+              android:layout_height="wrap_content" 
+              android:layout_width="250px" 
+              android:singleLine="true" />
+
+     
+	     <Button android:id="@+id/register_button" 
+	     		android:text="Register!"
+	     		android:layout_width="100px" 
+	     		android:layout_height="wrap_content" /> 
+   		
+</LinearLayout>

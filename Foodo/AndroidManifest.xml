@@ -14,6 +14,8 @@
          <activity android:name=".FoodoDetails"/>
          <activity android:name=".FoodoList"/>
          <activity android:name=".FoodoFilter"/>
+         <activity android:name=".FoodoLogin"/>
+         <activity android:name=".FoodoRegister"/>
         <uses-library android:name="com.google.android.maps" />
     </application>
     

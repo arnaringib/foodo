@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:orientation="vertical" 
+    android:layout_width="wrap_content" 
+    android:layout_height="wrap_content" 
+	android:padding="5dip" >
+ 
+      
+    <TextView android:id="@+id/username_text" 
+     android:text = "Username:"     
+     android:layout_width="wrap_content" 
+     android:layout_height="wrap_content" 
+     /> 
+    
+    <EditText android:id="@+id/txt_username" 
+              android:layout_height="wrap_content" 
+              android:layout_width="250px" 
+              android:singleLine="true"
+              /> 
+              
+              
+    <TextView android:id="@+id/password_text" 
+     android:text = "Password:"     
+     android:layout_width="wrap_content" 
+     android:layout_height="wrap_content" 
+
+     /> 
+    
+    <EditText android:id="@+id/txt_password" 
+            android:password="true" 
+              android:layout_height="wrap_content" 
+              android:layout_width="250px" 
+              android:singleLine="true"
+               />
+              
+	<Button android:id="@+id/login_button" 
+	     		android:text="Login!"
+	     		android:layout_width="100px" 
+	     		android:layout_height="wrap_content" 
+	     		/> 
+   		
+   		<TextView android:id="@+id/register_text" 
+			     android:text = "New user?"     
+			     android:layout_width="wrap_content" 
+			     android:layout_height="wrap_content"
+			     android:paddingTop="10dp" 
+
+			     /> 
+	     		
+ 		 <Button android:id="@+id/register_button" 
+	     		android:text="Register!"
+	     		android:layout_width="100px" 
+	     		android:layout_height="wrap_content" /> 
+	  	
+ 
+</LinearLayout>

@@ -33,7 +33,8 @@ public class FoodoMap extends MapActivity {
 	
 	RestaurantWebService mService;
 	
-	Filter filter;
+	Filter filter;	
+	
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,6 +52,7 @@ public class FoodoMap extends MapActivity {
         setupOverlays();
     }
 	
+
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
@@ -74,6 +76,7 @@ public class FoodoMap extends MapActivity {
 		 menu.add(0,0,0, R.string.menu_listview);
 		 menu.add(0,1,1, R.string.menu_filter);
 		 menu.add(0,2,2, R.string.menu_update);
+		 menu.add(0,3,3, R.string.menu_login);
 		 
 		 return true;
 	}
@@ -106,6 +109,10 @@ public class FoodoMap extends MapActivity {
 				Toast.makeText(context, "Update failed", Toast.LENGTH_SHORT).show();
 			}
 			return true;
+		case 3:
+			Intent login = new Intent(this, FoodoLogin.class);
+			startActivityForResult(login, 1);
+			return true;
 		}
 		return false;
 	}
@@ -121,6 +128,7 @@ public class FoodoMap extends MapActivity {
 		myLocOverlay.enableMyLocation();
  
 	}
+
  
 	private void initFilter(){
 		filter = new Filter();

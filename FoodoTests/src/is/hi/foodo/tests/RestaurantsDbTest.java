@@ -40,9 +40,10 @@ public class RestaurantsDbTest extends AndroidTestCase {
 		String city = "Reykjav’k";
 		String website = "www.website.is";
 		String email = "email@email.com";
+		String phone = "123123123";
 
 		//Create data
-		mDb.createRestaurant(id, name, lat, lng, rating, rating_count, address, zip, city, website, email);
+		mDb.createRestaurant(id, name, lat, lng, rating, rating_count, address, zip, city, website, email, phone);
 		
 		//Read data
 		Cursor r = mDb.fetchRestaurant(id);
@@ -57,19 +58,9 @@ public class RestaurantsDbTest extends AndroidTestCase {
 		assertEquals(r.getString(r.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_CITY)), city);
 		assertEquals(r.getString(r.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_WEBSITE)), website);
 		assertEquals(r.getString(r.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_EMAIL)), email);
+		
+		assertEquals(r.getString(r.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_PHONE)), phone);
 	}
 	
-	/*
-	public void testWebService() {
-		assertTrue("not able to load from webservice", mDb.loadFromWebService());
-		
-		Cursor r = mDb.fetchRestaurant(1);
-		assertEquals(r.getString(r.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_NAME)), "Burger Joint");
-		assertEquals(r.getInt(r.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_LAT)), 64139603);
-		assertEquals(r.getInt(r.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_LNG)), -21955812);
-		assertTrue(new Float(5.0).equals(r.getFloat(r.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_RATING))));
-		r.deactivate();
-	}
-	*/
 
 }

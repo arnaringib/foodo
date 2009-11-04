@@ -69,7 +69,8 @@ public class RestaurantWebService {
         				o.getInt("zip"),
         				o.getString("city"),
         				o.getString("website"),
-        				o.getString("email")
+        				o.getString("email"),
+        				o.getString("phone")
         		);
     			Log.d(TAG, o.getString("name"));
     		}
@@ -107,7 +108,8 @@ public class RestaurantWebService {
     				o.getInt("zip"),
     				o.getString("city"),
     				o.getString("website"),
-    				o.getString("email")
+    				o.getString("email"),
+    				o.getString("phone")
     	    );
     		
     		return o.getDouble("rating");

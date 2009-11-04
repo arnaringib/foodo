@@ -177,6 +177,7 @@ class Restaurant
 			"rating_count" => $this->getRatingCount(),
 			"lat" => $this->getLat(),
 			"lng" => $this->getLng(),
+			"phone" => $this->getPhone(),
 			"address" => $this->getAddress(),
 			"zip" => $this->getZip(),
 			"city" => $this->getCity(),

@@ -5,7 +5,9 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -30,6 +32,7 @@ public class FoodoDetails extends Activity {
 	
 	RestaurantDbAdapter mDbHelper;
 	RestaurantWebService mService;
+	Cursor restaurant;
 	
 	//View items
 	private Button btnDescr, btnReviews, btnCall, btnViewOnMap;
@@ -80,7 +83,7 @@ public class FoodoDetails extends Activity {
 		super.onDestroy();
 		mDbHelper.close();
 	}
-	// Frekar mikid tekid ur tutorial sjaum til med thetta
+
 	protected Dialog onCreateDialog(int id) {
 		switch(id) {
 			case RATING_DIALOG:
@@ -120,7 +123,7 @@ public class FoodoDetails extends Activity {
 	protected void populateView() {
     	if (mRowId != null)
     	{
-    		Cursor restaurant = mDbHelper.fetchRestaurant(mRowId);
+    		restaurant = mDbHelper.fetchRestaurant(mRowId);
     		startManagingCursor(restaurant);
     		
     		mRating = restaurant.getFloat(restaurant.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_RATING));
@@ -158,13 +161,13 @@ public class FoodoDetails extends Activity {
 	public void setupButtons() {
 	/*	this.btnDescr = (Button)this.findViewById(R.id.bDescription);
 		this.btnReviews = (Button)this.findViewById(R.id.bReviews);
-		this.btnCall = (Button)this.findViewById(R.id.bCall);
-		this.btnViewOnMap = (Button)this.findViewById(R.id.bViewOnMap);
+	*/	this.btnCall = (Button)this.findViewById(R.id.bCall);
+	/*	this.btnViewOnMap = (Button)this.findViewById(R.id.bViewOnMap);
 		
 		btnDescr.setOnClickListener(new clicker());
 		btnReviews.setOnClickListener(new clicker());
-		btnCall.setOnClickListener(new clicker());
-		btnViewOnMap.setOnClickListener(new clicker());
+	*/	btnCall.setOnClickListener(new clicker());
+	/*	btnViewOnMap.setOnClickListener(new clicker());
 		*/	
 	}
 
@@ -197,14 +200,18 @@ public class FoodoDetails extends Activity {
 				Toast.makeText(context, bTextReviews, Toast.LENGTH_SHORT).show();
 			}
 			else if(v==btnCall){
-				Toast.makeText(context, bTextCall, Toast.LENGTH_SHORT).show();
+				try {
+					   Intent callIntent = new Intent(Intent.ACTION_CALL) ; 
+					   callIntent.setData(Uri.parse("tel:+" + restaurant.getString(restaurant.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_PHONE))));
+					   startActivity(callIntent);
+					} catch (Exception e) {
+					   Log.e(TAG, "Calling caused an exception: ", e);
+					}
+			
 			}
 			else if(v==btnViewOnMap){
 				Toast.makeText(context, bTextViewOnMap, Toast.LENGTH_SHORT).show();
 			}
 		}
-    }
-
-
-	
+    }	
 }

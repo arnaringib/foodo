@@ -14,7 +14,7 @@ public class FoodoUsersManagerTest extends TestCase {
 	
 	public void testAuthenticate() {
 		
-		assertTrue(manager.authenticate("sij16@hi.is", "a94a8fe5ccb19ba61c4c0873d391e987982fbbd3"));
+		assertTrue(manager.authenticate("sij16@hi.is", "test"));
 		assertTrue(manager.isAuthenticated());
 		assertEquals("sij16@hi.is", manager.getEmail());
 		assertEquals("581bbd1735743510e82b098e776bd8abbc7e31ad", manager.getApiKey());
@@ -33,7 +33,7 @@ public class FoodoUsersManagerTest extends TestCase {
 		String email = "test3@hi.is";
 		
 		assertTrue(manager.signup(email, "testari"));
-		assertTrue(manager.authenticate(email, "00a79b7016e0fb4e0228b31409e10be141a3887f"));
+		assertTrue(manager.authenticate(email, "testari"));
 		assertEquals(email, manager.getEmail());
 	}
 	

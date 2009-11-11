@@ -135,8 +135,9 @@ public class FoodoMap extends MapActivity {
 		
 		Filter.types = new CharSequence[numberOfTypes()];    
 		Filter.checkedTypes = new boolean[numberOfTypes()]; 
-		Filter.priceFrom = "0";
-		Filter.priceTo = "10000";
+		Filter.lowprice = true;
+		Filter.mediumprice = true;
+		Filter.highprice = true;
 		Filter.radius = 10000;
 		Filter.ratingFrom = "0.0";
 		Filter.ratingTo = "5.0";

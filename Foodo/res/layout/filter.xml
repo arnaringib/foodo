@@ -110,44 +110,20 @@
 	   		 xmlns:android="http://schemas.android.com/apk/res/android"
 	         android:layout_width="fill_parent"
 	   	     android:layout_height="wrap_content"
-	   	     android:layout_marginTop="0px"
-	   		 android:orientation="horizontal">
-	   		 <TextView 
-			 	 android:text="From" 
-			 	 android:layout_width="wrap_content" 
-			 	 android:layout_height="wrap_content"
-			 	 android:textSize="14px"
-			 	 />
-			 	<EditText
-			 	 android:id="@+id/fPriceFrom"
-	 			 android:layout_width="100px"
-	 			 android:layout_height="wrap_content"
-	 			 android:numeric="decimal"
-	 			/>
-	 			<TextView 
-			 	 android:text="To" 
-			 	 android:layout_width="wrap_content" 
-			 	 android:layout_height="wrap_content"
-			 	 android:textSize="14px"
-			 	 />
-			 	<EditText
-			 	 android:id="@+id/fPriceTo"
-	 			 android:layout_width="100px"
-	 			 android:layout_height="wrap_content"
-	 			 android:numeric="decimal"
-	 			/>
-	   		<!-- <CheckBox android:id="@+id/lowPrice"
-			    android:layout_width="wrap_content"
-    			android:layout_height="wrap_content"
-    			android:text="Low" />
-			<CheckBox android:id="@+id/mediumPrice"
-			    android:layout_width="wrap_content"
-    			android:layout_height="wrap_content"
-    			android:text="Medium" />
-    		<CheckBox android:id="@+id/highPrice"
-			    android:layout_width="wrap_content"
-    			android:layout_height="wrap_content"
-    			android:text="High" /> -->
+	   		 android:orientation="horizontal"
+	   		 android:layout_marginLeft="35px" >
+	   		 <ImageButton
+    			android:id="@+id/bLowprice"
+    			android:layout_width="wrap_content"
+    			android:layout_height="wrap_content" />	
+	   		  <ImageButton
+    			android:id="@+id/bMediumprice"
+    			android:layout_width="wrap_content"
+    			android:layout_height="wrap_content" />
+    		  <ImageButton
+    			android:id="@+id/bHighprice"
+    			android:layout_width="wrap_content"
+    			android:layout_height="wrap_content" />
 			</LinearLayout>
 	  </LinearLayout>
 	  <View

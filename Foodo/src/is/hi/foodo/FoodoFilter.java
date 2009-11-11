@@ -9,6 +9,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.SeekBar;
 
 public class FoodoFilter extends Activity {
@@ -30,11 +31,25 @@ public class FoodoFilter extends Activity {
 		final SeekBar bSeekBarFilter = (SeekBar) findViewById(R.id.fRadiusBar);
 		bSeekBarFilter.setProgress( (int)( ( (double) Filter.radius / 20000.0) * 100.0));
 		
-		final EditText ePriceFrom = (EditText) findViewById(R.id.fPriceFrom);
-		ePriceFrom.setText(Filter.priceFrom);
+		// Pricing
+		final ImageButton bLowprice = (ImageButton) findViewById(R.id.bLowprice);
+		if(Filter.lowprice)
+			bLowprice.setImageResource(R.drawable.lowprice);
+		else
+			bLowprice.setImageResource(R.drawable.lowpriceb);
 		
-		final EditText ePriceTo = (EditText) findViewById(R.id.fPriceTo);
-		ePriceTo.setText(Filter.priceTo);
+		final ImageButton bMediumprice = (ImageButton) findViewById(R.id.bMediumprice);
+		if(Filter.mediumprice)
+			bMediumprice.setImageResource(R.drawable.mediumprice);
+		else
+			bMediumprice.setImageResource(R.drawable.mediumpriceb);
+		
+		final ImageButton bHighprice = (ImageButton) findViewById(R.id.bHighprice);
+		if(Filter.highprice)
+			bHighprice.setImageResource(R.drawable.highprice);
+		else
+			bHighprice.setImageResource(R.drawable.highpriceb);
+		
 		
 		final EditText eRatingFrom = (EditText) findViewById(R.id.fRatingFrom);
 		eRatingFrom.setText(Filter.ratingFrom);
@@ -190,20 +205,66 @@ public class FoodoFilter extends Activity {
 			}};
 			
 		eRatingTo.addTextChangedListener(lRatingTo);
+		
+		// ------------- Pricing -----------------
+		final ImageButton bLowprice = (ImageButton) findViewById(R.id.bLowprice);
+		View.OnClickListener lLowprice = new View.OnClickListener(){
+			public void onClick(View v){
+				if(Filter.lowprice){
+					Filter.lowprice = false;
+					bLowprice.setImageResource(R.drawable.lowpriceb);
+				}
+				else{
+					Filter.lowprice = true;
+					bLowprice.setImageResource(R.drawable.lowprice);
+				}
+			}
+		} ;
+		
+		bLowprice.setOnClickListener(lLowprice);
+
+		final ImageButton bMediumprice = (ImageButton) findViewById(R.id.bMediumprice);
+		View.OnClickListener lMediumprice = new View.OnClickListener(){
+			public void onClick(View v){
+				if(Filter.mediumprice){
+					Filter.mediumprice = false;
+					bMediumprice.setImageResource(R.drawable.mediumpriceb);
+				}
+				else{
+					Filter.mediumprice = true;
+					bMediumprice.setImageResource(R.drawable.mediumprice);
+				}
+			}
+		} ;
+		
+		bMediumprice.setOnClickListener(lMediumprice);
+		
+		final ImageButton bHighprice = (ImageButton) findViewById(R.id.bHighprice);
+		View.OnClickListener lHighprice = new View.OnClickListener(){
+			public void onClick(View v){
+				if(Filter.highprice){
+					Filter.highprice = false;
+					bHighprice.setImageResource(R.drawable.highpriceb);
+				}
+				else{
+					Filter.highprice = true;
+					bHighprice.setImageResource(R.drawable.highprice);
+				}
+			}
+		} ;
+		
+		bHighprice.setOnClickListener(lHighprice);
+		
 	}
 	
 	public void getFilterInfo(View v){
 		EditText ratingFrom = (EditText) findViewById(R.id.fRatingFrom);
 		EditText ratingTo = (EditText) findViewById(R.id.fRatingTo);
 		EditText radiusText = (EditText) findViewById(R.id.fRadiusEdit);
-		EditText priceFrom = (EditText) findViewById(R.id.fPriceFrom);
-		EditText priceTo = (EditText) findViewById(R.id.fPriceTo);
-		
+				
 		Filter.ratingFrom = ratingFrom.getText();
 		Filter.ratingTo = ratingTo.getText();
 		Filter.radius = Integer.parseInt(radiusText.getEditableText().toString());
-		Filter.priceFrom = priceFrom.getText();
-		Filter.priceTo = priceTo.getText();
 	}
 }
 

@@ -1,4 +1,4 @@
-package is.hi.foodo;
+ 	package is.hi.foodo;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -15,7 +15,7 @@ import android.util.Log;
 public class RestaurantWebService {
 	
 	private static final String TAG = "RestaurantWebService";
-    private static final String WEBSERVICE_URL = "http://foodo.nord.is/api/";
+    private static final String WEBSERVICE_URL = "http://foodo.nord.is/api";
 	
 	RestaurantDbAdapter mDb;
     
@@ -49,7 +49,7 @@ public class RestaurantWebService {
     
     public boolean updateAll() {
     	try {
-    		JSONObject json = loadData(WEBSERVICE_URL + "/restaurants");
+    		JSONObject json = loadData(WEBSERVICE_URL + "/api/restaurants");
     		JSONArray list = json.getJSONObject("responseData").getJSONArray("Restaurants");
     		
     		//Empty database
@@ -93,7 +93,7 @@ public class RestaurantWebService {
     public double addRating(long restaurant_id, double new_rating) {
     	//TODO talk to webservice
     	try {
-    		JSONObject json = loadData(WEBSERVICE_URL + "/api/restaurant/id/" + restaurant_id + "/rate/" + new_rating);
+    		JSONObject json = loadData(WEBSERVICE_URL + "/restaurant/id/" + restaurant_id + "/rate/" + new_rating);
     		JSONObject o = json.getJSONObject("responseData").getJSONObject("Restaurants");
     		
     		//JSONObject o = list.getJSONObject(0);

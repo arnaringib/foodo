@@ -50,7 +50,7 @@ class RestaurantController
 		else {
 			$result = array(
 				"responseData" => "",
-				"responseDetails" => "OK",
+				"responseDetails" => "Restaurant not found",
 				"responseCode" => 404
 			);
 		}

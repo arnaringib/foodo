@@ -5,7 +5,7 @@ class RestaurantDb {
 	private $pdo;
 	
 	public function __construct() {	
-		$this->pdo = new FoodoPDO();
+		$this->pdo = FoodoPDO::getInstance();
 	}
 	
 	public function createTables() {		

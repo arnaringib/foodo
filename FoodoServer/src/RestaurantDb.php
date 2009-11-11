@@ -11,6 +11,7 @@ class RestaurantDb {
 	public function createTables() {		
 		$this->createRestaurantTable();
 		$this->createRatingTable();
+		$this->createTypesTable();
 	}
 	
 	private function createRatingTable() {
@@ -51,6 +52,68 @@ class RestaurantDb {
 		$this->pdo->exec($sql);
 	}
 	
+	private function createTypesTable(){
+		$drop_sql = "DROP TABLE IF EXISTS `types`";
+		
+		$sql = "CREATE TABLE IF NOT EXISTS `types` (
+				`id` int(11) NOT NULL auto_increment,
+				`type` varchar(32) NOT NULL,
+				PRIMARY KEY (`id`)
+				) ENGINE=MyISAM DEFAULT CHARSET=utf8;";
+		
+		$this->pdo->exec($drop_sql);
+		$this->pdo->exec($sql);
+	}
+	
+	private function createRestaurantsTypesTable(){
+		$drop_sql = "DROP TABLE IF EXISTS `restaurantstypes`";
+		
+		$sql = "CREATE TABLE IF NOT EXISTS `restaurantstypes` (
+				`rid` int(11) NOT NULL,
+				`tid` int(11) NOT NULL,
+				PRIMARY KEY (`rid`,`tid`)
+				) ENGINE=MyISAM DEFAULT CHARSET=utf8;";
+	}
+	
+	public function insertTypesData() {
+		$insert_sql = "INSERT INTO `types` (`id`,`type`)
+				VALUES
+				(NULL, 'Bakery'),
+				(NULL, 'Barbecue'),
+				(NULL, 'Bistro'),
+				(NULL, 'Buffet'),
+				(NULL, 'Café'),
+				(NULL, 'Casual'),
+				(NULL, 'Chicken'),
+				(NULL, 'Chinese'),
+				(NULL, 'Coffeehouse'),
+				(NULL, 'Diner'),
+				(NULL, 'Drive-in'),
+				(NULL, 'Fast food'),
+				(NULL, 'Fish'),
+				(NULL, 'Grilled'),
+				(NULL, 'Hamburger'),
+				(NULL, 'Health food'),
+				(NULL, 'Hot Dog'),
+				(NULL, 'Ice cream'),
+				(NULL, 'Indian'),
+				(NULL, 'Italian'),
+				(NULL, 'Japanese'),
+				(NULL, 'Juice Bar'),
+				(NULL, 'Mexican'),
+				(NULL, 'Pizza'),
+				(NULL, 'Pub'),
+				(NULL, 'Sandwich'),
+				(NULL, 'Seafood'),
+				(NULL, 'Steak'),
+				(NULL, 'Steakhouse'),
+				(NULL, 'Take-out'),
+				(NULL, 'Taverns'),
+				(NULL, 'Vegetarian')
+				;";
+		$this->pdo->exec($insert_sql);			
+	}
+	
 	public function insertInitialData() {
 		$insert_sql = "INSERT INTO `restaurants` (`id`,`name`,`description`,`phone`,`lat`,`lng`,`created_at`)
 			VALUES
@@ -66,11 +129,11 @@ class RestaurantDb {
 			(2, 4),
 			(3, 3);";
 		$this->pdo->exec($insert_sql);
+		
 	}
 	
 	public function selectAll() {
 		$items = array();
-		
 		
 		$sql = "SELECT 
 				R.*, 

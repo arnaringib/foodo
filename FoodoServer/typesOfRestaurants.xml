@@ -5,43 +5,31 @@
 <type>Bistro</type>
 <type>Buffet</type>
 <type>Café</type>
-<type>Cafe</type>
-<type>Cafeteria-style</type>
 <type>Casual</type>
 <type>Chicken</type>
 <type>Chinese</type>
 <type>Coffeehouse</type>
 <type>Diner</type>
 <type>Drive-in</type>
-<type>Drive-through</type>
 <type>Fast food</type>
 <type>Fish</type>
-<type>French</type>
-<type>Gastaurant</type>
-<type>Greek</type>
 <type>Grilled</type>
 <type>Hamburger</type>
 <type>Health food</type>
-<type>Hungarian</type>
 <type>Hot Dog</type>
 <type>Ice cream</type>
 <type>Indian</type>
 <type>Italian</type>
 <type>Japanese</type>
 <type>Juice Bar</type>
-<type>Kosher</type>
-<type>Launch</type>
 <type>Mexican</type>
 <type>Pizza</type>
 <type>Pub</type>
-<type>Russian</type>
 <type>Sandwich</type>
-<type>Scandinavian</type>
 <type>Seafood</type>
 <type>Steak</type>
 <type>Steakhouse</type>
 <type>Take-out</type>
 <type>Taverns</type>
-<type>Truck stop</type>
 <type>Vegetarian</type>
 </types>

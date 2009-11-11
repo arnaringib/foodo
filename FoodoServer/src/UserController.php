@@ -16,7 +16,7 @@ class UserController
 	
 	public function login($email, $password) 
 	{
-		$u = $this->db->getFromEmailPassword($email, $password); 
+		$u = $this->db->getFromEmailPassword($email, SHA1($password)); 
 		if ($u) {
 			$result = array(
 				"responseData" => array("User" => $u->toArray()),

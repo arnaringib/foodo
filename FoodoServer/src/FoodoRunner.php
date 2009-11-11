@@ -39,6 +39,10 @@ class FoodoRunner {
 			$controller = new RestaurantController();
 			$controller->showFromId($matches[1]);
 		}
+		elseif (preg_match("/api\/restaurant/", self::$uri, $matches)) {
+			$controller = new RestaurantController();
+			$controller->showAll();
+		}
 		elseif (preg_match("/api\/user\/login\/(.*)\/(.*)/", self::$uri, $matches)) {
 			$controller = new UserController();
 			$controller->login($matches[1], $matches[2]);

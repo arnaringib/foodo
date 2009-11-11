@@ -173,6 +173,26 @@ public class FoodoMap extends MapActivity {
 		return 16;
 	}
 	
+	public double calcDistance(double lat1, double lon1, double lat2, double lon2) {
+		final double RADIAN = 57.29577951;
+    	double latA = lat1 / RADIAN;
+    	double lonB = lon1 / RADIAN;
+    	double latC = lat2 / RADIAN;
+    	double lonD = lon2 / RADIAN;
+    	double q = Math.sin(latA) * Math.sin(latC) + Math.cos(latA) * Math.cos(latC) * Math.cos(lonB-lonD);
+    	double dist;
+    	double kmDist;
+    	
+    	if(q > 1)
+    		dist = 3963.1 * Math.acos(1);
+    	else
+    		dist = 3963.1 * Math.acos(q);
+    	
+    	kmDist = dist /  0.621371192237;
+    	
+    	return kmDist;
+	}
+	
 	private void setupOverlays() {
 		Cursor c = mDbHelper.fetchAllRestaurants();
 		startManagingCursor(c);
@@ -197,8 +217,17 @@ public class FoodoMap extends MapActivity {
 							"",
 							c.getLong(c.getColumnIndex(RestaurantDbAdapter.KEY_ROWID))
 					);
-				foodoRestaurantsOverlays.addOverlay(item);
-				Log.d(TAG, item.getTitle());
+				if(myLocOverlay.getMyLocation() != null) {
+					if(calcDistance(myLocOverlay.getMyLocation().getLatitudeE6()/1000000.0, myLocOverlay.getMyLocation().getLongitudeE6()/1000000.0, item.getPoint().getLatitudeE6()/1000000.0, item.getPoint().getLongitudeE6()/1000000.0) * 1000 < (double) Filter.radius)
+					{
+						Log.d(TAG, item.getTitle() + " : " + calcDistance(myLocOverlay.getMyLocation().getLatitudeE6()/1000000.0, myLocOverlay.getMyLocation().getLongitudeE6()/1000000.0, item.getPoint().getLatitudeE6()/1000000.0, item.getPoint().getLongitudeE6()/1000000.0) * 1000);
+						foodoRestaurantsOverlays.addOverlay(item);
+				
+					}
+				}
+				else
+					foodoRestaurantsOverlays.addOverlay(item);
+				//Log.d(TAG, item.getTitle());
 				
 			} while (c.moveToNext());
 			

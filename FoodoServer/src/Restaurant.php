@@ -20,6 +20,9 @@ class Restaurant
 	private $website;
 	private $email;
 	
+	private $pricegroup;
+	private $types = array();
+	
 	public function setId($id)
 	{
 		$this->id = $id;
@@ -162,13 +165,30 @@ class Restaurant
 		return $this->email;
 	}
 	
-	/*
-	private $address;
-	private $zip;
-	private $city;
-	private $website;
-	private $email;
-	*/
+	public function setPricegroup($group) {
+		$this->pricegroup = $group;
+	}
+	
+	public function getPricegroup() {
+		return $this->pricegroup;
+	}
+	
+	/**
+	 * 
+	 * @param $types String
+	 * @return void
+	 */
+	public function setTypes($types) {
+		$this->types = explode(",",$types);
+	}
+	
+	/**
+	 * @return array
+	 */
+	public function getTypes() {
+		return $this->types;
+	}
+	
 	public function toArray() {
 		return array(
 			"id" => $this->getId() * 1,
@@ -182,7 +202,9 @@ class Restaurant
 			"zip" => $this->getZip(),
 			"city" => $this->getCity(),
 			"website" => $this->getWebsite(),
-			"email" => $this->getEmail()
+			"email" => $this->getEmail(),
+			"pricegroup" => $this->getPricegroup(),
+			"types" => $this->getTypes()
 		);
 	}
 

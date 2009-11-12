@@ -1,7 +1,11 @@
 <?php
 
 class RestaurantDb {
-	
+
+	/**
+	 * 
+	 * @var FoodoPDO
+	 */
 	private $pdo;
 	
 	public function __construct() {	
@@ -12,6 +16,10 @@ class RestaurantDb {
 		$this->createRestaurantTable();
 		$this->createRatingTable();
 		$this->createTypesTable();
+		$this->createRestaurantsTypesTable();
+		
+		$this->insertTypesData();
+		$this->insertRestaurantsTypesData();
 	}
 	
 	private function createRatingTable() {
@@ -45,6 +53,7 @@ class RestaurantDb {
 			  `lat` int(11) default NULL,
 			  `lng` int(11) default NULL,
 			  `created_at` datetime default NULL,
+			  `pricegroup` int(1) default NULL,
 			  PRIMARY KEY  (`id`)
 			) ENGINE=MyISAM  DEFAULT CHARSET=utf8;";
 		
@@ -73,6 +82,24 @@ class RestaurantDb {
 				`tid` int(11) NOT NULL,
 				PRIMARY KEY (`rid`,`tid`)
 				) ENGINE=MyISAM DEFAULT CHARSET=utf8;";
+		
+		$this->pdo->exec($drop_sql);
+		$this->pdo->exec($sql);
+	}
+	
+	private function insertRestaurantsTypesData() {
+		$insert_sql = "INSERT INTO `restaurantstypes` (`rid`, `tid`)
+					VALUES
+					(1, 15),
+					(1, 12),
+					(2, 12),
+					(2, 25),
+					(2, 20),
+					(3, 19),
+					(3, 30),
+					(3, 11);";
+		
+		$this->pdo->exec($insert_sql);
 	}
 	
 	public function insertTypesData() {
@@ -109,17 +136,18 @@ class RestaurantDb {
 				(NULL, 'Steakhouse'),
 				(NULL, 'Take-out'),
 				(NULL, 'Taverns'),
+				(NULL, 'Thai'),
 				(NULL, 'Vegetarian')
 				;";
 		$this->pdo->exec($insert_sql);			
 	}
 	
 	public function insertInitialData() {
-		$insert_sql = "INSERT INTO `restaurants` (`id`,`name`,`description`,`phone`,`lat`,`lng`,`created_at`)
+		$insert_sql = "INSERT INTO `restaurants` (`id`,`name`,`description`,`phone`,`lat`,`lng`,`created_at`, `pricegroup`)
 			VALUES
-			(1,'Burger Joint','Awesome burgers','8483756',64139078,-21936757,'2009-10-08 10:16:00'),
-			(2,'Pizza Joint','The best Pizza Joint',NULL,64135603,-21954812,'2009-10-08 10:16:20'),
-			(3,'Asian Joint','blabla',NULL,64136603,-21953812,'2009-10-08 10:16:20');";		
+			(1,'Burger Joint','Awesome burgers','8483756',64139078,-21936757,'2009-10-08 10:16:00', 3),
+			(2,'Pizza Joint','The best Pizza Joint',NULL,64135603,-21954812,'2009-10-08 10:16:20', 2),
+			(3,'Asian Joint','blabla',NULL,64136603,-21953812,'2009-10-08 10:16:20', 1);";		
 		$this->pdo->exec($insert_sql);
 
 		
@@ -138,7 +166,13 @@ class RestaurantDb {
 		$sql = "SELECT 
 				R.*, 
 				FORMAT(AVG(ratings.rating),1) as rating, 
-				COUNT(ratings.id) as rating_count
+				COUNT(ratings.id) as rating_count,
+				(
+					SELECT GROUP_CONCAT(tid) as types FROM restaurantstypes X, types T
+					WHERE X.rid = R.id
+					AND X.tid = T.id
+					GROUP BY X.rid
+				) as types
 				FROM 
 				restaurants R
 				LEFT JOIN ratings 
@@ -199,6 +233,9 @@ class RestaurantDb {
 		$r->setCity($row['city']);
 		$r->setWebsite($row['website']);
 		$r->setEmail($row['email']);
+		
+		$r->setPricegroup($row['pricegroup']);
+		$r->setTypes($row['types']);
 		
 		//$r->setModified($row['modified_at']);
 

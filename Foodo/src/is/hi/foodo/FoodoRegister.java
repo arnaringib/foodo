@@ -3,18 +3,25 @@ package is.hi.foodo;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
-public class FoodoRegister extends Activity {
+public class FoodoRegister extends Activity implements Runnable {
+	
 	private Button btnReg;
 	static final int PASSWORD_DIALOG = 0, REGISTER_DIALOG = 1;
-	CharSequence firstName, lastName, email, password, rePassword;
-	FoodoUserManager uManager;
+	private CharSequence firstName, lastName, email, password, rePassword;
+	private FoodoUserManager uManager;
+	
+	private ProgressDialog pd;
 	 
 	@Override 
     public void onCreate(Bundle savedInstanceState) { 
@@ -27,7 +34,7 @@ public class FoodoRegister extends Activity {
         btnReg = (Button)this.findViewById(R.id.register_button);
         btnReg.setOnClickListener(new clicker());
         
-       uManager = new FoodoUserManager();
+        uManager = new FoodoUserManager();
 	}
 	
 	/*public void setup(){
@@ -86,7 +93,6 @@ public class FoodoRegister extends Activity {
 	// button click listener
 	class clicker implements Button.OnClickListener
     {     
-
 		public void onClick(View v)
 		{
 			if (v==btnReg){
@@ -94,15 +100,33 @@ public class FoodoRegister extends Activity {
 						 TextUtils.isEmpty(password)){
 					showDialog(REGISTER_DIALOG);
 				}
-				 if (!TextUtils.equals(password, rePassword)) {
+				else if (!TextUtils.equals(password, rePassword)) {
 					showDialog(PASSWORD_DIALOG);
 				}
 				else{
-					
-					uManager.signup(firstName.toString(), lastName.toString(),email.toString(), password.toString());
+					pd = ProgressDialog.show(FoodoRegister.this, "Working..", "Registering");
+					Thread thread = new Thread(FoodoRegister.this);
+					thread.start();
 				}
 			
 			}
 		}
     }
+
+	@Override
+	public void run() {
+		uManager.signup(firstName.toString(), lastName.toString(),email.toString(), password.toString());
+		handler.sendEmptyMessage(0);
+	}
+	
+	private Handler handler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			pd.dismiss();
+			if (uManager.isAuthenticated())
+				Toast.makeText(FoodoRegister.this, "User registered!", Toast.LENGTH_LONG).show();
+			else
+				Toast.makeText(FoodoRegister.this, "Registration failed: " + uManager.getError(), Toast.LENGTH_LONG).show();
+		}
+	};
 }

@@ -67,7 +67,7 @@ public class FoodoUserManager implements UserManager {
 			}
 			else {
 				Log.d(TAG, "ResponseCode: " + json.getInt("responseCode"));
-				errorCode = E_LOGIN;
+				errorCode = E_USER_EXISTS;
 				this.isAuthenticated = false;
 			}
 		}

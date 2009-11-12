@@ -47,9 +47,9 @@ class FoodoRunner {
 			$controller = new UserController();
 			$controller->login($matches[1], $matches[2]);
 		}
-		elseif (preg_match("/api\/user\/signup\/(.*)\/(.*)/", self::$uri, $matches)) {
+		elseif (preg_match("/api\/user\/signup\/(.*)\/(.*)\/(.*)\/(.*)/", self::$uri, $matches)) {
 			$controller = new UserController();
-			$controller->signup($matches[1], $matches[2]);
+			$controller->signup($matches[1], $matches[2], $matches[3], $matches[4]);
 		}
 		else {
 			echo json_encode(array(

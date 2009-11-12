@@ -36,7 +36,6 @@ class UserController
 	}
 	
 	public function signup($firstName, $lastName, $email, $password) {
-		$this->db->createUserTable();
 		if ($this->db->userExists($email))
 		{
 			$result = array(

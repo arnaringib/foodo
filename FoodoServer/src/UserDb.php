@@ -43,7 +43,7 @@ class UserDb {
 	public function selectAll() {
 		$items = array();
 		
-		$sql = "SELECT * FROM Users";  
+		$sql = "SELECT * FROM sers";  
 		
 		foreach ($this->pdo->query($sql, PDO::FETCH_ASSOC) as $row) {
 			$items[] = $this->createUser($row);
@@ -53,7 +53,7 @@ class UserDb {
 	
 	public function addUser($firstName, $lastName, $email, $password) {
 		$apikey = SHA1($email . $password . RAND() . time());
-		$stmt = $this->pdo->prepare("INSERT INTO `users` ('firstName', 'lastName', `email`,`password`, `apikey`) VALUES (?, SHA1(?), ?)");
+		$stmt = $this->pdo->prepare("INSERT INTO `users` (`firstName`, `lastName`, `email`,`password`, `apikey`) VALUES (?, ?, ?, SHA1(?), ?)");
 		
 		if ($stmt->execute(array($firstName, $lastName, $email, $password, $apikey))) {
 			return $this->pdo->lastInsertId();

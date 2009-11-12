@@ -46,7 +46,7 @@ public class RestaurantDbAdapter {
     private final Context mCtx;
     
     
-    private static class DatabaseHelper extends SQLiteOpenHelper {
+    public static class DatabaseHelper extends SQLiteOpenHelper {
 
         DatabaseHelper(Context context) {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);

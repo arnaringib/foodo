@@ -7,8 +7,10 @@ public interface UserManager {
 	
 	public boolean isAuthenticated();
 	public boolean authenticate(String email, String password);
-	public boolean signup(String email, String password);
+	public boolean signup(String firstName, String lastName, String email, String password);
 	
+	public String getFirstName();
+	public String getLastName();
 	public String getEmail();
 	public String getApiKey();
 	

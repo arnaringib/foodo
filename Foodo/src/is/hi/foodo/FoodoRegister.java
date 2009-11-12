@@ -3,16 +3,21 @@ package is.hi.foodo;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class FoodoRegister extends Activity {
 	private Button btnReg;
-	static final int REGISTER_DIALOG = 0;
+	static final int PASSWORD_DIALOG = 0, REGISTER_DIALOG = 1;
 	CharSequence firstName, lastName, email, password, rePassword;
+	FoodoUserManager uManager;
+	 
 	@Override 
     public void onCreate(Bundle savedInstanceState) { 
 		super.onCreate(savedInstanceState); 
@@ -23,6 +28,8 @@ public class FoodoRegister extends Activity {
         
         btnReg = (Button)this.findViewById(R.id.register_button);
         btnReg.setOnClickListener(new clicker());
+        
+       uManager = new FoodoUserManager();
 	}
 	
 	/*public void setup(){
@@ -53,16 +60,27 @@ public class FoodoRegister extends Activity {
 	}
 	protected Dialog onCreateDialog(int id) {
 		switch (id) {
-			case REGISTER_DIALOG:
+			case PASSWORD_DIALOG:
 				return new AlertDialog.Builder(FoodoRegister.this)
 					.setMessage("Passwords don't match")
 				    .setCancelable(false)
 				    .setNeutralButton("Return", new DialogInterface.OnClickListener() {
 				           public void onClick(DialogInterface dialog, int id) {
-				        	   FoodoRegister.this.finish();
+				        	   dialog.dismiss();
 				           }
 				       })
-					.create();
+				       .create();
+				case REGISTER_DIALOG:
+				return new AlertDialog.Builder(FoodoRegister.this)
+					.setMessage("Please fill out all fields")
+				    .setCancelable(false)
+				    .setNeutralButton("Return", new DialogInterface.OnClickListener() {
+				           public void onClick(DialogInterface dialog, int id) {
+				        	   dialog.dismiss();
+				           }
+				       })
+				       .create();
+				
 		}
 		return null;
 	}
@@ -74,11 +92,16 @@ public class FoodoRegister extends Activity {
 		public void onClick(View v)
 		{
 			if (v==btnReg){
-				if (password != rePassword) {
+				if(TextUtils.isEmpty(firstName)|| TextUtils.isEmpty(lastName)|| TextUtils.isEmpty(email) || 
+						 TextUtils.isEmpty(password)){
 					showDialog(REGISTER_DIALOG);
 				}
+				 if (!TextUtils.equals(password, rePassword)) {
+					showDialog(PASSWORD_DIALOG);
+				}
 				else{
-					//bæta notenda við gagnagrunn
+					
+					uManager.signup(firstName.toString(), lastName.toString(),email.toString(), password.toString());
 				}
 			
 			}

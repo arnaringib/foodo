@@ -16,7 +16,7 @@ public class FoodoUserManager implements UserManager {
     private static final String WEBSERVICE_URL = "http://foodo.nord.is/api/user";
     
     private boolean isAuthenticated = false;
-	private String email;
+	private String firstName, lastName, email;
 	private String apikey;
 	
 	private int errorCode;
@@ -51,14 +51,16 @@ public class FoodoUserManager implements UserManager {
 	}
 	
 	@Override
-	public boolean signup(String email, String password) {
+	public boolean signup(String firstName, String lastName, String email, String password) {
 		this.isAuthenticated = false;
 		try {
-			JSONObject json = loadData(WEBSERVICE_URL + "/signup/"+email+"/"+password);
+			JSONObject json = loadData(WEBSERVICE_URL + "/signup/"+firstName+"/"+lastName+"/"+email+"/"+password);
 			
 			if (json.getInt("responseCode") == 200) {
 				JSONObject user = json.getJSONObject("responseData").getJSONObject("User");
 				
+				this.firstName = user.getString("firstName");
+				this.lastName = user.getString("lastName");
 				this.email = user.getString("email");
 				this.apikey = user.getString("apikey");
 				this.isAuthenticated = true;
@@ -81,6 +83,16 @@ public class FoodoUserManager implements UserManager {
 	@Override
 	public String getApiKey() {
 		return this.apikey;
+	}
+	
+	@Override
+	public String getFirstName() {
+		return this.firstName;
+	}
+
+	@Override
+	public String getLastName() {
+		return this.lastName;
 	}
 
 	@Override

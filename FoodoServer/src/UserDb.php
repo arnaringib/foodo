@@ -20,8 +20,8 @@ class UserDb {
 		
 		$sql = "CREATE TABLE `users` (
 				`id` INT(11) NOT NULL AUTO_INCREMENT ,
-				'firstName' VARCHAR(40) NOT NULL,
-				'lastName' VARCHAR(40) NOT NULL,
+				`firstName` VARCHAR(40) NOT NULL,
+				`lastName` VARCHAR(40) NOT NULL,
 				`email` VARCHAR(255) NOT NULL ,
 				`password` VARCHAR(128) NOT NULL ,
 				`apikey` CHAR(40) NOT NULL ,
@@ -85,7 +85,7 @@ class UserDb {
 	 * @return User
 	 */
 	public function getFromEmailPassword($email, $password) {
-		$stmt = $this->pdo->prepare("SELECT id, email, apikey FROM users WHERE email=? AND password=?");
+		$stmt = $this->pdo->prepare("SELECT id, firstName, lastName, email, apikey FROM users WHERE email=? AND password=?");
 		$stmt->execute(array($email, $password));
 		$r = $stmt->fetch(PDO::FETCH_ASSOC);
 		
@@ -99,7 +99,7 @@ class UserDb {
 	
 	public function selectFromId($id) {
 		
-		$stmt = $this->pdo->prepare("SELECT id, email, apikey FROM users WHERE id=?");
+		$stmt = $this->pdo->prepare("SELECT id, firstName, lastName, email, apikey FROM users WHERE id=?");
 		$stmt->execute(array($id));
 		$r = $stmt->fetch(PDO::FETCH_ASSOC);
 		

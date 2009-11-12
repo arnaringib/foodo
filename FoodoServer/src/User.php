@@ -51,7 +51,7 @@ class User {
 		return array(
 			"id" => $this->getId(),
 			"firstName" => $this->getFirstName(),
-			"lastName" => $this.->getLastName(),
+			"lastName" => $this->getLastName(),
 			"email" => $this->getEmail(),
 			"apikey" => $this->getApiKey()
 		);

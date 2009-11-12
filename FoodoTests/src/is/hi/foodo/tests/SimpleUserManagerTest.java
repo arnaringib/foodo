@@ -1,5 +1,6 @@
 package is.hi.foodo.tests;
-
+/* SimpleUserManager was killed
+ 
 import is.hi.foodo.SimpleUserManager;
 import is.hi.foodo.UserManager;
 import junit.framework.TestCase;
@@ -39,3 +40,4 @@ public class SimpleUserManagerTest extends TestCase {
 	}
 
 }
+*/

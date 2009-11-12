@@ -33,17 +33,17 @@ class UserDb {
 	}
 	
 	public function insertInitialData() {
-		$insert_sql = "INSERT INTO `users` (`email`,`password`, `apikey`)
+		/*$insert_sql = "INSERT INTO `users` (`email`,`password`, `apikey`)
 			VALUES
-			('sij16@hi.is', '".SHA1("test")."', '".SHA1(MD5(RAND() . time()))."');";		
+			('sij16@hi.is', SHA1('test'), '".SHA1(MD5(RAND() . time()))."');";		
 		$this->pdo->exec($insert_sql);
-		
+		*/
 	}
 	
 	public function selectAll() {
 		$items = array();
 		
-		$sql = "SELECT * FROM sers";  
+		$sql = "SELECT * FROM users";  
 		
 		foreach ($this->pdo->query($sql, PDO::FETCH_ASSOC) as $row) {
 			$items[] = $this->createUser($row);

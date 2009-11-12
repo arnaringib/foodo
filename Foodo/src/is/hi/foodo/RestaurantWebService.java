@@ -49,7 +49,8 @@ public class RestaurantWebService {
     
     public boolean updateAll() {
     	try {
-    		JSONObject json = loadData(WEBSERVICE_URL + "/api/restaurants");
+    		JSONObject json = loadData(WEBSERVICE_URL + "/restaurants");
+    		Log.d(TAG, json.toString());
     		JSONArray list = json.getJSONObject("responseData").getJSONArray("Restaurants");
     		
     		//Empty database

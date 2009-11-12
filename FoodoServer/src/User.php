@@ -3,6 +3,8 @@
 class User {
 	
 	private $id;
+	private firstName;
+	private lastName;
 	private $email;
 	private $apikey;
 	
@@ -12,6 +14,14 @@ class User {
 	
 	public function getId() {
 		return $this->id;
+	}
+	
+	public function getFirstName() {
+		return $this->firstName;
+	}
+	
+	public function getLastName() {
+		return $this->lastName;
 	}
 	
 	public function setEmail($email) {
@@ -33,6 +43,8 @@ class User {
 	public function toArray() {
 		return array(
 			"id" => $this->getId(),
+			"firstName" => $this->getFirstName(),
+			"lastName" => $this.->getLastName(),
 			"email" => $this->getEmail(),
 			"apikey" => $this->getApiKey()
 		);

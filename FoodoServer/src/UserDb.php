@@ -20,6 +20,8 @@ class UserDb {
 		
 		$sql = "CREATE TABLE `users` (
 				`id` INT(11) NOT NULL AUTO_INCREMENT ,
+				'firstName' VARCHAR(40) NOT NULL,
+				'lastName' VARCHAR(40) NOT NULL,
 				`email` VARCHAR(255) NOT NULL ,
 				`password` VARCHAR(128) NOT NULL ,
 				`apikey` CHAR(40) NOT NULL ,
@@ -49,11 +51,11 @@ class UserDb {
 		return $items;
 	}
 	
-	public function addUser($email, $password) {
+	public function addUser($firstName, $lastName, $email, $password) {
 		$apikey = SHA1($email . $password . RAND() . time());
-		$stmt = $this->pdo->prepare("INSERT INTO `users` (`email`,`password`, `apikey`) VALUES (?, SHA1(?), ?)");
+		$stmt = $this->pdo->prepare("INSERT INTO `users` ('firstName', 'lastName', `email`,`password`, `apikey`) VALUES (?, SHA1(?), ?)");
 		
-		if ($stmt->execute(array($email, $password, $apikey))) {
+		if ($stmt->execute(array($firstName, $lastName, $email, $password, $apikey))) {
 			return $this->pdo->lastInsertId();
 		}
 		else {
@@ -114,6 +116,8 @@ class UserDb {
 		$u = new User();
 		
 		$u->setId($row['id']);
+		$u->setFirstName($row['firstName']);
+		$u->setLastName($row['lastName']);
 		$u->setEmail($row['email']);
 		$u->setApiKey($row['apikey']);
 		

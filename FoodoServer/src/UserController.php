@@ -35,7 +35,8 @@ class UserController
 		echo json_encode($result);
 	}
 	
-	public function signup($email, $password) {
+	public function signup($firstName, $lastName, $email, $password) {
+		$this->db->createUserTable();
 		if ($this->db->userExists($email))
 		{
 			$result = array(
@@ -45,7 +46,7 @@ class UserController
 			);
 		}
 		else {
-			$id = $this->db->addUser($email, $password);
+			$id = $this->db->addUser($firstName, $lastName, $email, $password);
 			if ($id) {
 				$user = $this->db->selectFromId($id);
 				$result = array(

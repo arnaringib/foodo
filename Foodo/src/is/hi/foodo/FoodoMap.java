@@ -133,7 +133,8 @@ public class FoodoMap extends MapActivity {
 	private void initFilter(){
 		filter = new Filter();
 		
-		Filter.types = new CharSequence[numberOfTypes()];    
+		Filter.types = new CharSequence[numberOfTypes()];
+		Filter.typesId = new int[numberOfTypes()];
 		Filter.checkedTypes = new boolean[numberOfTypes()]; 
 		Filter.lowprice = true;
 		Filter.mediumprice = true;
@@ -157,6 +158,7 @@ public class FoodoMap extends MapActivity {
 				"Asian", "Vegetarian", "Buffet", "Sandwiches",
 				"Bistro", "Drive-in", "Take out", "Steakhouse",
 				"Sushi"};
+		int[] tmpI = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16};
 		boolean[] tmpB = {true, true,
 				true, true, true, true, true,
 				true, true, true, true,
@@ -164,6 +166,7 @@ public class FoodoMap extends MapActivity {
 				true};
 		for(int i = 0; i != numberOfTypes(); i++){
 			Filter.types[i] = tmpT[i];
+			Filter.typesId[i] = tmpI[i]; 
 			Filter.checkedTypes[i] = tmpB[i];			
 		}
 	}

@@ -51,6 +51,10 @@ class FoodoRunner {
 			$controller = new UserController();
 			$controller->signup($matches[1], $matches[2], $matches[3], $matches[4]);
 		}
+		elseif (preg_match("/api\/types/", self::$uri, $matches)){
+			$controller = new RestaurantController();
+			$controller->showAllTypes();
+		}
 		else {
 			echo json_encode(array(
 				"responseData" => '',

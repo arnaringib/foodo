@@ -159,7 +159,23 @@ class RestaurantDb {
 		$this->pdo->exec($insert_sql);
 		
 	}
-	
+
+	public function selectAllTypes(){
+		$items = array();
+		
+		$sql = "SELECT
+				T.*
+				FROM
+				types T			
+				";
+		
+		foreach ($this->pdo->query($sql, PDO::FETCH_ASSOC) as $row) {
+			$items[] = $this->createRestaurant($row);
+		}
+		return $items;
+		
+	}
+
 	public function selectAll() {
 		$items = array();
 		
@@ -209,11 +225,20 @@ class RestaurantDb {
 		
 		if ($r)
 		{
-			return $this->createRestaurant($r);
+			return $this->createType($r);
 		}
 		else {
 			return false;
 		}
+	}
+	
+	private function createType($row){
+		$r = new Types();
+		
+		$r->setId($row['id']);
+		$r->setType($row['type']);
+		
+		return $r;
 	}
 	
 	private function createRestaurant($row) {

@@ -41,7 +41,7 @@ class RestaurantController
 		}
 		
 		$result = array(
-			"responseData" => array("Restaurants" => $items),
+			"responseData" => array("Types" => $items),
 			"responseDetails" => "OK",
 			"responseCode" => 200
 		);

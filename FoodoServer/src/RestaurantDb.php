@@ -170,7 +170,7 @@ class RestaurantDb {
 				";
 		
 		foreach ($this->pdo->query($sql, PDO::FETCH_ASSOC) as $row) {
-			$items[] = $this->createRestaurant($row);
+			$items[] = $this->createType($row);
 		}
 		return $items;
 		
@@ -225,7 +225,7 @@ class RestaurantDb {
 		
 		if ($r)
 		{
-			return $this->createType($r);
+			return $this->createRestaurant($r);
 		}
 		else {
 			return false;
@@ -236,7 +236,7 @@ class RestaurantDb {
 		$r = new Types();
 		
 		$r->setId($row['id']);
-		$r->setType($row['type']);
+		$r->setTypes($row['type']);
 		
 		return $r;
 	}

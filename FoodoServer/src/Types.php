@@ -11,18 +11,18 @@ class Types{
 		return $this->id;
 	}
 	
-	public function setType($type){
+	public function setTypes($type){
 		$this->type = $type;		
 	}
 	
-	public function getType(){
+	public function getTypes(){
 		return $this->type;
 	}
 	
 	public function toArray(){
 		return array(
 			"id" => $this->getId() * 1,
-			"type" => $this->type()
+			"type" => $this->getTypes()
 		);
 	}
 }

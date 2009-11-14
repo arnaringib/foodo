@@ -24,6 +24,7 @@ public class RestaurantDbAdapter {
 	public static final String KEY_WEBSITE = "website";
 	public static final String KEY_EMAIL = "email";
 	public static final String KEY_PHONE = "phone";
+	public static final String KEY_PRICEGROUP = "pricegroup";
 	
     private DatabaseHelper mDbHelper;
     private SQLiteDatabase mDb;
@@ -35,7 +36,8 @@ public class RestaurantDbAdapter {
             "create table restaurants (_id integer primary key, "
                     + "name text not null, lat integer, lng integer, "
                     + "rating double, rating_count long, address text, " 
-                    + "zip integer, city text, website text, email text, phone text);";
+                    + "zip integer, city text, website text, email text, phone text," 
+                    + " pricegroup integer);";
    
     private static final String DATABASE_EMPTY = "DELETE FROM restaurants;";
     
@@ -54,6 +56,7 @@ public class RestaurantDbAdapter {
 
         @Override
         public void onCreate(SQLiteDatabase db) {
+        	Log.d(TAG, DATABASE_CREATE);
             db.execSQL(DATABASE_CREATE);
         }
 
@@ -114,7 +117,8 @@ public class RestaurantDbAdapter {
      * @return rowId or -1 if failed
      */
     public long createRestaurant(long id, String name, int lat, int lng, double rating, long rating_count, 
-    							 String address, int zip, String city, String website, String email, String phone) {
+    							 String address, int zip, String city, String website, String email, String phone,
+    							 int pricegroup) {
         ContentValues initialValues = new ContentValues();
         initialValues.put(KEY_ROWID, id);
         initialValues.put(KEY_NAME, name);
@@ -128,6 +132,7 @@ public class RestaurantDbAdapter {
         initialValues.put(KEY_WEBSITE, website);
         initialValues.put(KEY_EMAIL, email);
         initialValues.put(KEY_PHONE, phone);
+        initialValues.put(KEY_PRICEGROUP, pricegroup);
 
         return mDb.insert(DATABASE_TABLE, null, initialValues);
     }
@@ -172,11 +177,39 @@ public class RestaurantDbAdapter {
      * @return Cursor over all restaurants
      */
     public Cursor fetchAllRestaurants() {
-        return mDb.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_NAME,
+    	String sql = "SELECT " + KEY_ROWID + ", " + KEY_NAME + ", " + KEY_LAT
+    				+ ", " + KEY_LNG + ", " + KEY_RATING + ", " + KEY_RATING_COUNT +
+    			" FROM " + DATABASE_TABLE + 
+    				/*" INNER JOIN " + RT_DATABASE_TABLE + 
+    					" ON " + DATABASE_TABLE + "." + KEY_ROWID + "=" + 
+    						RT_DATABASE_TABLE + "." + KEY_RID +*/
+    			" WHERE " + KEY_RATING + ">= " + Filter.ratingFrom + " AND " + 
+    				KEY_RATING + "<=" + Filter.ratingTo + " " + this.getPricegroup()/* + " " +
+    				this.getTypes()*/;
+    	return mDb.rawQuery(sql, null);
+       /* return mDb.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_NAME,
                 KEY_LAT, KEY_LNG, KEY_RATING, KEY_RATING_COUNT}, KEY_RATING + ">= " +
                 Filter.ratingFrom + " AND " + KEY_RATING + "<=" + Filter.ratingTo, 
-                null, null, null, null);
+                null, null, null, null);*/
     }
+    
+    private String getPricegroup(){
+    	String result = "";
+    	if(Filter.lowprice && Filter.mediumprice && !Filter.highprice)
+    		result = " AND (" + KEY_PRICEGROUP + "=1 OR " + KEY_PRICEGROUP + "=2)";
+    	if(Filter.lowprice && !Filter.mediumprice && Filter.highprice)
+    		result = " AND (" + KEY_PRICEGROUP + "=1 OR " + KEY_PRICEGROUP + "=3)";
+    	if(!Filter.lowprice && Filter.mediumprice && Filter.highprice)
+    		result = " AND (" + KEY_PRICEGROUP + "=2 OR " + KEY_PRICEGROUP + "=3)";
+    	if(Filter.lowprice && !Filter.mediumprice && !Filter.highprice)
+    		result = " AND (" + KEY_PRICEGROUP + "=1)";
+    	if(!Filter.lowprice && Filter.mediumprice && !Filter.highprice)
+    		result = " AND (" + KEY_PRICEGROUP + "=2)";
+    	if(!Filter.lowprice && !Filter.mediumprice && Filter.highprice)
+    		result = " AND (" + KEY_PRICEGROUP + "=3)";
+    	return result;
+    }
+
     
     /**
      * Return a Cursor positioned at the restaurants that matches the given rowId
@@ -218,7 +251,8 @@ public class RestaurantDbAdapter {
      * @return true if the restaurant was successfully updated, false otherwise
      */
     public boolean updateRestaurant(long rowId, String name, int lat, int lng, double rating, double rating_count,
-    								String address, int zip, String city, String website, String email, String phone) {
+    								String address, int zip, String city, String website, String email, String phone,
+    								int pricegroup) {
         ContentValues args = new ContentValues();
         
         
@@ -233,6 +267,7 @@ public class RestaurantDbAdapter {
         args.put(KEY_WEBSITE, website);
         args.put(KEY_EMAIL, email);
         args.put(KEY_PHONE, phone);
+        args.put(KEY_PRICEGROUP, pricegroup);
 
         return mDb.update(DATABASE_TABLE, args, KEY_ROWID + "=" + rowId, null) > 0;
     }   

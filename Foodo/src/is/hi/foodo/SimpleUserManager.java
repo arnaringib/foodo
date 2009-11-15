@@ -1,9 +1,9 @@
 package is.hi.foodo;
 
-import java.util.HashMap;
+/*import java.util.HashMap;
 import java.util.Map;
 
-/*public class SimpleUserManager implements UserManager {
+public class SimpleUserManager implements UserManager {
 	
 	private boolean isAuthenticated = false;
 	private String email;

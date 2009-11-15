@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -80,6 +81,7 @@ public class FoodoLogin extends Activity implements Runnable {
 			if (uManager.isAuthenticated())
 				Toast.makeText(FoodoLogin.this, "Successfull login!", Toast.LENGTH_LONG).show();
 			else
+				Log.d(TAG, "login failed!");
 				Toast.makeText(FoodoLogin.this, "Login failed: " + uManager.getError(), Toast.LENGTH_LONG).show();
 		}
 	};

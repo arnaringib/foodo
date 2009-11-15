@@ -2,11 +2,13 @@ package is.hi.foodo;
 
 import java.util.List;
 
-import android.content.Context;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,9 +20,19 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.Overlay;
 
-public class FoodoMap extends MapActivity {
+public class FoodoMap extends MapActivity implements Runnable {
 	
 	private static final String TAG = "FoodoMap";
+	
+	private static final int MENU_LIST = Menu.FIRST;
+	private static final int MENU_FILTER = Menu.FIRST + 1;
+	private static final int MENU_UPDATE = Menu.FIRST + 2;
+	private static final int MENU_LOGIN = Menu.FIRST + 3;
+	
+	private static final int MSG_UPDATE_SUCCESSFUL = 1;
+	private static final int MSG_UPDATE_FAILED = 2;
+	
+	private ProgressDialog pd;
 	
 	private MyLocationOverlay myLocOverlay;
 	
@@ -34,7 +46,6 @@ public class FoodoMap extends MapActivity {
 	RestaurantWebService mService;
 	
 	Filter filter;	
-	
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,19 +79,13 @@ public class FoodoMap extends MapActivity {
 		return false;
 	}
 	
-	public void startDetails(long id) {
-		Intent i = new Intent(this, FoodoDetails.class);
-		i.putExtra(RestaurantDbAdapter.KEY_ROWID, id);
-    	startActivity(i);
-	}
-	
 	/* Create the menu items */
 	@Override 
 	public boolean onCreateOptionsMenu(Menu menu) {
-		 menu.add(0,0,0, R.string.menu_listview);
-		 menu.add(0,1,1, R.string.menu_filter);
-		 menu.add(0,2,2, R.string.menu_update);
-		 menu.add(0,3,3, R.string.menu_login);
+		 menu.add(0,MENU_LIST,0, R.string.menu_listview);
+		 menu.add(0,MENU_FILTER,1, R.string.menu_filter);
+		 menu.add(0,MENU_UPDATE,2, R.string.menu_update);
+		 menu.add(0,MENU_LOGIN,3, R.string.menu_login);
 		 
 		 return true;
 	}
@@ -91,29 +96,20 @@ public class FoodoMap extends MapActivity {
 	/* when menu button option selected */
 	@Override 
 	public boolean onOptionsItemSelected(MenuItem item) {
-		Context context = getApplicationContext();
+		
 		switch (item.getItemId()) {
-		case 0:
+		case MENU_LIST:
 			Intent listView = new Intent(this, FoodoList.class);
 			startActivityForResult(listView, 1);
 			return true;
-		case 1:
+		case MENU_FILTER:
 			Intent filter = new Intent(this, FoodoFilter.class);
 			startActivityForResult(filter, 1);
 			return true;
-		case 2:
-			Toast.makeText(context, "Update...", Toast.LENGTH_SHORT).show();
-
-			if (updateOverlays())
-			{
-				Toast.makeText(context, "Update complete", Toast.LENGTH_SHORT).show();
-				setupOverlays();
-			}
-			else {
-				Toast.makeText(context, "Update failed", Toast.LENGTH_SHORT).show();
-			}
+		case MENU_UPDATE:
+			updateOverlays();
 			return true;
-		case 3:
+		case MENU_LOGIN:
 			Intent login = new Intent(this, FoodoLogin.class);
 			startActivityForResult(login, 1);
 			return true;
@@ -121,9 +117,10 @@ public class FoodoMap extends MapActivity {
 		return false;
 	}
 	
-	private boolean updateOverlays() 
-	{
-		return mService.updateAll();
+	public void startDetails(long id) {
+		Intent i = new Intent(this, FoodoDetails.class);
+		i.putExtra(RestaurantDbAdapter.KEY_ROWID, id);
+    	startActivity(i);
 	}
 	
 	private void initMyLocation() {
@@ -164,29 +161,9 @@ public class FoodoMap extends MapActivity {
 			} while (c.moveToNext());
 		}
 		else {
-			Log.d(TAG, "Failed to move to first!");
+			 Log.d(TAG, "No types found!");
 		}
 		c.close();
-
-		// Need to get this from server this is
-		// temp data.
-		// -Arnar
-		/*CharSequence[] tmpT = {"Fast", "Fine dining",
-				"Family", "Casual", "Sea", "Launch", "Mexican",
-				"Asian", "Vegetarian", "Buffet", "Sandwiches",
-				"Bistro", "Drive-in", "Take out", "Steakhouse",
-				"Sushi"};
-		int[] tmpI = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16};
-		boolean[] tmpB = {true, true,
-				true, true, true, true, true,
-				true, true, true, true,
-				true, true, true, true,
-				true};
-		for(int i = 0; i != numberOfTypes(); i++){
-			Filter.types[i] = tmpT[i];
-			Filter.typesId[i] = tmpI[i]; 
-			Filter.checkedTypes[i] = tmpB[i];			
-		}*/
 	}
 	
 	// Post: returns the number of types of restaurants.
@@ -233,34 +210,64 @@ public class FoodoMap extends MapActivity {
 						c.getInt(c.getColumnIndex(RestaurantDbAdapter.KEY_LAT)), 
 						c.getInt(c.getColumnIndex(RestaurantDbAdapter.KEY_LNG))
 				);	
-				FoodoOverlayItem item = 
-					new FoodoOverlayItem(
-							p, 
-							c.getString(c.getColumnIndex(RestaurantDbAdapter.KEY_NAME)), 
-							"",
-							c.getLong(c.getColumnIndex(RestaurantDbAdapter.KEY_ROWID))
-					);
+				
+				FoodoOverlayItem item = new FoodoOverlayItem(
+					p, 
+					c.getString(c.getColumnIndex(RestaurantDbAdapter.KEY_NAME)), 
+					"",
+					c.getLong(c.getColumnIndex(RestaurantDbAdapter.KEY_ROWID))
+				);
+				
 				if(myLocOverlay.getMyLocation() != null) {
-					if(calcDistance(myLocOverlay.getMyLocation().getLatitudeE6()/1000000.0, myLocOverlay.getMyLocation().getLongitudeE6()/1000000.0, item.getPoint().getLatitudeE6()/1000000.0, item.getPoint().getLongitudeE6()/1000000.0) * 1000 < (double) Filter.radius)
-					{
+					if(calcDistance(myLocOverlay.getMyLocation().getLatitudeE6()/1000000.0, myLocOverlay.getMyLocation().getLongitudeE6()/1000000.0, item.getPoint().getLatitudeE6()/1000000.0, item.getPoint().getLongitudeE6()/1000000.0) * 1000 < (double) Filter.radius) {
 						Log.d(TAG, item.getTitle() + " : " + calcDistance(myLocOverlay.getMyLocation().getLatitudeE6()/1000000.0, myLocOverlay.getMyLocation().getLongitudeE6()/1000000.0, item.getPoint().getLatitudeE6()/1000000.0, item.getPoint().getLongitudeE6()/1000000.0) * 1000);
 						foodoRestaurantsOverlays.addOverlay(item);
-				
 					}
 				}
-				else
+				else {
 					foodoRestaurantsOverlays.addOverlay(item);
-				//Log.d(TAG, item.getTitle());
-				
+				}
 			} while (c.moveToNext());
 			
 			mapView.getOverlays().add(foodoRestaurantsOverlays);
 			mapView.getOverlays().add(myLocOverlay);
+			
+			mapView.refreshDrawableState();
 		}
 		else {
-			Log.d(TAG, "Failed to move to first!");
+			updateOverlays();
 		}
 		c.close();
 	}
+	
+	private void updateOverlays() 
+	{
+		pd = ProgressDialog.show(FoodoMap.this, "Working..", "Updating");
+		Thread thread = new Thread(FoodoMap.this);
+		thread.start();
+	}
+
+	@Override
+	public void run() {
+		if (mService.updateAll())
+			handler.sendEmptyMessage(MSG_UPDATE_SUCCESSFUL);
+		else
+			handler.sendEmptyMessage(MSG_UPDATE_FAILED);
+	}
+	
+	private Handler handler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			pd.dismiss();
+			switch (msg.what) {
+			case MSG_UPDATE_SUCCESSFUL:
+				setupOverlays();
+				break;
+			case MSG_UPDATE_FAILED:
+				Toast.makeText(FoodoMap.this, "Update failed", Toast.LENGTH_LONG).show();
+				break;
+			}
+		}
+	};
 	
 }

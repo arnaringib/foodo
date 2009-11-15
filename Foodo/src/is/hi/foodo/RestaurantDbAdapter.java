@@ -63,7 +63,7 @@ public class RestaurantDbAdapter {
     private static final String DATABASE_TABLE = "restaurants";
     private static final String DATABASE_T_TABLE = "types";
     private static final String RT_DATABASE_TABLE = "restaurantstypes";
-    private static final int DATABASE_VERSION = 7;
+    private static final int DATABASE_VERSION = 8;
     
     private final Context mCtx;
     

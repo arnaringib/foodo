@@ -74,6 +74,12 @@ public class RestaurantWebService {
         				o.getString("phone"),
         				o.getInt("pricegroup")
         		);
+    			for(int j = 0; j != o.getJSONArray("types").length(); j++){
+    				mDb.createRestaurantsTypes(
+    						o.getLong("id"),
+    						o.getJSONArray("types").getLong(j)
+    				);
+    			}
     			Log.d(TAG, o.getString("name"));
     		}
     		return true;
@@ -136,5 +142,32 @@ public class RestaurantWebService {
         	return rating;
     	}
     }
-
+    
+    public boolean updateAllTypes() {
+    	try {
+    		JSONObject json = loadData(WEBSERVICE_URL + "/types");
+    		Log.d(TAG, json.toString());
+    		JSONArray list = json.getJSONObject("responseData").getJSONArray("Types");
+    		
+    		//Empty database
+    		mDb.emptyDatabase();
+    		
+    		int n = list.length();
+    		for (int i = 0; i < n; i++) {
+    			JSONObject o = list.getJSONObject(i);
+    			mDb.createType(
+    					o.getLong("id"), 
+    					o.getString("type")
+        		);
+    			Log.d(TAG, o.getString("type"));
+    		}
+    		return true;
+    	}
+    	catch (Exception e) {
+    		//TODO log this
+    		Log.d(TAG, "Exception in loadFromWebService");
+    		Log.d(TAG, e.toString());
+    		return false;
+    	}
+    }
 }

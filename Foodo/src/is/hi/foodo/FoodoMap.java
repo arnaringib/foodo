@@ -43,10 +43,14 @@ public class FoodoMap extends MapActivity {
                
         mapView = (MapView) findViewById(R.id.mapview);
         mapView.setBuiltInZoomControls(true);
-        
+               
         mDbHelper = new RestaurantDbAdapter(this);
         mDbHelper.open();
-       
+		if (mService == null)
+			mService = new RestaurantWebService(mDbHelper);
+		mService.updateAllTypes();
+        mDbHelper.fetchAllTypes();
+        
         initFilter();
         initMyLocation();
         setupOverlays();
@@ -119,17 +123,15 @@ public class FoodoMap extends MapActivity {
 	
 	private boolean updateOverlays() 
 	{
-		if (mService == null)
-			mService = new RestaurantWebService(mDbHelper);
 		return mService.updateAll();
 	}
+	
 	private void initMyLocation() {
 		myLocOverlay = new MyLocationOverlay(this, mapView);
 		myLocOverlay.enableMyLocation();
  
 	}
 
- 
 	private void initFilter(){
 		filter = new Filter();
 		
@@ -150,10 +152,26 @@ public class FoodoMap extends MapActivity {
 	// Post: updates Filter.types and checkedTypes
 	//		data gotten from server.
 	private void collectTypes(){
+		Cursor c = mDbHelper.fetchAllTypes();
+		startManagingCursor(c);
+		if (c.moveToFirst())
+		{
+			do {
+				Filter.types[c.getPosition()] = c.getString(c.getColumnIndex(RestaurantDbAdapter.KEY_TYPE));
+				Filter.typesId[c.getPosition()] = c.getInt(c.getColumnIndex(RestaurantDbAdapter.KEY_TROWID)); 
+				Filter.checkedTypes[c.getPosition()] = true;
+				
+			} while (c.moveToNext());
+		}
+		else {
+			Log.d(TAG, "Failed to move to first!");
+		}
+		c.close();
+
 		// Need to get this from server this is
 		// temp data.
 		// -Arnar
-		CharSequence[] tmpT = {"Fast", "Fine dining",
+		/*CharSequence[] tmpT = {"Fast", "Fine dining",
 				"Family", "Casual", "Sea", "Launch", "Mexican",
 				"Asian", "Vegetarian", "Buffet", "Sandwiches",
 				"Bistro", "Drive-in", "Take out", "Steakhouse",
@@ -168,12 +186,14 @@ public class FoodoMap extends MapActivity {
 			Filter.types[i] = tmpT[i];
 			Filter.typesId[i] = tmpI[i]; 
 			Filter.checkedTypes[i] = tmpB[i];			
-		}
+		}*/
 	}
 	
 	// Post: returns the number of types of restaurants.
 	private int numberOfTypes(){
-		return 16;
+		Cursor c = mDbHelper.fetchAllTypes();
+		startManagingCursor(c);
+		return c.getCount();
 	}
 	
 	public double calcDistance(double lat1, double lon1, double lat2, double lon2) {

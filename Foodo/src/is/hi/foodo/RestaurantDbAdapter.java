@@ -26,6 +26,12 @@ public class RestaurantDbAdapter {
 	public static final String KEY_PHONE = "phone";
 	public static final String KEY_PRICEGROUP = "pricegroup";
 	
+	public static final String KEY_TROWID = "_id";
+	public static final String KEY_TYPE = "type";
+	
+	public static final String KEY_RID = "rid";
+	public static final String KEY_TID = "tid";
+	
     private DatabaseHelper mDbHelper;
     private SQLiteDatabase mDb;
     
@@ -38,11 +44,25 @@ public class RestaurantDbAdapter {
                     + "rating double, rating_count long, address text, " 
                     + "zip integer, city text, website text, email text, phone text," 
                     + " pricegroup integer);";
-   
+ 
+    private static final String DATABASE_T_CREATE =
+            "create table types (_id integer primary key, "
+                    + "type text not null);";
+
+    private static final String RT_DATABASE_CREATE = 
+		"create table restaurantstypes (rid integer not null, " 
+				+ "tid integer not null, PRIMARY KEY (rid, tid));";
+
+ 
     private static final String DATABASE_EMPTY = "DELETE FROM restaurants;";
+    private static final String DATABASE_T_EMPTY = "DELETE FROM types;";
+    private static final String RT_DATABASE_EMPTY = "DELETE FROM restaurantstypes";
+
     
     private static final String DATABASE_NAME = "data";
     private static final String DATABASE_TABLE = "restaurants";
+    private static final String DATABASE_T_TABLE = "types";
+    private static final String RT_DATABASE_TABLE = "restaurantstypes";
     private static final int DATABASE_VERSION = 7;
     
     private final Context mCtx;
@@ -58,6 +78,10 @@ public class RestaurantDbAdapter {
         public void onCreate(SQLiteDatabase db) {
         	Log.d(TAG, DATABASE_CREATE);
             db.execSQL(DATABASE_CREATE);
+            Log.d(TAG, DATABASE_T_CREATE);
+            db.execSQL(DATABASE_T_CREATE);
+            Log.d(TAG, RT_DATABASE_CREATE);
+            db.execSQL(RT_DATABASE_CREATE);
         }
 
         @Override
@@ -65,6 +89,8 @@ public class RestaurantDbAdapter {
             Log.w(TAG, "Upgrading database from version " + oldVersion + " to "
                     + newVersion + ", which will destroy all old data");
             db.execSQL("DROP TABLE IF EXISTS " + DATABASE_TABLE);
+            db.execSQL("DROP TABLE IF EXISTS " + DATABASE_T_TABLE);
+            db.execSQL("DROP TABLE IF EXISTS " + RT_DATABASE_TABLE);
             onCreate(db);
         }
     }
@@ -96,6 +122,34 @@ public class RestaurantDbAdapter {
     
     public void close() {
         mDbHelper.close();
+    }
+    
+    /**
+     * 
+     */
+    public long createRestaurantsTypes(long rid, long tid){
+    	ContentValues initialValues = new ContentValues();
+    	initialValues.put(KEY_RID, rid);
+    	initialValues.put(KEY_TID, tid);
+    	
+    	return mDb.insert(RT_DATABASE_TABLE, null, initialValues);
+    }
+    
+    /**
+     * Create a new type using the data provided. If the type is
+     * successfully created return the new rowId for that type, 
+     * otherwise return a -1 to indicate failure.
+     *
+     * @param id the id of the type
+     * @param type a type of a restaurant
+     * @return rowId or -1 if failed
+     */
+    public long createType(long id, String type) {
+        ContentValues initialValues = new ContentValues();
+        initialValues.put(KEY_ROWID, id);
+        initialValues.put(KEY_TYPE, type);
+
+        return mDb.insert(DATABASE_T_TABLE, null, initialValues);
     }
     
     /**
@@ -161,6 +215,17 @@ public class RestaurantDbAdapter {
     }
     
     /**
+     * Delete the type with the given rowId
+     * 
+     * @param rowId id of type to delete
+     * @return true if deleted, false otherwise
+     */
+    public boolean deleteType(long rowId) {
+
+        return mDb.delete(DATABASE_T_TABLE, KEY_TROWID + "=" + rowId, null) > 0;
+    }
+    
+    /**
      * Delete the note with the given rowId
      * 
      * @param rowId id of note to delete
@@ -172,6 +237,29 @@ public class RestaurantDbAdapter {
     }
     
     /**
+     * Delete the relation between restaurants 
+     * and types with the given rowId
+     * 
+     * @param rId id of a restaurant to delete
+     * @param tid id of a type to delete
+     * @return true if deleted, false otherwise
+     */
+    public boolean deleteRestaurantsTypes(long rId, long tId){
+    	return mDb.delete(RT_DATABASE_TABLE, 
+    			KEY_RID + "=" + rId + " AND " + KEY_TID + "=" + tId, null) > 0;
+    }
+
+    /**
+     * Return a Cursor over the list of all types in the database
+     * 
+     * @return Cursor over all types
+     */
+    public Cursor fetchAllTypes() {
+        return mDb.query(DATABASE_T_TABLE, new String[] {KEY_TROWID, KEY_TYPE}, null, 
+                null, null, null, null);
+    }
+    
+    /**
      * Return a Cursor over the list of all restaurants in the database
      * 
      * @return Cursor over all restaurants
@@ -180,12 +268,14 @@ public class RestaurantDbAdapter {
     	String sql = "SELECT " + KEY_ROWID + ", " + KEY_NAME + ", " + KEY_LAT
     				+ ", " + KEY_LNG + ", " + KEY_RATING + ", " + KEY_RATING_COUNT +
     			" FROM " + DATABASE_TABLE + 
-    				/*" INNER JOIN " + RT_DATABASE_TABLE + 
+    				" INNER JOIN " + RT_DATABASE_TABLE + 
     					" ON " + DATABASE_TABLE + "." + KEY_ROWID + "=" + 
-    						RT_DATABASE_TABLE + "." + KEY_RID +*/
+    						RT_DATABASE_TABLE + "." + KEY_RID +
     			" WHERE " + KEY_RATING + ">= " + Filter.ratingFrom + " AND " + 
-    				KEY_RATING + "<=" + Filter.ratingTo + " " + this.getPricegroup()/* + " " +
-    				this.getTypes()*/;
+    				KEY_RATING + "<=" + Filter.ratingTo + " " + this.getPricegroup() + " " +
+    				this.getTypes() + 
+    			" GROUP BY " + KEY_NAME;
+    	Log.d(TAG,sql);
     	return mDb.rawQuery(sql, null);
        /* return mDb.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_NAME,
                 KEY_LAT, KEY_LNG, KEY_RATING, KEY_RATING_COUNT}, KEY_RATING + ">= " +
@@ -209,8 +299,17 @@ public class RestaurantDbAdapter {
     		result = " AND (" + KEY_PRICEGROUP + "=3)";
     	return result;
     }
-
     
+    private String getTypes(){
+    	String result = "AND (";
+    	for(int i = 0; i != Filter.typesId.length; i++){
+    		if(Filter.checkedTypes[i] && i == 0)
+    			result += KEY_TID + "=" + Filter.typesId[i];
+    		if(Filter.checkedTypes[i])
+    			result += " OR " + KEY_TID + "=" + Filter.typesId[i];
+    	}
+    	return result + ")";
+    }
     /**
      * Return a Cursor positioned at the restaurants that matches the given rowId
      * 
@@ -224,7 +323,8 @@ public class RestaurantDbAdapter {
 
                 mDb.query(true, DATABASE_TABLE, new String[] {KEY_ROWID, KEY_NAME,
                         KEY_LAT, KEY_LNG, KEY_RATING, KEY_RATING_COUNT, KEY_ADDRESS, 
-                        KEY_ZIP, KEY_CITY, KEY_WEBSITE, KEY_EMAIL, KEY_PHONE}, KEY_ROWID + "=" + rowId, null,
+                        KEY_ZIP, KEY_CITY, KEY_WEBSITE, KEY_EMAIL, KEY_PHONE, 
+                        KEY_PRICEGROUP}, KEY_ROWID + "=" + rowId, null,
                         null, null, null, null);
         if (mCursor != null) {
             mCursor.moveToFirst();
@@ -274,6 +374,8 @@ public class RestaurantDbAdapter {
     
     public void emptyDatabase() {
     	mDb.execSQL(DATABASE_EMPTY);
+    	mDb.execSQL(DATABASE_T_EMPTY);
+    	mDb.execSQL(RT_DATABASE_EMPTY);
     }
    
 }

@@ -90,9 +90,6 @@ public class FoodoMap extends MapActivity implements Runnable {
 		 return true;
 	}
 	
-	CharSequence text3 = "Want more??";
-	int duration = Toast.LENGTH_SHORT;
-	
 	/* when menu button option selected */
 	@Override 
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -117,18 +114,28 @@ public class FoodoMap extends MapActivity implements Runnable {
 		return false;
 	}
 	
+	/**
+	 * Shows a restaurants in details view
+	 * 
+	 * @param Restaurant ID  
+	 */
 	public void startDetails(long id) {
 		Intent i = new Intent(this, FoodoDetails.class);
 		i.putExtra(RestaurantDbAdapter.KEY_ROWID, id);
     	startActivity(i);
 	}
 	
+	/**
+	 * Initializes MyLocation
+	 */
 	private void initMyLocation() {
 		myLocOverlay = new MyLocationOverlay(this, mapView);
 		myLocOverlay.enableMyLocation();
- 
 	}
 
+	/**
+	 * Initializes the filter
+	 */
 	private void initFilter(){
 		filter = new Filter();
 		
@@ -173,7 +180,17 @@ public class FoodoMap extends MapActivity implements Runnable {
 		return c.getCount();
 	}
 	
-	public double calcDistance(double lat1, double lon1, double lat2, double lon2) {
+	/**
+	 * Calculates the distance between two GPS coordinates (p1 and p2)
+	 * 
+	 * @param lat1 latitude of p1
+	 * @param lon1 longitude of p1
+	 * @param lat2 latitude of p2
+	 * @param lon2 longitude of p2
+	 * 
+	 * @return distance between p1 and p2 in kilometers
+	 */
+	public static double calcDistance(double lat1, double lon1, double lat2, double lon2) {
 		final double RADIAN = 57.29577951;
     	double latA = lat1 / RADIAN;
     	double lonB = lon1 / RADIAN;
@@ -193,6 +210,11 @@ public class FoodoMap extends MapActivity implements Runnable {
     	return kmDist;
 	}
 	
+	/**
+	 * Creates Overlays for restaurants in the database.
+	 * Will try to update overlays of none are found by calling updateOverlays()
+	 * which will call setupOverlays() again if any restaurants are found
+	 */
 	private void setupOverlays() {
 		Cursor c = mDbHelper.fetchAllRestaurants();
 		startManagingCursor(c);
@@ -240,6 +262,9 @@ public class FoodoMap extends MapActivity implements Runnable {
 		c.close();
 	}
 	
+	/**
+	 * Displays a progress dialog and starts a thread which will update overlays
+	 */
 	private void updateOverlays() 
 	{
 		pd = ProgressDialog.show(FoodoMap.this, "Working..", "Updating");

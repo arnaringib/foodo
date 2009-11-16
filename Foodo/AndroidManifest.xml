@@ -16,6 +16,8 @@
          <activity android:name=".FoodoFilter"/>
          <activity android:name=".FoodoLogin"/>
          <activity android:name=".FoodoRegister"/>
+         <activity android:name=".ReadReviews"/>
+         <activity android:name=".WriteReviews"/>
         <uses-library android:name="com.google.android.maps" />
     </application>
     

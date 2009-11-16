@@ -159,16 +159,16 @@ public class FoodoDetails extends Activity {
 	}
 	
 	public void setupButtons() {
-	/*	this.btnDescr = (Button)this.findViewById(R.id.bDescription);
+	//	this.btnDescr = (Button)this.findViewById(R.id.bDescription);
 		this.btnReviews = (Button)this.findViewById(R.id.bReviews);
-	*/	this.btnCall = (Button)this.findViewById(R.id.bCall);
-	/*	this.btnViewOnMap = (Button)this.findViewById(R.id.bViewOnMap);
+		this.btnCall = (Button)this.findViewById(R.id.bCall);
+	//	this.btnViewOnMap = (Button)this.findViewById(R.id.bViewOnMap);
 		
-		btnDescr.setOnClickListener(new clicker());
+	//	btnDescr.setOnClickListener(new clicker());
 		btnReviews.setOnClickListener(new clicker());
-	*/	btnCall.setOnClickListener(new clicker());
-	/*	btnViewOnMap.setOnClickListener(new clicker());
-		*/	
+		btnCall.setOnClickListener(new clicker());
+	//	btnViewOnMap.setOnClickListener(new clicker());
+			
 	}
 
 	/* when menu button option selected */
@@ -185,7 +185,10 @@ public class FoodoDetails extends Activity {
 		}
 		return false;
 	}
-	
+	public void reviews() {
+		Intent i = new Intent(this, ReadReviews.class);
+		startActivityForResult(i, 1);
+	}
 	// button click listener
 	class clicker implements Button.OnClickListener
     {     
@@ -197,7 +200,7 @@ public class FoodoDetails extends Activity {
 				Toast.makeText(context, bTextDescr, Toast.LENGTH_SHORT).show();
 			}
 			else if(v==btnReviews){
-				Toast.makeText(context, bTextReviews, Toast.LENGTH_SHORT).show();
+					reviews();
 			}
 			else if(v==btnCall){
 				try {

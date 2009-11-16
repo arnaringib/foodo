@@ -85,13 +85,13 @@
 		android:layout_width="150dip" 
 		android:layout_height="wrap_content">
 		</Button>
-	<!-- 
 		<Button 
 		android:text="Reviews" 
 		android:id="@+id/bReviews" 
 		android:layout_width="150dip" 
 		android:layout_height="wrap_content">
 		</Button>
+		<!--
 	</LinearLayout>
 	-->
 </LinearLayout>

@@ -6,6 +6,8 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
+import android.location.LocationListener;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -16,11 +18,12 @@ import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
+import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.Overlay;
 
-public class FoodoMap extends MapActivity implements Runnable {
+public class FoodoMap extends MapActivity implements Runnable, LocationListener {
 	
 	private static final String TAG = "FoodoMap";
 	
@@ -37,6 +40,7 @@ public class FoodoMap extends MapActivity implements Runnable {
 	private MyLocationOverlay myLocOverlay;
 	
 	MapView mapView;
+	MapController control;
 	Drawable drawable;
 	FoodoOverlays foodoRestaurantsOverlays;
 	
@@ -131,6 +135,7 @@ public class FoodoMap extends MapActivity implements Runnable {
 	private void initMyLocation() {
 		myLocOverlay = new MyLocationOverlay(this, mapView);
 		myLocOverlay.enableMyLocation();
+		
 	}
 
 	/**
@@ -294,5 +299,34 @@ public class FoodoMap extends MapActivity implements Runnable {
 			}
 		}
 	};
+
+	@Override
+	public void onLocationChanged(Location location) {
+		control = mapView.getController();
+		GeoPoint punktur = new GeoPoint((int)(location.getLatitude()*1E6),(int)( location.getLongitude()*1E6));
+		control.animateTo(punktur);
+		 
+	}
+
+
+	@Override
+	public void onProviderDisabled(String provider) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void onProviderEnabled(String provider) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void onStatusChanged(String provider, int status, Bundle extras) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

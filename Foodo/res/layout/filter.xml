@@ -61,7 +61,7 @@
 	   android:layout_height="wrap_content"
 	   android:orientation="vertical">
 			<TextView 
-			 android:text="Restaurant type"
+			 android:text="Rating"
 			 android:textStyle="bold"
 			 android:layout_width="wrap_content" 
 			 android:layout_height="wrap_content"
@@ -73,20 +73,32 @@
 	   	     android:layout_height="wrap_content"
 	   	     android:layout_marginTop="0px"
 	   		 android:orientation="horizontal">
-   		 		<TextView 
-			 	 android:text="Press the button to filter out\ndifferent types of restaurants" 
+	   			<TextView 
+			 	 android:text="From" 
 			 	 android:layout_width="wrap_content" 
 			 	 android:layout_height="wrap_content"
 			 	 android:textSize="14px"
 			 	 />
-	   		 	<Button
-	   		 	 android:id="@+id/bFilterTypes"	
-	   		 	 android:layout_width="wrap_content"
-	   		 	 android:layout_height="wrap_content"
-	   		 	 android:text="Filter types" 
-	   		 	 android:layout_marginTop="2px"
-	   		 	 android:layout_marginLeft="10px"/>		
-			</LinearLayout>
+			 	<EditText
+			 	 android:id="@+id/fRatingFrom"
+	 			 android:text=""
+	 			 android:layout_width="100px"
+	 			 android:layout_height="wrap_content"
+	 			 android:numeric="decimal"
+	 			/>
+	 			<TextView 
+			 	 android:text="To" 
+			 	 android:layout_width="wrap_content" 
+			 	 android:layout_height="wrap_content"
+			 	 android:textSize="14px"
+			 	 />
+			 	<EditText
+			 	 android:id="@+id/fRatingTo"
+	 			 android:text=""
+	 			 android:layout_width="100px"
+	 			 android:layout_height="wrap_content"
+	 			 android:numeric="decimal"
+	 			/>
 	  </LinearLayout>
 	  <View
     	android:layout_width="fill_parent"
@@ -138,7 +150,7 @@
 	   android:layout_height="wrap_content"
 	   android:orientation="vertical">
 			<TextView 
-			 android:text="Rating"
+			 android:text="Restaurant type"
 			 android:textStyle="bold"
 			 android:layout_width="wrap_content" 
 			 android:layout_height="wrap_content"
@@ -150,32 +162,20 @@
 	   	     android:layout_height="wrap_content"
 	   	     android:layout_marginTop="0px"
 	   		 android:orientation="horizontal">
-	   			<TextView 
-			 	 android:text="From" 
+   		 		<TextView 
+			 	 android:text="Press the button to filter out\ndifferent types of restaurants" 
 			 	 android:layout_width="wrap_content" 
 			 	 android:layout_height="wrap_content"
 			 	 android:textSize="14px"
 			 	 />
-			 	<EditText
-			 	 android:id="@+id/fRatingFrom"
-	 			 android:text=""
-	 			 android:layout_width="100px"
-	 			 android:layout_height="wrap_content"
-	 			 android:numeric="decimal"
-	 			/>
-	 			<TextView 
-			 	 android:text="To" 
-			 	 android:layout_width="wrap_content" 
-			 	 android:layout_height="wrap_content"
-			 	 android:textSize="14px"
-			 	 />
-			 	<EditText
-			 	 android:id="@+id/fRatingTo"
-	 			 android:text=""
-	 			 android:layout_width="100px"
-	 			 android:layout_height="wrap_content"
-	 			 android:numeric="decimal"
-	 			/>
+	   		 	<Button
+	   		 	 android:id="@+id/bFilterTypes"	
+	   		 	 android:layout_width="wrap_content"
+	   		 	 android:layout_height="wrap_content"
+	   		 	 android:text="Filter types" 
+	   		 	 android:layout_marginTop="2px"
+	   		 	 android:layout_marginLeft="10px"/>		
+			</LinearLayout>
 			</LinearLayout>
 	  </LinearLayout>
 	  <View

@@ -29,19 +29,37 @@
               android:layout_height="wrap_content" 
               android:layout_width="250px" 
               android:singleLine="true" /> 
-    
-    <TextView android:id="@+id/email_text" 
-	     android:text = "Email:"     
-	     android:layout_width="wrap_content" 
-	     android:layout_height="wrap_content" 
-     /> 
-    
-    <EditText android:id="@+id/txt_email" 
-              android:layout_height="wrap_content" 
-              android:layout_width="250px" 
-              android:singleLine="true"
-              />
               
+	<TextView android:id="@+id/email_text_1" 
+		      android:text = "Email:"     
+		      android:layout_width="wrap_content" 
+		      android:layout_height="wrap_content" 
+		     /> 
+    <LinearLayout   xmlns:android="http://schemas.android.com/apk/res/android"
+				    android:layout_width="fill_parent"
+				  	android:layout_height="wrap_content"
+				  	android:orientation="horizontal">
+	  		
+	  		<EditText android:id="@+id/txt_email_1" 
+		              android:layout_height="wrap_content" 
+		              android:layout_width="122px" 
+		              android:singleLine="true"
+		              />
+		     
+		   <TextView android:id="@+id/email_text_2" 
+			     android:text = "\@"     
+			     android:layout_width="wrap_content" 
+			     android:layout_height="wrap_content" 
+		     /> 
+		    
+		    <EditText android:id="@+id/txt_email_2" 
+	  				  android:text="gmail.com"
+		              android:layout_height="wrap_content" 
+		              android:layout_width="112px" 
+		              android:singleLine="true"
+		              />
+	</LinearLayout>
+		           
     <TextView android:id="@+id/newPassword_text" 
 	     android:text = "Choose a password:"     
 	     android:layout_width="wrap_content" 

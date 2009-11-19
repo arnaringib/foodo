@@ -32,7 +32,13 @@ public class FoodoList extends ListActivity {
 	
 	private void fillData() {
 		//Get all rows from database
-		mRestaurantCursor = mDbHelper.fetchAllRestaurants();
+		mRestaurantCursor = mDbHelper.fetchAllRestaurants(Filter.ratingFrom,
+				Filter.ratingTo,
+				Filter.lowprice,
+				Filter.mediumprice,
+				Filter.highprice,
+				Filter.checkedTypes,
+				Filter.typesId);
 		startManagingCursor(mRestaurantCursor);
 		
 		//Create an array of fields we want to display

@@ -221,7 +221,13 @@ public class FoodoMap extends MapActivity implements Runnable, LocationListener 
 	 * which will call setupOverlays() again if any restaurants are found
 	 */
 	private void setupOverlays() {
-		Cursor c = mDbHelper.fetchAllRestaurants();
+		Cursor c = mDbHelper.fetchAllRestaurants(Filter.ratingFrom,
+												Filter.ratingTo,
+												Filter.lowprice,
+												Filter.mediumprice,
+												Filter.highprice,
+												Filter.checkedTypes,
+												Filter.typesId);
 		startManagingCursor(c);
 		
 		if (c.moveToFirst())

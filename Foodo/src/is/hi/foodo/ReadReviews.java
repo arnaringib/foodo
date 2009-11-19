@@ -34,7 +34,13 @@ public class ReadReviews extends ListActivity  {
 	public void gatherList() {
 		
 		//Get all rows from database
-		mRestaurantCursor = mDbHelper.fetchAllRestaurants();
+		mRestaurantCursor = mDbHelper.fetchAllRestaurants(Filter.ratingFrom,
+				Filter.ratingTo,
+				Filter.lowprice,
+				Filter.mediumprice,
+				Filter.highprice,
+				Filter.checkedTypes,
+				Filter.typesId);
 		startManagingCursor(mRestaurantCursor);
 		
 		

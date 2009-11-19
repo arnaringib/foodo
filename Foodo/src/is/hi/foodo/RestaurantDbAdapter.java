@@ -264,16 +264,23 @@ public class RestaurantDbAdapter {
      * 
      * @return Cursor over all restaurants
      */
-    public Cursor fetchAllRestaurants() {
+    public Cursor fetchAllRestaurants(CharSequence ratingFrom, 
+    									CharSequence ratingTo,
+    									boolean lowPrice,
+    									boolean mediumPrice,
+    									boolean highPrice,
+    									boolean[] checkedType,
+    									int[] typeId) {
     	String sql = "SELECT " + KEY_ROWID + ", " + KEY_NAME + ", " + KEY_LAT
     				+ ", " + KEY_LNG + ", " + KEY_RATING + ", " + KEY_RATING_COUNT +
     			" FROM " + DATABASE_TABLE + 
     				" INNER JOIN " + RT_DATABASE_TABLE + 
     					" ON " + DATABASE_TABLE + "." + KEY_ROWID + "=" + 
     						RT_DATABASE_TABLE + "." + KEY_RID +
-    			" WHERE " + KEY_RATING + ">= " + Filter.ratingFrom + " AND " + 
-    				KEY_RATING + "<=" + Filter.ratingTo + " " + this.getPricegroup() + " " +
-    				this.getTypes() + 
+    			" WHERE " + KEY_RATING + ">= " + ratingFrom + " AND " + 
+    				KEY_RATING + "<=" + ratingTo + " " + 
+    				this.getPricegroup(lowPrice, mediumPrice, highPrice) + 
+    				" " + this.getTypes(checkedType, typeId) + 
     			" GROUP BY " + KEY_NAME;
     	Log.d(TAG,sql);
     	return mDb.rawQuery(sql, null);
@@ -283,30 +290,30 @@ public class RestaurantDbAdapter {
                 null, null, null, null);*/
     }
     
-    private String getPricegroup(){
+    private String getPricegroup(boolean lowPrice,boolean mediumPrice,boolean highPrice){
     	String result = "";
-    	if(Filter.lowprice && Filter.mediumprice && !Filter.highprice)
+    	if(lowPrice && mediumPrice && !highPrice)
     		result = " AND (" + KEY_PRICEGROUP + "=1 OR " + KEY_PRICEGROUP + "=2)";
-    	if(Filter.lowprice && !Filter.mediumprice && Filter.highprice)
+    	if(lowPrice && !mediumPrice && highPrice)
     		result = " AND (" + KEY_PRICEGROUP + "=1 OR " + KEY_PRICEGROUP + "=3)";
-    	if(!Filter.lowprice && Filter.mediumprice && Filter.highprice)
+    	if(!lowPrice && mediumPrice && highPrice)
     		result = " AND (" + KEY_PRICEGROUP + "=2 OR " + KEY_PRICEGROUP + "=3)";
-    	if(Filter.lowprice && !Filter.mediumprice && !Filter.highprice)
+    	if(lowPrice && !mediumPrice && !highPrice)
     		result = " AND (" + KEY_PRICEGROUP + "=1)";
-    	if(!Filter.lowprice && Filter.mediumprice && !Filter.highprice)
+    	if(!lowPrice && mediumPrice && !highPrice)
     		result = " AND (" + KEY_PRICEGROUP + "=2)";
-    	if(!Filter.lowprice && !Filter.mediumprice && Filter.highprice)
+    	if(!lowPrice && !mediumPrice && highPrice)
     		result = " AND (" + KEY_PRICEGROUP + "=3)";
     	return result;
     }
     
-    private String getTypes(){
+    private String getTypes(boolean[] checkedType, int[] typesId){
     	String result = "AND (";
-    	for(int i = 0; i != Filter.typesId.length; i++){
-    		if(Filter.checkedTypes[i] && i == 0)
-    			result += KEY_TID + "=" + Filter.typesId[i];
-    		if(Filter.checkedTypes[i])
-    			result += " OR " + KEY_TID + "=" + Filter.typesId[i];
+    	for(int i = 0; i != typesId.length; i++){
+    		if(checkedType[i] && i == 0)
+    			result += KEY_TID + "=" + typesId[i];
+    		if(checkedType[i])
+    			result += " OR " + KEY_TID + "=" + typesId[i];
     	}
     	return result + ")";
     }

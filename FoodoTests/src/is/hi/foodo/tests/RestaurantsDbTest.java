@@ -41,9 +41,11 @@ public class RestaurantsDbTest extends AndroidTestCase {
 		String website = "www.website.is";
 		String email = "email@email.com";
 		String phone = "123123123";
+		int pricegroup = 1;
+		
 
 		//Create data
-		mDb.createRestaurant(id, name, lat, lng, rating, rating_count, address, zip, city, website, email, phone);
+		mDb.createRestaurant(id, name, lat, lng, rating, rating_count, address, zip, city, website, email, phone, pricegroup);
 		
 		//Read data
 		Cursor r = mDb.fetchRestaurant(id);

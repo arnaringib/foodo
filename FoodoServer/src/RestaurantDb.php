@@ -213,7 +213,7 @@ class RestaurantDb {
 		
 		$sql = "UPDATE ratings SET rating = " . $rating . " WHERE restaurant_id = " . $rid . " AND user_id = " . $uid . ";";
 		$q = $this->pdo->prepare($sql);
-		return $q->execute(array(':rid'=>$rid, ':rating'=>$rating, ':uid'=>$uid));
+		return $q->execute(array('restaurant_id' =>$rid, 'rating'=>$rating, 'user_id'=>$uid));
 	}
 	
 	public function selectFromId($id) {

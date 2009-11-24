@@ -29,6 +29,7 @@ class RestaurantDb {
 				`id` INT(11) NOT NULL AUTO_INCREMENT ,
 				`restaurant_id` INT(11) NOT NULL ,
 				`rating` INT(1) NOT NULL ,
+				`user_id` INT(11) NOT NULL ,
 				PRIMARY KEY (`id`)
 				) ENGINE = MYISAM";
 		

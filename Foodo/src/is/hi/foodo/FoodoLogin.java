@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,8 +20,11 @@ import android.widget.Toast;
 public class FoodoLogin extends Activity implements Runnable {
 	
 	private static final String TAG = "FoodoLogin";
+	private SharedPreferences  app_preferences;
+	
 	private FoodoUserManager uManager;
 	private ProgressDialog pd;
+	private long id;
 	
 	private CharSequence emailValue;
 	private CharSequence passwordValue;
@@ -44,6 +49,8 @@ public class FoodoLogin extends Activity implements Runnable {
         emailValue = emailText.getText();
         passwordValue = passwordText.getText();
         
+       app_preferences = PreferenceManager.getDefaultSharedPreferences(this);
+       
         // this is the action listener 
         login.setOnClickListener( new OnClickListener() 
         { 
@@ -71,6 +78,7 @@ public class FoodoLogin extends Activity implements Runnable {
 	@Override
 	public void run() {
 		uManager.authenticate(emailValue.toString(), passwordValue.toString());
+		id = uManager.getId();
 		handler.sendEmptyMessage(0);
 	}
 	
@@ -78,11 +86,20 @@ public class FoodoLogin extends Activity implements Runnable {
 		@Override
 		public void handleMessage(Message msg) {
 			pd.dismiss();
-			if (uManager.isAuthenticated())
-				Toast.makeText(FoodoLogin.this, "Successfull login!", Toast.LENGTH_LONG).show();
-			else
+			if (uManager.isAuthenticated()){
+				Toast.makeText(FoodoLogin.this, "Successful login!", Toast.LENGTH_LONG).show();
+		       // Save user preferences.
+				SharedPreferences.Editor editor = app_preferences.edit();
+	            editor.putBoolean("access", true);
+	            editor.putLong("user",id);
+		       // Don't forget to commit edits!!!
+		       editor.commit();
+		       //FoodoLogin.this.finish();
+		    }
+			else{
 				Log.d(TAG, "login failed!");
 				Toast.makeText(FoodoLogin.this, "Login failed: " + uManager.getError(), Toast.LENGTH_LONG).show();
+			}
 		}
 	};
 }

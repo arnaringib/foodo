@@ -96,12 +96,13 @@ public class RestaurantWebService {
      * 
      * @param restaurant_id Restaurant Id
      * @param new_rating Given rating
+     * @param user_id user_id
      * @return new rating
      */
-    public double addRating(long restaurant_id, double new_rating) {
+    public double addRating(long restaurant_id, double new_rating, long user_id) {
     	//TODO talk to webservice
     	try {
-    		JSONObject json = loadData(WEBSERVICE_URL + "/restaurant/id/" + restaurant_id + "/rate/" + new_rating);
+    		JSONObject json = loadData(WEBSERVICE_URL + "/restaurant/id/" + restaurant_id + "/rate/" + new_rating + "/user_id/" + user_id);
     		JSONObject o = json.getJSONObject("responseData").getJSONObject("Restaurants");
     		
     		//JSONObject o = list.getJSONObject(0);

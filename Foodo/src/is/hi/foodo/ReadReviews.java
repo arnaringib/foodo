@@ -1,12 +1,16 @@
 package is.hi.foodo;
 
 import android.app.ListActivity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.SimpleCursorAdapter;
+import android.widget.Toast;
 
 
 
@@ -64,9 +68,16 @@ public class ReadReviews extends ListActivity  {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case 0:
-			Intent writer = new Intent(this, WriteReviews.class);
-			startActivityForResult(writer, 1);
-			return true;
+			SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+			if(settings.getBoolean("access", true)){
+				Intent writer = new Intent(this, WriteReviews.class);
+				startActivityForResult(writer, 1);
+				return true;
+			}
+			else{
+				Context context = getApplicationContext();
+				Toast.makeText(context, "You have to be signed in", Toast.LENGTH_SHORT).show();
+			}
 		
 		}
 		return false;

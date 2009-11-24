@@ -3,7 +3,9 @@ package is.hi.foodo;
 import java.util.List;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
@@ -11,6 +13,7 @@ import android.location.LocationListener;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,9 +34,12 @@ public class FoodoMap extends MapActivity implements Runnable, LocationListener 
 	private static final int MENU_FILTER = Menu.FIRST + 1;
 	private static final int MENU_UPDATE = Menu.FIRST + 2;
 	private static final int MENU_LOGIN = Menu.FIRST + 3;
+	private static final int MENU_LOGOUT = Menu.FIRST + 4;
 	
 	private static final int MSG_UPDATE_SUCCESSFUL = 1;
 	private static final int MSG_UPDATE_FAILED = 2;
+
+	
 	
 	private ProgressDialog pd;
 	
@@ -90,6 +96,7 @@ public class FoodoMap extends MapActivity implements Runnable, LocationListener 
 		 menu.add(0,MENU_FILTER,1, R.string.menu_filter);
 		 menu.add(0,MENU_UPDATE,2, R.string.menu_update);
 		 menu.add(0,MENU_LOGIN,3, R.string.menu_login);
+		 menu.add(0,MENU_LOGOUT,3, R.string.menu_logout);
 		 
 		 return true;
 	}
@@ -113,6 +120,15 @@ public class FoodoMap extends MapActivity implements Runnable, LocationListener 
 		case MENU_LOGIN:
 			Intent login = new Intent(this, FoodoLogin.class);
 			startActivityForResult(login, 1);
+			return true;
+		case MENU_LOGOUT:
+			SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+			SharedPreferences.Editor editor = settings.edit();
+            editor.putBoolean("access", false);
+	        editor.commit();
+	        Context context = getApplicationContext();
+			Toast.makeText(context, "You have been logged out", Toast.LENGTH_SHORT).show();
+
 			return true;
 		}
 		return false;

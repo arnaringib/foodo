@@ -6,9 +6,11 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -45,6 +47,8 @@ public class FoodoDetails extends Activity {
 	static final CharSequence bTextCall = "I cant call ..";
 	static final CharSequence bTextViewOnMap = "Cant view on map ..";
 	
+	private long user_id;
+	
 		
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +76,7 @@ public class FoodoDetails extends Activity {
         	Bundle extras = getIntent().getExtras();
         	mRowId = extras != null ? extras.getLong(RestaurantDbAdapter.KEY_ROWID) : null;
         }
+    	
         
         
         populateView();
@@ -85,6 +90,7 @@ public class FoodoDetails extends Activity {
 	}
 
 	protected Dialog onCreateDialog(int id) {
+		
 		switch(id) {
 			case RATING_DIALOG:
 		            LayoutInflater factory = LayoutInflater.from(this);
@@ -92,17 +98,19 @@ public class FoodoDetails extends Activity {
 	            	
 		            RatingBar rb = (RatingBar) layout.findViewById(R.id.ratingbar);
 	            	rb.setRating(mRating);
-	            	
+	            	final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
 		            return new AlertDialog.Builder(FoodoDetails.this)
 		                .setTitle("Rating")
 		                .setView(layout)
 		                .setPositiveButton("Rate!", new DialogInterface.OnClickListener() {
 		                    public void onClick(DialogInterface dialog, int whichButton) {
-		                        /* User clicked OK, add new rating */
+		                    	/* User clicked OK, add new rating */
 		                    	RatingBar rb = (RatingBar) layout.findViewById(R.id.ratingbar);
 		                    	Log.d(TAG, "Giving rating: " + rb.getRating());
+		                    	// get UserId from SharedPreferences
+		                    	user_id = settings.getLong("user", 0);
 		                    	showRatingbar.setRating(
-		                    			(float) mService.addRating(mRowId, rb.getRating())
+		                    			(float) mService.addRating(mRowId, rb.getRating(), user_id)
 		                    	);
 		                    }
 		                })
@@ -180,8 +188,14 @@ public class FoodoDetails extends Activity {
 			Toast.makeText(context, "Not implemented", Toast.LENGTH_SHORT).show();
 			return true;
 		case 1:
-			showDialog(RATING_DIALOG);
-			return true;
+			SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+			if(settings.getBoolean("access", true)){
+				showDialog(RATING_DIALOG);
+				return true;
+			}
+			else {
+				Toast.makeText(context, "You have to be signed in", Toast.LENGTH_SHORT).show();
+			}
 		}
 		return false;
 	}

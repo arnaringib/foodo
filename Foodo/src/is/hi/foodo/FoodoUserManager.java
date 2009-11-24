@@ -16,6 +16,7 @@ public class FoodoUserManager implements UserManager {
     private static final String WEBSERVICE_URL = "http://foodo.nord.is/api/user";
     
     private boolean isAuthenticated = false;
+    private int id = 0;
 	private String firstName, lastName, email;
 	private String apikey;
 	
@@ -33,6 +34,7 @@ public class FoodoUserManager implements UserManager {
 				
 				this.email = user.getString("email");
 				this.apikey = user.getString("apikey");
+				this.id = user.getInt("id");
 				this.isAuthenticated = true;
 			}
 			else {
@@ -100,6 +102,12 @@ public class FoodoUserManager implements UserManager {
 		return this.email;
 	}
 
+	@Override
+	public int getId() {
+		return this.id;
+	}
+	
+	
 	@Override
 	public String getError() {
 		String error;

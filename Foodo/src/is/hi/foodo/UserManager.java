@@ -13,6 +13,7 @@ public interface UserManager {
 	public String getLastName();
 	public String getEmail();
 	public String getApiKey();
+	public int getId();
 	
 	public int getErrorCode();
 	public String getError();

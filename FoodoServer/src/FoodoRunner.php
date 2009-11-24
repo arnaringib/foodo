@@ -59,7 +59,7 @@ class FoodoRunner {
 				$controller = new RestaurantController();
 				$controller->rateRestaurant($matches[1], number_format($matches[2],1), $matches[3]);
 			}
-			elseif (preg_match("/api\/restaurant\/rid\/([0-9]+)\/rate\/([0-9].[0-9]|[0-9])\/uid\/([0-9]+)/", self::$uri, $matches)) {
+			elseif (preg_match("/api\/restaurant\/rid\/([0-9]+)\/updateRate\/([0-9].[0-9]|[0-9])\/uid\/([0-9]+)/", self::$uri, $matches)) {
 				$controller = new RestaurantController();
 				$controller->updateRateRestaurant($matches[1], number_format($matches[2],1), $matches[3]);
 			}

@@ -59,7 +59,7 @@ class RestaurantController
 	public function updateRateRestaurant($rid, $rating, $uid)
 	{
 		$this->db->updateRate($rid, $rating, $uid);
-		$this->showFromId($id);
+		$this->showFromId($rid);
 	}
 	
 	public function showFromId($id) {

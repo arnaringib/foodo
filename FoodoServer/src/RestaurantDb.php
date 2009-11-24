@@ -209,6 +209,13 @@ class RestaurantDb {
 		return $q->execute(array(':rid'=>$id, ':rating'=>$rating, ':uid'=>$user_id));
 	}
 	
+	public function updateRate($rid, $rating, $uid) {
+		
+		$sql = "UPDATE ratings (rating) WHERE (restaurant_id =" . $rid . " AND user_id =" . $uid . ")";
+		$q = $this->pdo->prepare($sql);
+		return $q->execute(array(':rid'=>$rid, ':rating'=>$rating, ':uid'=>$uid));
+	}
+	
 	public function selectFromId($id) {
 		
 		$stmt = $this->pdo->prepare("

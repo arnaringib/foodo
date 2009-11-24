@@ -43,7 +43,7 @@ class FoodoRunner {
 				//throw new FoodoException("Bad user key");
 				
 				if (count($_POST) > 0 AND isset($_POST['user_id']) AND isset($_POST['restaurant_id']) AND isset($_POST['review'])) {
-					$controller->createReview($_POST['restaurant_id'], $_POST['user_id'], $_POST['review']);	
+					$controller->createReview($_POST['restaurant_id'], $_POST['user_id'], $_POST['review']);
 				}
 				else {
 					throw new FoodoException("Data missing for review");	
@@ -56,6 +56,10 @@ class FoodoRunner {
 			}
 			//Restaurants
 			elseif (preg_match("/api\/restaurant\/id\/([0-9]+)\/rate\/([0-9].[0-9]|[0-9])\/user_id\/([0-9]+)/", self::$uri, $matches)) {
+				$controller = new RestaurantController();
+				$controller->updateRateRestaurant($matches[1], number_format($matches[2],1), $matches[3]);
+			}
+			elseif (preg_match("/api\/restaurant\/rid\/([0-9]+)\/rate\/([0-9].[0-9]|[0-9])\/uid\/([0-9]+)/", self::$uri, $matches)) {
 				$controller = new RestaurantController();
 				$controller->rateRestaurant($matches[1], number_format($matches[2],1), $matches[3]);
 			}

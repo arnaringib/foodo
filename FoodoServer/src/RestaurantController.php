@@ -56,6 +56,12 @@ class RestaurantController
 		$this->showFromId($id);
 	}
 	
+	public function updateRateRestaurant($rid, $rating, $uid)
+	{
+		$this->db->updateRate($rid, $rating, $uid);
+		$this->showFromId($id);
+	}
+	
 	public function showFromId($id) {
 		$r = $this->db->selectFromId(intval($id));
 		

@@ -205,15 +205,22 @@ class RestaurantDb {
 		
 		$sql = "INSERT INTO ratings (restaurant_id, rating, user_id) VALUES (:rid, :rating, :uid)";
 		$q = $this->pdo->prepare($sql);
-		return $q->execute(array(':rid'=>$id, ':rating'=>$rating, ':sid'=>$user_id));
+		return $q->execute(array(':rid'=>$id, ':rating'=>$rating, ':uid'=>$user_id));
 	}
 	
 	public function selectFromId($id) {
 		
-		$stmt = $this->pdo->prepare("SELECT 
+		$stmt = $this->pdo->prepare("
+				SELECT 
 				R.*, 
 				FORMAT(AVG(ratings.rating),1) as rating, 
-				COUNT(ratings.id) as rating_count
+				COUNT(ratings.id) as rating_count,
+				(
+					SELECT GROUP_CONCAT(tid) as types FROM restaurantstypes X, types T
+					WHERE X.rid = R.id
+					AND X.tid = T.id
+					GROUP BY X.rid
+				) as types
 				FROM 
 				restaurants R
 				LEFT JOIN ratings 

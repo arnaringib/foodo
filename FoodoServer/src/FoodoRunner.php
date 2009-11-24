@@ -43,7 +43,7 @@ class FoodoRunner {
 				//throw new FoodoException("Bad user key");
 				
 				if (count($_POST) > 0 AND isset($_POST['user_id']) AND isset($_POST['restaurant_id']) AND isset($_POST['review'])) {
-					$controller->createReview(1, 1, "I loved it!");	
+					$controller->createReview($_POST['user_id'], $_POST['restaurant_id'], $_POST['review']);	
 				}
 				else {
 					throw new FoodoException("Data missing for review");	

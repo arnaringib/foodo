@@ -110,7 +110,10 @@ class RestaurantController
 			}
 			
 			$result = array(
-				"responseData" => array("reviews" => $reviews),
+				"responseData" => array(
+					"reviews" => $reviews,
+					"restaurant" => $restaurant->toArray()
+				),
 				"responseDetails" => "OK",
 				"responseCode" => 200
 			);	

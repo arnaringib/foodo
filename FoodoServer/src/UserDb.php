@@ -84,7 +84,7 @@ class UserDb {
 	 * @param $password
 	 * @return User
 	 */
-	public function getFromEmailPasswordAndId($email, $password) {
+	public function getFromEmailPassword($email, $password) {
 		$stmt = $this->pdo->prepare("SELECT id, firstName, lastName, email, apikey FROM users WHERE email=? AND password=?");
 		$stmt->execute(array($email, $password));
 		$r = $stmt->fetch(PDO::FETCH_ASSOC);

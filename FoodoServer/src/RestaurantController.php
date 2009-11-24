@@ -48,9 +48,9 @@ class RestaurantController
 		echo json_encode($result);
 	}
 	
-	public function rateRestaurant($id, $rating)
+	public function rateRestaurant($id, $rating, $user_id)
 	{
-		$this->db->rate($id, $rating);
+		$this->db->rate($id, $rating, $user_id);
 		$this->showFromId($id);
 	}
 	

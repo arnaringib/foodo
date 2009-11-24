@@ -201,11 +201,11 @@ class RestaurantDb {
 		return $items;
 	}
 	
-	public function rate($id, $rating) {
+	public function rate($id, $rating, $user_id) {
 		
-		$sql = "INSERT INTO ratings (restaurant_id, rating) VALUES (:rid, :rating)";
+		$sql = "INSERT INTO ratings (restaurant_id, rating, user_id) VALUES (:rid, :rating, :uid)";
 		$q = $this->pdo->prepare($sql);
-		return $q->execute(array(':rid'=>$id, ':rating'=>$rating));
+		return $q->execute(array(':rid'=>$id, ':rating'=>$rating, ':sid'=>$user_id));
 	}
 	
 	public function selectFromId($id) {

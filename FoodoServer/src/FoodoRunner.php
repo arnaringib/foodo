@@ -30,9 +30,9 @@ class FoodoRunner {
 	
 	private static function runApi() {
 		
-		if (preg_match("/api\/restaurant\/id\/([0-9]+)\/rate\/([0-9].[0-9]|[0-9])/", self::$uri, $matches)) {
+		if (preg_match("/api\/restaurant\/id\/([0-9]+)\/rate\/([0-9].[0-9]|[0-9])\/user_id\/([0-9]+)/", self::$uri, $matches)) {
 			$controller = new RestaurantController();
-			$controller->rateRestaurant($matches[1], number_format($matches[2],1));
+			$controller->rateRestaurant($matches[1], number_format($matches[2],1), matches[3]);
 		}
 		elseif (preg_match("/api\/restaurant\/id\/([0-9]+)/", self::$uri, $matches))
 		{

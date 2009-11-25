@@ -60,7 +60,7 @@ class ReviewDb {
 	}
 	
 	public function selectFromRestaurantId($id) {
-	$stmt = $this->pdo->prepare("SELECT * FROM reviews WHERE restaurant_id=?");
+	$stmt = $this->pdo->prepare("SELECT * FROM reviews WHERE restaurant_id=? ORDER BY created_at DESC");
 		
 		$stmt->execute(array($id));
 		$r = $stmt->fetchAll(PDO::FETCH_ASSOC);

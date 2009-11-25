@@ -1,28 +1,48 @@
 package is.hi.foodo;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.ListActivity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.SimpleCursorAdapter;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
 
-public class ReadReviews extends ListActivity  {
+public class ReadReviews extends ListActivity implements Runnable {
 	
 	private static final String TAG = "FoodoReviews";
-
+	
+	private static final String TITLE = "TITLE";
+	private static final String REVIEW = "REVIEW";
+	
+	private ProgressDialog pd;
+	private ReviewWebService mService;
 	private RestaurantDbAdapter mDbHelper;
+	private Long mRowId;	
+	
 	private Cursor mRestaurantCursor;
 	
-	private Long mRowId;
+	List< Map<String,String> > mReviews;
 	
 	@Override 
     protected void onCreate(Bundle savedInstanceState) { 
@@ -32,9 +52,13 @@ public class ReadReviews extends ListActivity  {
         
         mDbHelper = new RestaurantDbAdapter(this);
 		mDbHelper.open();
+		
+		mService = new ReviewWebService();
+		mReviews = new ArrayList<Map<String,String>>();
         
-		gatherList();
+		//gatherList();
 		getListView().setTextFilterEnabled(true);
+		getListView().setClickable(false);
 		registerForContextMenu(getListView());
 		
 		//Check if resuming from a saved instance state
@@ -46,7 +70,10 @@ public class ReadReviews extends ListActivity  {
         	mRowId = extras != null ? extras.getLong(RestaurantDbAdapter.KEY_ROWID) : null;
         }
         
+        Log.d(TAG, "ReId is: " + mRowId);
+        
         populateView();
+        loadReviews();
 	}
 	
 	private void populateView() {
@@ -60,7 +87,21 @@ public class ReadReviews extends ListActivity  {
     	}
 	}
 	
+	public void setupList() {
 	
+        SimpleAdapter adapter = new SimpleAdapter(
+        		this,
+        		mReviews, 
+        		R.layout.listreview,
+        		new String[] { TITLE, REVIEW },
+        		new int[] { R.id.reviewName, R.id.reviewText }
+        );
+        
+        setListAdapter(adapter);
+	}
+
+	
+	/*
 	public void gatherList() {
 		
 		//Get all rows from database
@@ -81,9 +122,10 @@ public class ReadReviews extends ListActivity  {
 		int[] to = new int[]{R.id.reviewName, R.id.reviewText};
         
         SimpleCursorAdapter adapt = new SimpleCursorAdapter(this, R.layout.listreview, mRestaurantCursor, from, to);
+
         
         setListAdapter(adapt);
-	}
+	}*/
 	
 	@Override 
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -109,5 +151,44 @@ public class ReadReviews extends ListActivity  {
 		}
 		return false;
 	}
+	
+	private void loadReviews() {
+		pd = ProgressDialog.show(ReadReviews.this, "Loading..", "Updating");
+		Thread thread = new Thread(ReadReviews.this);
+		thread.start();
+	}
+
+	@Override
+	public void run() {
+		
+		JSONArray jReviews = mService.getReviews(mRowId);
+		
+		int n = jReviews.length();
+		
+		try {
+			for (int i = 0; i < n; i++)
+			{
+				JSONObject r = jReviews.getJSONObject(i);
+				Map<String,String> map = new HashMap<String, String>();
+				map.put(TITLE, "User: " + r.getString("user_id"));
+				map.put(REVIEW, r.getString("review"));
+				mReviews.add(map);
+			}
+		}
+		catch (JSONException e) {
+			//TODO 
+		}
+		
+		handler.sendEmptyMessage(0);
+	}
+	
+	private Handler handler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			pd.dismiss();
+			Toast.makeText(ReadReviews.this, "Reviews loaded!", Toast.LENGTH_LONG).show();
+			setupList();
+		}
+	};
 }
 

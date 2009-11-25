@@ -2,18 +2,19 @@
 <LinearLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="fill_parent"
-  android:layout_height="wrap_content">
+  android:layout_height="wrap_content"
+  android:orientation="vertical"
+  android:padding="10dip">
   <TextView android:id="@+id/reviewName"
   				android:layout_width="fill_parent"
   				android:layout_height="wrap_content"
-  				android:text=""
-  				android:textSize="12dip"
+  				android:text="Titill"
+  				android:textSize="18dip"
 			/>
   <TextView android:id="@+id/reviewText"
   				android:layout_width="wrap_content"
   				android:layout_height="wrap_content"
-  				android:text=""
-  				android:height="150dip"
+  				android:text="Whatup"
 			/>
 
 </LinearLayout>

@@ -19,11 +19,12 @@
     		android:layout_width="fill_parent"
     		android:layout_height="wrap_content"
     		android:drawSelectorOnTop="false"
+    		android:focusable="false"
+  			android:clickable="false"
     		/>
 		</LinearLayout>
     		   	<TextView android:id="@android:id/empty"
    			android:layout_width="fill_parent"
    			android:layout_height="wrap_content"
-   			android:text="@string/no_rest"/>
-   			
+   			android:text="@string/no_reviews"/>
 </LinearLayout>

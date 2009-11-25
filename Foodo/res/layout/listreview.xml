@@ -4,17 +4,35 @@
   android:layout_width="fill_parent"
   android:layout_height="wrap_content"
   android:orientation="vertical"
-  android:padding="10dip">
-  <TextView android:id="@+id/reviewName"
-  				android:layout_width="fill_parent"
+  android:padding="10dip"
+  android:focusable="false"
+  android:clickable="false"
+>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="fill_parent"
+  android:layout_height="wrap_content"
+  android:orientation="horizontal"
+>
+	<TextView android:id="@+id/reviewName"
+  				android:layout_width="wrap_content"
   				android:layout_height="wrap_content"
-  				android:text="Titill"
+  				android:text="Title"
   				android:textSize="18dip"
-			/>
-  <TextView android:id="@+id/reviewText"
+	/>
+	<TextView android:id="@+id/reviewDate"
+  				android:layout_width="wrap_content"
+  				android:layout_height="wrap_content"
+  				android:text="Date"
+  				android:textSize="14dip"
+  				android:paddingLeft="14dip"
+	/>
+	
+</LinearLayout>
+	<TextView android:id="@+id/reviewText"
   				android:layout_width="wrap_content"
   				android:layout_height="wrap_content"
   				android:text="Whatup"
-			/>
+	/>
 
 </LinearLayout>

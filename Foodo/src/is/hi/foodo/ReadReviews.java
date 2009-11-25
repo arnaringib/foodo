@@ -34,6 +34,7 @@ public class ReadReviews extends ListActivity implements Runnable {
 	
 	private static final String TITLE = "TITLE";
 	private static final String REVIEW = "REVIEW";
+	private static final String DATE = "DATE";
 	
 	private ProgressDialog pd;
 	private ReviewWebService mService;
@@ -100,8 +101,8 @@ public class ReadReviews extends ListActivity implements Runnable {
         		this,
         		mReviews, 
         		R.layout.listreview,
-        		new String[] { TITLE, REVIEW },
-        		new int[] { R.id.reviewName, R.id.reviewText }
+        		new String[] { TITLE, REVIEW, DATE },
+        		new int[] { R.id.reviewName, R.id.reviewText, R.id.reviewDate }
         );
         
         setListAdapter(adapter);
@@ -177,8 +178,9 @@ public class ReadReviews extends ListActivity implements Runnable {
 			{
 				JSONObject r = jReviews.getJSONObject(i);
 				Map<String,String> map = new HashMap<String, String>();
-				map.put(TITLE, "User: " + r.getString("user_id"));
+				map.put(TITLE, r.getString("user"));
 				map.put(REVIEW, r.getString("review"));
+				map.put(DATE, r.getString("created_at"));
 				mReviews.add(map);
 			}
 		}

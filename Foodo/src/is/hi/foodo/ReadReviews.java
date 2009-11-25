@@ -145,7 +145,7 @@ public class ReadReviews extends ListActivity implements Runnable {
 		switch (item.getItemId()) {
 		case 0:
 			SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-			if(settings.getBoolean("access", true)){
+			if(settings.getBoolean("access", false)){
 				Intent writer = new Intent(this, WriteReviews.class);
 				writer.putExtra(RestaurantDbAdapter.KEY_ROWID, mRowId);
 				startActivityForResult(writer, 1);

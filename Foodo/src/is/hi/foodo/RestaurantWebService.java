@@ -9,16 +9,20 @@ import java.net.URLConnection;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import android.app.Activity;
+import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
-public class RestaurantWebService {
+public class RestaurantWebService extends Activity {
 	
 	private static final String TAG = "RestaurantWebService";
     private static final String WEBSERVICE_URL = "http://foodo.nord.is/api";
+    	
+	RestaurantDbAdapter mDb; 
 	
-	RestaurantDbAdapter mDb;
-    
+	
     public RestaurantWebService(RestaurantDbAdapter db) {
     	mDb = db;
     }
@@ -100,10 +104,10 @@ public class RestaurantWebService {
      * @return new rating
      */
     public double addRating(long restaurant_id, double new_rating, long user_id) {
-    	//TODO talk to webservice
+    	//TODO talk to webservice    	 
     	try {
-    		JSONObject json = loadData(WEBSERVICE_URL + "/restaurant/id/" + restaurant_id + "/rate/" + new_rating + "/user_id/" + user_id);
-    		JSONObject o = json.getJSONObject("responseData").getJSONObject("Restaurants");
+    			JSONObject json = loadData(WEBSERVICE_URL + "/restaurant/id/" + restaurant_id + "/rate/" + new_rating + "/user_id/" + user_id);
+	    		JSONObject o = json.getJSONObject("responseData").getJSONObject("Restaurants");
     		
     		//JSONObject o = list.getJSONObject(0);
     		mDb.updateRestaurant(

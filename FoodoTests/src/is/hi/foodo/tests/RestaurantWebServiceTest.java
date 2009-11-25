@@ -50,15 +50,17 @@ public class RestaurantWebServiceTest extends AndroidTestCase {
     	mService.updateAll();
     	
     	long id = 1;
+    	int userid = 1;
     	Cursor r = mDb.fetchRestaurant(1);
     	
     	float currentRating = r.getFloat(r.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_RATING));
     	int currentCount = r.getInt(r.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_RATING_COUNT));
     	    	
     	double newRating = 2.0;
-    	double resRating = mService.addRating(id, newRating);
+    	double resRating = mService.addRating(id, newRating, userid);
 
-    	assertEquals(((currentRating*currentCount)+newRating)/(currentCount+1), resRating);
+    	double expected = ((currentRating*currentCount)+newRating) /(currentCount+1); 
+    	assertEquals(Math.round(expected*10)/10.0, resRating);
     	
     }
 

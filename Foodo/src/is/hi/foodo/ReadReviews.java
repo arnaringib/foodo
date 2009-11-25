@@ -10,6 +10,7 @@ import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -20,6 +21,8 @@ public class ReadReviews extends ListActivity  {
 
 	private RestaurantDbAdapter mDbHelper;
 	private Cursor mRestaurantCursor;
+	
+	private Long mRowId;
 	
 	@Override 
     protected void onCreate(Bundle savedInstanceState) { 
@@ -33,8 +36,31 @@ public class ReadReviews extends ListActivity  {
 		gatherList();
 		getListView().setTextFilterEnabled(true);
 		registerForContextMenu(getListView());
-
+		
+		//Check if resuming from a saved instance state
+        mRowId = (savedInstanceState != null ? savedInstanceState.getLong(RestaurantDbAdapter.KEY_ROWID) : null);
+        //Get id from intent if not set
+        if (mRowId == null)
+        {
+        	Bundle extras = getIntent().getExtras();
+        	mRowId = extras != null ? extras.getLong(RestaurantDbAdapter.KEY_ROWID) : null;
+        }
+        
+        populateView();
 	}
+	
+	private void populateView() {
+		if (mRowId != null)
+    	{
+    		Cursor restaurant = mDbHelper.fetchRestaurant(mRowId);
+    		startManagingCursor(restaurant);
+    		
+    		TextView mPlaceName = (TextView) this.findViewById(R.id.reviewPlace);
+    		mPlaceName.setText(restaurant.getString(restaurant.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_NAME)));
+    	}
+	}
+	
+	
 	public void gatherList() {
 		
 		//Get all rows from database
@@ -71,6 +97,7 @@ public class ReadReviews extends ListActivity  {
 			SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
 			if(settings.getBoolean("access", true)){
 				Intent writer = new Intent(this, WriteReviews.class);
+				writer.putExtra(RestaurantDbAdapter.KEY_ROWID, mRowId);
 				startActivityForResult(writer, 1);
 				return true;
 			}

@@ -201,6 +201,7 @@ public class FoodoDetails extends Activity {
 	}
 	public void reviews() {
 		Intent i = new Intent(this, ReadReviews.class);
+		i.putExtra(RestaurantDbAdapter.KEY_ROWID, mRowId);
 		startActivityForResult(i, 1);
 	}
 	// button click listener

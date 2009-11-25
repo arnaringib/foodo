@@ -28,7 +28,7 @@ public class ReviewWebService {
     private static final String WEBSERVICE_URL = "http://foodo.nord.is/api";
 	
     
-    public JSONObject addReview(int uid, int rid, String review) {
+    public JSONObject addReview(long uid, long rid, String review) {
     	
 		// Create a new HttpClient and Post Header
 	    HttpClient httpclient = new DefaultHttpClient();  
@@ -37,8 +37,8 @@ public class ReviewWebService {
 	    try {  
 	        // Add your data  
 	        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);  
-	        nameValuePairs.add(new BasicNameValuePair("user_id", Integer.toString(uid)));  
-	        nameValuePairs.add(new BasicNameValuePair("restaurant_id", Integer.toString(rid)));
+	        nameValuePairs.add(new BasicNameValuePair("user_id", Long.toString(uid)));  
+	        nameValuePairs.add(new BasicNameValuePair("restaurant_id", Long.toString(rid)));
 	        nameValuePairs.add(new BasicNameValuePair("review", review));
 	        httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));  
 	  

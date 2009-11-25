@@ -9,6 +9,8 @@ class Review
 
 	private $created_at;
 	
+	private $username;
+	
 	public function setId($id)
 	{
 		$this->id = $id;
@@ -52,13 +54,22 @@ class Review
 		return $this->created_at;
 	}
 	
+	public function setUserName($user) {
+		$this->username = $user;
+	}
+	
+	public function getUserName() {
+		return $this->username;
+	}
+	
 	public function toArray() {
 		return array(
 			"id" => $this->getId() * 1,
 			"review" => $this->getReview(),
 			"user_id" => $this->getUserId(),
 			"restaurant_id" => $this->getRestaurantId(),
-			"created_at" => $this->getCreatedAt()
+			"created_at" => $this->getCreatedAt(),
+			"user" => $this->getUserName()
 		);
 	}
 

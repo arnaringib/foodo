@@ -60,7 +60,7 @@ class ReviewDb {
 	}
 	
 	public function selectFromRestaurantId($id) {
-	$stmt = $this->pdo->prepare("SELECT * FROM reviews WHERE restaurant_id=? ORDER BY created_at DESC");
+	$stmt = $this->pdo->prepare("SELECT R.*, U.firstName, U.lastName FROM reviews R LEFT JOIN users U WHERE restaurant_id=? ORDER BY created_at DESC");
 		
 		$stmt->execute(array($id));
 		$r = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -93,6 +93,7 @@ class ReviewDb {
 		$r->setReview($row['review']);
 		$r->setRestaurantId($row['restaurant_id']);
 		$r->setUserId($row['user_id']);
+		$r->setUserName($row['firstName'] . " " . $row['lastnName']);
 		$r->setCreated($row['created_at']);
 		
 		return $r;

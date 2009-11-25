@@ -1,18 +1,17 @@
 package is.hi.foodo;
 
-import org.json.JSONObject;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class WriteReviews extends Activity implements View.OnClickListener, Runnable {
 	
@@ -84,9 +83,9 @@ public class WriteReviews extends Activity implements View.OnClickListener, Runn
 
 	@Override
 	public void run() {
-		// TODO Get user id from somewhere
-		
-		long user_id = 1;
+		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+		long user_id = settings.getLong("user", new Long(0));
+
 		mService.addReview(user_id, mRowId, mReview.getText().toString());
 		handler.sendEmptyMessage(0);
 	}

@@ -205,7 +205,7 @@ class RestaurantDb {
 	public function rate($id, $rating, $user_id) {
 		$sql = "UPDATE ratings SET rating = :rating  WHERE restaurant_id = :rid AND user_id = :uid";
 		$q = $this->pdo->prepare($sql);
-		$b = $q->execute(array(':rid'=>$rid, ':rating'=>$rating, ':uid'=>$uid));
+		$b = $q->execute(array(':rid'=>$id, ':rating'=>$rating, ':uid'=>$user_id));
 		
 		if ($q->rowCount()==0) {
 			$sql = "INSERT INTO ratings (restaurant_id, rating, user_id) VALUES (:rid, :rating, :uid)";

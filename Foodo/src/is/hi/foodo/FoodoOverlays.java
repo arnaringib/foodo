@@ -2,20 +2,23 @@ package is.hi.foodo;
 
 import java.util.ArrayList;
 
+import android.app.Dialog;
 import android.graphics.drawable.Drawable;
-import android.view.MotionEvent;
-import android.widget.Toast;
+import android.view.View;
+import android.widget.Button;
 
-import com.google.android.maps.GeoPoint;
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.MapView;
 
 public class FoodoOverlays extends ItemizedOverlay<FoodoOverlayItem> {
 	private ArrayList<FoodoOverlayItem> mRestaurantsOverlays = new ArrayList<FoodoOverlayItem>();
-	private long b = -1;
+	private MapView mapView;
+	private int last;
+	private Dialog dialog;
 	
-	public FoodoOverlays(Drawable defaultMarker) {
+	public FoodoOverlays(Drawable defaultMarker, MapView mapView) {
 		super(boundCenterBottom(defaultMarker));
+		this.mapView = mapView;
 	}
 		
 	/**
@@ -25,7 +28,7 @@ public class FoodoOverlays extends ItemizedOverlay<FoodoOverlayItem> {
 	 */
 	public void addOverlay(FoodoOverlayItem overlay){
 		mRestaurantsOverlays.add(overlay);
-		populate(); //Every overlayItem is read and prepared to be drawned
+		populate(); //Every overlayItem is read and prepared to be drawn
 	}	
 	
 	@Override
@@ -43,53 +46,44 @@ public class FoodoOverlays extends ItemizedOverlay<FoodoOverlayItem> {
 	}
 	
 	@Override
-	public boolean onTouchEvent(MotionEvent event, MapView mapView) {
-		GeoPoint p  = mapView.getProjection().fromPixels(
-				(int) event.getX(),
-				(int) event.getY());
+	protected boolean onTap(int index) {
+		last = index;		
+		dialog = new Dialog(mapView.getContext());
 		
-		if(event.getAction() == MotionEvent.ACTION_DOWN){
-			b = event.getEventTime();
+		dialog.setContentView(R.layout.restaurantpicker);
+		if(getItem(index).getTitle().length() < 19){
+			dialog.setTitle(getItem(index).getTitle());
 		}
-		if(event.getAction() == MotionEvent.ACTION_UP) 
-		{
-			if(event.getEventTime()-b >= 250){
-				int count = 0;
-				while(count < mRestaurantsOverlays.size()){
-					if((mRestaurantsOverlays.get(count).getPoint().getLatitudeE6() + 1000 >= p.getLatitudeE6() &&
-						mRestaurantsOverlays.get(count).getPoint().getLatitudeE6() - 1000 <= p.getLatitudeE6()) &&
-						(mRestaurantsOverlays.get(count).getPoint().getLongitudeE6() + 1000 >= p.getLongitudeE6() &&
-						mRestaurantsOverlays.get(count).getPoint().getLongitudeE6() - 1000 <= p.getLongitudeE6())){
-					
-						FoodoMap fMap = (FoodoMap) mapView.getContext();
-						fMap.startDetails(mRestaurantsOverlays.get(count).id);
-					
-					}
-					count++;
-				}
-			}
-			else{
-				int count = 0;
-				while(count < mRestaurantsOverlays.size()){
-					if((mRestaurantsOverlays.get(count).getPoint().getLatitudeE6() + 1000 >= p.getLatitudeE6() &&
-						mRestaurantsOverlays.get(count).getPoint().getLatitudeE6() - 1000 <= p.getLatitudeE6()) &&
-						(mRestaurantsOverlays.get(count).getPoint().getLongitudeE6() + 1000 >= p.getLongitudeE6() &&
-						mRestaurantsOverlays.get(count).getPoint().getLongitudeE6() - 1000 <= p.getLongitudeE6())){
-					
-						Toast.makeText(mapView.getContext(),
-							mRestaurantsOverlays.get(count).getTitle(), 
-							Toast.LENGTH_SHORT).show();
-			
-					}
-					count++;
-				}
-			}
+		else{
+			dialog.setTitle(getItem(index).getTitle().subSequence(0,19) + "...");
 		}
+		dialog.setCanceledOnTouchOutside(true);
+		dialog.show();
+		final Button bYes = (Button) dialog.findViewById(R.id.pickRestaurantYes);
+		View.OnClickListener lYes = new View.OnClickListener(){
+			public void onClick(View v){			
+				FoodoMap fMap = (FoodoMap) mapView.getContext();
+				fMap.startDetails(mRestaurantsOverlays.get(last).id);
+				dialog.cancel();
+			}
+		};
+		bYes.setOnClickListener(lYes);
+		
+		final Button bNo = (Button) dialog.findViewById(R.id.pickRestaurantNo);
+		View.OnClickListener lNo = new View.OnClickListener(){
+			public void onClick(View v){
+				dialog.cancel();
+			}
+		};
+		bNo.setOnClickListener(lNo);
+		
+		
 		return false;
 	}
-
+	
 	public void setOverlays(ArrayList<FoodoOverlayItem> allOverlays) {
 		mRestaurantsOverlays = allOverlays;
 		populate();
 	}
+	
 }

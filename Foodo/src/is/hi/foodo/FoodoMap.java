@@ -38,7 +38,7 @@ public class FoodoMap extends MapActivity implements Runnable, LocationListener 
 	
 	private static final int MSG_UPDATE_SUCCESSFUL = 1;
 	private static final int MSG_UPDATE_FAILED = 2;
-
+	private static final int FILTER_VIEW = 5;
 	
 	
 	private ProgressDialog pd;
@@ -86,7 +86,7 @@ public class FoodoMap extends MapActivity implements Runnable, LocationListener 
 
 	@Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 2) {
+        if (requestCode == FILTER_VIEW) {
             if (resultCode == RESULT_OK) {
                 updateOverlays();
             }
@@ -121,7 +121,7 @@ public class FoodoMap extends MapActivity implements Runnable, LocationListener 
 			return true;
 		case MENU_FILTER:
 			Intent filter = new Intent(this, FoodoFilter.class);
-			startActivityForResult(filter, 2);
+			startActivityForResult(filter, FILTER_VIEW);
 			return true;
 		case MENU_UPDATE:
 			updateOverlays();
@@ -261,7 +261,7 @@ public class FoodoMap extends MapActivity implements Runnable, LocationListener 
 			mapRestaurantsOverlays.clear();
 			
 			drawable = getResources().getDrawable(R.drawable.bubble);
-	        foodoRestaurantsOverlays = new FoodoOverlays(drawable);
+	        foodoRestaurantsOverlays = new FoodoOverlays(drawable, mapView);
 			
 			do {
 				GeoPoint p = new GeoPoint(
@@ -339,8 +339,7 @@ public class FoodoMap extends MapActivity implements Runnable, LocationListener 
 		control.animateTo(punktur);
 		 
 	}
-
-
+	
 	@Override
 	public void onProviderDisabled(String provider) {
 		// TODO Auto-generated method stub

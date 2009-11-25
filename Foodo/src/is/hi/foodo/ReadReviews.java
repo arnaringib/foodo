@@ -41,7 +41,7 @@ public class ReadReviews extends ListActivity implements Runnable {
 	private RestaurantDbAdapter mDbHelper;
 	private Long mRowId;	
 	
-	private Cursor mRestaurantCursor;
+	//private Cursor mRestaurantCursor;
 	
 	List< Map<String,String> > mReviews;
 	

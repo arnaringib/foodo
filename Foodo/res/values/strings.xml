@@ -10,5 +10,6 @@
     <string name="menu_update">Update</string>
     <string name="menu_login">Login</string>
     <string name="menu_logout">Logout</string>
+    <string name="see_restaurant">Get details?</string>
     <string name="no_reviews">No reviews for this restaurant yet.</string>
 </resources>

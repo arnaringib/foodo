@@ -54,7 +54,6 @@ public class ReadReviews extends ListActivity implements Runnable {
 		mDbHelper.open();
 		
 		mService = new ReviewWebService();
-		mReviews = new ArrayList<Map<String,String>>();
         
 		//gatherList();
 		getListView().setTextFilterEnabled(true);
@@ -73,8 +72,16 @@ public class ReadReviews extends ListActivity implements Runnable {
         Log.d(TAG, "ReId is: " + mRowId);
         
         populateView();
-        loadReviews();
 	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		
+		mReviews = new ArrayList<Map<String,String>>();
+		loadReviews();
+	}
+	
 	
 	private void populateView() {
 		if (mRowId != null)
@@ -186,9 +193,9 @@ public class ReadReviews extends ListActivity implements Runnable {
 		@Override
 		public void handleMessage(Message msg) {
 			pd.dismiss();
-			Toast.makeText(ReadReviews.this, "Reviews loaded!", Toast.LENGTH_LONG).show();
 			setupList();
 		}
 	};
+
 }
 

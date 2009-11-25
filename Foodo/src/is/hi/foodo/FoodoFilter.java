@@ -76,7 +76,7 @@ public class FoodoFilter extends Activity {
 		} ;
 		
 		bFilterTypes.setOnClickListener(lFilterTypes);
-		
+
 		// ------------- Save Button -----------------
 		final Button bSaveChanges = (Button) findViewById(R.id.bSave);
 		View.OnClickListener lSaveChanges = new View.OnClickListener(){

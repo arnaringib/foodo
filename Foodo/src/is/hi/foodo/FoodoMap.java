@@ -64,7 +64,7 @@ public class FoodoMap extends MapActivity implements Runnable, LocationListener 
                
         mapView = (MapView) findViewById(R.id.mapview);
         mapView.setBuiltInZoomControls(true);
-               
+
         mDbHelper = new RestaurantDbAdapter(this);
         mDbHelper.open();
 		if (mService == null)
@@ -84,6 +84,15 @@ public class FoodoMap extends MapActivity implements Runnable, LocationListener 
 		mDbHelper.close();
 	}
 
+	@Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 2) {
+            if (resultCode == RESULT_OK) {
+                updateOverlays();
+            }
+        }
+	}
+	
 	@Override
 	protected boolean isRouteDisplayed() {
 		return false;
@@ -112,7 +121,7 @@ public class FoodoMap extends MapActivity implements Runnable, LocationListener 
 			return true;
 		case MENU_FILTER:
 			Intent filter = new Intent(this, FoodoFilter.class);
-			startActivityForResult(filter, 1);
+			startActivityForResult(filter, 2);
 			return true;
 		case MENU_UPDATE:
 			updateOverlays();
@@ -193,7 +202,7 @@ public class FoodoMap extends MapActivity implements Runnable, LocationListener 
 		}
 		c.close();
 	}
-	
+		
 	// Post: returns the number of types of restaurants.
 	private int numberOfTypes(){
 		Cursor c = mDbHelper.fetchAllTypes();
@@ -287,6 +296,7 @@ public class FoodoMap extends MapActivity implements Runnable, LocationListener 
 			updateOverlays();
 		}
 		c.close();
+		mapView.invalidate();
 	}
 	
 	/**

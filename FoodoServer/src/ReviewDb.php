@@ -93,7 +93,7 @@ class ReviewDb {
 		$r->setReview($row['review']);
 		$r->setRestaurantId($row['restaurant_id']);
 		$r->setUserId($row['user_id']);
-		$r->setUserName($row['firstName'] . " " . $row['lastnName']);
+		$r->setUserName($row['firstName'] . " " . $row['lastName']);
 		$r->setCreated($row['created_at']);
 		
 		return $r;

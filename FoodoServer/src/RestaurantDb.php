@@ -203,19 +203,19 @@ class RestaurantDb {
 	}
 	
 	public function rate($id, $rating, $user_id) {
-		
-		$sql = "INSERT INTO ratings (restaurant_id, rating, user_id) VALUES (:rid, :rating, :uid)";
-		$q = $this->pdo->prepare($sql);
-		return $q->execute(array(':rid'=>$id, ':rating'=>$rating, ':uid'=>$user_id));
-	}
-	
-	public function updateRate($rid, $rating, $uid) {
-		
 		$sql = "UPDATE ratings SET rating = :rating  WHERE restaurant_id = :rid AND user_id = :uid";
 		$q = $this->pdo->prepare($sql);
 		$b = $q->execute(array(':rid'=>$rid, ':rating'=>$rating, ':uid'=>$uid));
-		return $b;
+		
+		if ($q->rowCount()==0) {
+			$sql = "INSERT INTO ratings (restaurant_id, rating, user_id) VALUES (:rid, :rating, :uid)";
+			$q = $this->pdo->prepare($sql);
+			return $q->execute(array(':rid'=>$id, ':rating'=>$rating, ':uid'=>$user_id));
+		} 
+		else 
+			return $b; 
 	}
+
 	
 	public function selectFromId($id) {
 		

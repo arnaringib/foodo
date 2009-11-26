@@ -19,6 +19,7 @@ public class FoodoOverlays extends ItemizedOverlay<FoodoOverlayItem> {
 	public FoodoOverlays(Drawable defaultMarker, MapView mapView) {
 		super(boundCenterBottom(defaultMarker));
 		this.mapView = mapView;
+		populate();
 	}
 		
 	/**

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:padding="10dip">
+    android:padding="5dip">
     
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
@@ -48,50 +48,65 @@
 		android:inputType="textMultiLine"
 		android:maxLines="4"
 	/>
+
+		   
 	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-		    	android:layout_width="wrap_content"
-		    	android:layout_height="wrap_content"
-		    	android:orientation="horizontal"
-		    	android:paddingTop="5dip">
-		    </LinearLayout> 
-	<!--	   
-	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	    	android:layout_width="wrap_content"
-	    	android:layout_height="wrap_content"
+	    	android:layout_width="fill_parent"
+	    	android:layout_height="fill_parent"
 	    	android:orientation="horizontal"
-	    	android:paddingTop="120dip">
-	    	
+	    	android:gravity="bottom">
+	    <!--	
 		<Button 
 		android:text="View on map" 
 		android:id="@+id/bViewOnMap" 
 		android:layout_width="150dip"
 		android:layout_height="wrap_content">
 		</Button>
-		
-		<Button 
-		android:text="Description" 
-		android:id="@+id/bDescription" 
-		android:layout_width="150dip"
-		android:layout_height="wrap_content">
-		</Button>
-	</LinearLayout>
-	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    	android:layout_width="wrap_content"
-    	android:layout_height="wrap_content"
+		-->
+		<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    	android:layout_width="fill_parent"
+    	android:layout_height="fill_parent"
+    	android:layout_weight="1"
+    	android:gravity="bottom"
     	android:orientation="horizontal">
-    	-->
-		<Button android:text="Call" 
-		android:id="@+id/bCall" 
-		android:layout_width="150dip" 
-		android:layout_height="wrap_content">
-		</Button>
-		<Button 
-		android:text="Reviews" 
-		android:id="@+id/bReviews" 
-		android:layout_width="150dip" 
-		android:layout_height="wrap_content">
-		</Button>
-		<!--
+			<Button 
+			android:text="Rate" 
+			android:id="@+id/bRate" 
+			android:layout_width="fill_parent" 
+			android:layout_height="wrap_content"
+			android:background="@drawable/buttonstates"
+
+			android:textColor="#FFFFFF">
+			</Button>
+		</LinearLayout>
+		<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    	android:layout_width="fill_parent"
+    	android:layout_height="fill_parent"
+    	android:layout_weight="1"
+    	android:gravity="bottom"
+    	android:orientation="horizontal">
+			<Button android:text="Call" 
+			android:id="@+id/bCall" 
+			android:layout_width="fill_parent" 
+			android:layout_height="wrap_content"
+			android:background="@drawable/buttonstates"
+			android:textColor="#FFFFFF">
+			</Button>
+		</LinearLayout>
+		<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    	android:layout_width="fill_parent"
+    	android:layout_height="fill_parent"
+    	android:layout_weight="1"
+    	android:gravity="bottom"
+    	android:orientation="horizontal">
+			<Button 
+			android:text="Reviews" 
+			android:id="@+id/bReviews" 
+			android:layout_width="fill_parent" 
+			android:layout_height="wrap_content"
+			android:background="@drawable/buttonstates"
+			android:textColor="#FFFFFF">
+			</Button>
+		</LinearLayout>
 	</LinearLayout>
-	-->
 </LinearLayout>

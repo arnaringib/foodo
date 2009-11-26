@@ -12,17 +12,19 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
-public class FoodoDetails extends Activity {
+public class FoodoDetails extends Activity{
 	
 	private static final String TAG = "FoodoDetails";
 	
@@ -38,7 +40,7 @@ public class FoodoDetails extends Activity {
 	Cursor types;
 	
 	//View items
-	private Button btnDescr, btnReviews, btnCall, btnViewOnMap;
+	private Button btnRate, btnReviews, btnCall, btnViewOnMap;
 	private TextView mNameText;
 	private TextView mInfo;
 	private TextView mTypes;
@@ -91,9 +93,7 @@ public class FoodoDetails extends Activity {
 		super.onDestroy();
 		mDbHelper.close();
 	}
-
 	protected Dialog onCreateDialog(int id) {
-		
 		switch(id) {
 			case RATING_DIALOG:
 		            LayoutInflater factory = LayoutInflater.from(this);
@@ -184,33 +184,45 @@ public class FoodoDetails extends Activity {
 	}
 	
 	/* create the menu items */
+	/*
 	@Override 
 	public boolean onCreateOptionsMenu(Menu menu) {
-		 menu.add(0,0,0,"Info");
+		 menu.add(0,0,0,"Call");
 		 menu.add(0,1,1,"Rate!");
+		 menu.add(0,2,2,"Reviews");
+		 
 		 return true;
 	}
-	
+	*/
 	public void setupButtons() {
-	//	this.btnDescr = (Button)this.findViewById(R.id.bDescription);
+		this.btnRate = (Button)this.findViewById(R.id.bRate);
 		this.btnReviews = (Button)this.findViewById(R.id.bReviews);
 		this.btnCall = (Button)this.findViewById(R.id.bCall);
+
 	//	this.btnViewOnMap = (Button)this.findViewById(R.id.bViewOnMap);
 		
-	//	btnDescr.setOnClickListener(new clicker());
-		btnReviews.setOnClickListener(new clicker());
-		btnCall.setOnClickListener(new clicker());
+		btnRate.setOnClickListener(new clicker());
+  		btnReviews.setOnClickListener(new clicker());
+		btnCall.setOnClickListener(new clicker()); 
+
 	//	btnViewOnMap.setOnClickListener(new clicker());
 			
 	}
 
 	/* when menu button option selected */
+	/*
 	@Override 
 	public boolean onOptionsItemSelected(MenuItem item) {
 		Context context = getApplicationContext();
 		switch (item.getItemId()) {
 		case 0:
-			Toast.makeText(context, "Not implemented", Toast.LENGTH_SHORT).show();
+			try {
+				   Intent callIntent = new Intent(Intent.ACTION_CALL) ; 
+				   callIntent.setData(Uri.parse("tel:+" + restaurant.getString(restaurant.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_PHONE))));
+				   startActivity(callIntent);
+				} catch (Exception e) {
+				   Log.e(TAG, "Calling caused an exception: ", e);
+				}
 			return true;
 		case 1:
 			SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
@@ -221,9 +233,15 @@ public class FoodoDetails extends Activity {
 			else {
 				Toast.makeText(context, "You have to be signed in", Toast.LENGTH_SHORT).show();
 			}
+			return true;
+		
+		case 2:
+			reviews();
+			return true;
 		}
 		return false;
 	}
+	*/
 	public void reviews() {
 		Intent i = new Intent(this, ReadReviews.class);
 		i.putExtra(RestaurantDbAdapter.KEY_ROWID, mRowId);
@@ -236,8 +254,14 @@ public class FoodoDetails extends Activity {
 		public void onClick(View v)
 		{
 			Context context = getApplicationContext();
-			if(v==btnDescr){
-				Toast.makeText(context, bTextDescr, Toast.LENGTH_SHORT).show();
+			if(v==btnRate){
+				SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(FoodoDetails.this);
+				if(settings.getBoolean("access", true)){
+					showDialog(RATING_DIALOG);
+				}
+				else {
+					Toast.makeText(context, "You have to be signed in", Toast.LENGTH_SHORT).show();
+				}
 			}
 			else if(v==btnReviews){
 					reviews();
@@ -255,6 +279,8 @@ public class FoodoDetails extends Activity {
 			else if(v==btnViewOnMap){
 				Toast.makeText(context, bTextViewOnMap, Toast.LENGTH_SHORT).show();
 			}
+		
 		}
     }	
+    
 }

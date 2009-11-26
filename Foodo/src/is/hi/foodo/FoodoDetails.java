@@ -35,11 +35,13 @@ public class FoodoDetails extends Activity {
 	RestaurantDbAdapter mDbHelper;
 	RestaurantWebService mService;
 	Cursor restaurant;
+	Cursor types;
 	
 	//View items
 	private Button btnDescr, btnReviews, btnCall, btnViewOnMap;
 	private TextView mNameText;
 	private TextView mInfo;
+	private TextView mTypes;
 	
 	//Temporary stings for toasts
 	static final CharSequence bTextDescr = "No description ..";
@@ -61,6 +63,7 @@ public class FoodoDetails extends Activity {
 		
 		mNameText = (TextView) findViewById(R.id.ReName);
 		mInfo = (TextView) findViewById(R.id.ReInfo);
+		mTypes = (TextView) findViewById(R.id.ReTypes);
 		
 		//Open connection to DB adapter
 		mDbHelper = new RestaurantDbAdapter(this);
@@ -134,6 +137,10 @@ public class FoodoDetails extends Activity {
     		restaurant = mDbHelper.fetchRestaurant(mRowId);
     		startManagingCursor(restaurant);
     		
+    		String typeString = makeTypeString();
+    			Log.d(TAG, typeString);
+    		mTypes.setText(typeString);
+    		
     		mRating = restaurant.getFloat(restaurant.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_RATING));
     		
     		mNameText.setText(restaurant.getString(restaurant.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_NAME)));
@@ -150,6 +157,24 @@ public class FoodoDetails extends Activity {
 		    				+ restaurant.getString(restaurant.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_WEBSITE))
     		);
     	}
+	}
+	
+	private String makeTypeString() {
+		StringBuilder builder = new StringBuilder();
+		
+		types = mDbHelper.fetchRestaurantTypes(mRowId);
+		
+		if (types.moveToFirst()) {
+			do {
+				builder.append(types.getString(types.getColumnIndex(RestaurantDbAdapter.KEY_TYPE)));
+			} 
+			while (types.moveToNext());
+		}
+		else {
+			builder.append("...");
+		}
+
+		return builder.toString();
 	}
 
 	@Override

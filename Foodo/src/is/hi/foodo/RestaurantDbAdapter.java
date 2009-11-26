@@ -59,11 +59,11 @@ public class RestaurantDbAdapter {
     private static final String RT_DATABASE_EMPTY = "DELETE FROM restaurantstypes";
 
     
-    private static final String DATABASE_NAME = "data";
+    private static final String DATABASE_NAME = "foodo";
     private static final String DATABASE_TABLE = "restaurants";
     private static final String DATABASE_T_TABLE = "types";
     private static final String RT_DATABASE_TABLE = "restaurantstypes";
-    private static final int DATABASE_VERSION = 8;
+    private static final int DATABASE_VERSION = 10;
     
     private final Context mCtx;
     
@@ -337,6 +337,13 @@ public class RestaurantDbAdapter {
             mCursor.moveToFirst();
         }
         return mCursor;
+    }
+    
+    public Cursor fetchRestaurantTypes(long rowId) throws SQLException {
+    	String sql = "SELECT " + KEY_TYPE + " FROM " + DATABASE_T_TABLE + ", " + RT_DATABASE_TABLE + 
+    					" WHERE " + KEY_TID + " = " + KEY_TROWID + " AND " + KEY_RID + " = " + rowId;
+    	Log.d(TAG,sql);
+    	return mDb.rawQuery(sql, null);
     }
     
     /**

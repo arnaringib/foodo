@@ -176,8 +176,8 @@ public class FoodoMap extends MapActivity implements Runnable, LocationListener 
 		Filter.mediumprice = true;
 		Filter.highprice = true;
 		Filter.radius = 10000;
-		Filter.ratingFrom = "0.0";
-		Filter.ratingTo = "5.0";
+		Filter.ratingFrom = "0";
+		Filter.ratingTo = "5";
 		
 		// Collect data for types.
 		collectTypes();

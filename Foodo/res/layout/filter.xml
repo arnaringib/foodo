@@ -84,7 +84,7 @@
 	 			 android:text=""
 	 			 android:layout_width="100px"
 	 			 android:layout_height="wrap_content"
-	 			 android:numeric="decimal"
+	 			 android:numeric="integer"
 	 			/>
 	 			<TextView 
 			 	 android:text="To" 
@@ -97,7 +97,7 @@
 	 			 android:text=""
 	 			 android:layout_width="100px"
 	 			 android:layout_height="wrap_content"
-	 			 android:numeric="decimal"
+	 			 android:numeric="integer"
 	 			/>
 	  </LinearLayout>
 	  <View

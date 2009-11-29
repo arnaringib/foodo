@@ -269,7 +269,7 @@ public class FoodoDetails extends Activity{
 			else if(v==btnCall){
 				try {
 					   Intent callIntent = new Intent(Intent.ACTION_CALL) ; 
-					   callIntent.setData(Uri.parse("tel:+" + restaurant.getString(restaurant.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_PHONE))));
+					   callIntent.setData(Uri.parse("tel:" + restaurant.getString(restaurant.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_PHONE))));
 					   startActivity(callIntent);
 					} catch (Exception e) {
 					   Log.e(TAG, "Calling caused an exception: ", e);

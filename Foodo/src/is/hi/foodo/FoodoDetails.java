@@ -166,6 +166,9 @@ public class FoodoDetails extends Activity{
 		if (types.moveToFirst()) {
 			do {
 				builder.append(types.getString(types.getColumnIndex(RestaurantDbAdapter.KEY_TYPE)));
+				
+				if (!types.isLast())
+					builder.append(", ");
 			} 
 			while (types.moveToNext());
 		}

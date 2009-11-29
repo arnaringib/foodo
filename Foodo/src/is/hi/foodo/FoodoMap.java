@@ -103,9 +103,9 @@ public class FoodoMap extends MapActivity implements Runnable, LocationListener 
 	public boolean onCreateOptionsMenu(Menu menu) {
 		 menu.add(0,MENU_LIST,0, R.string.menu_listview);
 		 menu.add(0,MENU_FILTER,1, R.string.menu_filter);
-		 menu.add(0,MENU_UPDATE,2, R.string.menu_update);
-		 menu.add(0,MENU_LOGIN,3, R.string.menu_login);
-		 menu.add(0,MENU_LOGOUT,3, R.string.menu_logout);
+		 //menu.add(0,MENU_UPDATE,2, R.string.menu_update);
+		 //menu.add(0,MENU_LOGIN,3, R.string.menu_login);
+		 //menu.add(0,MENU_LOGOUT,3, R.string.menu_logout);
 		 
 		 return true;
 	}

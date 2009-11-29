@@ -308,12 +308,18 @@ public class RestaurantDbAdapter {
     }
     
     private String getTypes(boolean[] checkedType, int[] typesId){
+    	boolean first = true;
     	String result = "AND (";
-    	for(int i = 0; i != typesId.length; i++){
-    		if(checkedType[i] && i == 0)
+    	for(int i = 0; i != typesId.length; i++)
+    	{
+    		if (checkedType[i])
+    		{
+    			if (!first)
+    				result += " OR "; 
     			result += KEY_TID + "=" + typesId[i];
-    		if(checkedType[i])
-    			result += " OR " + KEY_TID + "=" + typesId[i];
+    			
+    			first = false;
+    		}
     	}
     	return result + ")";
     }

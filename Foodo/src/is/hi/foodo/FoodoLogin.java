@@ -94,7 +94,7 @@ public class FoodoLogin extends Activity implements Runnable {
 	            editor.putLong("user",id);
 		       // Don't forget to commit edits!!!
 		       editor.commit();
-		       //FoodoLogin.this.finish();
+		       FoodoLogin.this.finish();
 		    }
 			else{
 				Log.d(TAG, "login failed!");

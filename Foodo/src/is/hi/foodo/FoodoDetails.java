@@ -156,6 +156,18 @@ public class FoodoDetails extends Activity{
 		    				+ restaurant.getString(restaurant.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_WEBSITE))
     		);
     	}
+    	
+    	//Initialize login/logout button
+    	SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(FoodoDetails.this);
+    	CharSequence str = "";
+		if(settings.getBoolean("access", true))
+			str = getString(R.string.logout);
+		else 
+			str = getString(R.string.login);
+		
+		Button b = (Button)findViewById(R.id.bLog);
+		b.setText(str);
+    	
 	}
 	
 	private String makeTypeString() {

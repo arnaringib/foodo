@@ -88,7 +88,7 @@ public class FoodoMap extends MapActivity implements Runnable, LocationListener 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == FILTER_VIEW) {
             if (resultCode == RESULT_OK) {
-                updateOverlays();
+                setupOverlays();
             }
         }
 	}

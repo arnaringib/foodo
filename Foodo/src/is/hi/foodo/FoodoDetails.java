@@ -210,7 +210,7 @@ public class FoodoDetails extends Activity{
 	}
 
 	/* when menu button option selected */
-	/*
+	
 	@Override 
 	public boolean onOptionsItemSelected(MenuItem item) {
 		Context context = getApplicationContext();
@@ -241,7 +241,7 @@ public class FoodoDetails extends Activity{
 		}
 		return false;
 	}
-	*/
+	
 	public void reviews() {
 		Intent i = new Intent(this, ReadReviews.class);
 		i.putExtra(RestaurantDbAdapter.KEY_ROWID, mRowId);

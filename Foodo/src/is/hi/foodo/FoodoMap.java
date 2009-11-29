@@ -126,19 +126,6 @@ public class FoodoMap extends MapActivity implements Runnable, LocationListener 
 		case MENU_UPDATE:
 			updateOverlays();
 			return true;
-		case MENU_LOGIN:
-			Intent login = new Intent(this, FoodoLogin.class);
-			startActivityForResult(login, 1);
-			return true;
-		case MENU_LOGOUT:
-			SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-			SharedPreferences.Editor editor = settings.edit();
-            editor.putBoolean("access", false);
-	        editor.commit();
-	        Context context = getApplicationContext();
-			Toast.makeText(context, "You have been logged out", Toast.LENGTH_SHORT).show();
-
-			return true;
 		}
 		return false;
 	}

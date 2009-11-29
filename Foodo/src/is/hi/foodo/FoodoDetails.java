@@ -39,7 +39,7 @@ public class FoodoDetails extends Activity{
 	Cursor types;
 	
 	//View items
-	private Button btnRate, btnReviews, btnCall, btnViewOnMap;
+	private Button btnRate, btnReviews, btnCall, btnViewOnMap,btnLog;
 	private TextView mNameText;
 	private TextView mInfo;
 	private TextView mTypes;
@@ -181,71 +181,63 @@ public class FoodoDetails extends Activity{
 		super.onSaveInstanceState(outState);
 		outState.putLong(RestaurantDbAdapter.KEY_ROWID, mRowId);
 	}
-	
-	/* create the menu items */
-	/*
-	@Override 
-	public boolean onCreateOptionsMenu(Menu menu) {
-		 menu.add(0,0,0,"Call");
-		 menu.add(0,1,1,"Rate!");
-		 menu.add(0,2,2,"Reviews");
-		 
-		 return true;
-	}
-	*/
+
 	public void setupButtons() {
 		this.btnRate = (Button)this.findViewById(R.id.bRate);
 		this.btnReviews = (Button)this.findViewById(R.id.bReviews);
 		this.btnCall = (Button)this.findViewById(R.id.bCall);
+		this.btnLog = (Button)this.findViewById(R.id.bLog);
 
 	//	this.btnViewOnMap = (Button)this.findViewById(R.id.bViewOnMap);
 		
 		btnRate.setOnClickListener(new clicker());
   		btnReviews.setOnClickListener(new clicker());
 		btnCall.setOnClickListener(new clicker()); 
+		btnLog.setOnClickListener(new clicker()); 
 
 	//	btnViewOnMap.setOnClickListener(new clicker());
 			
 	}
-
-	/* when menu button option selected */
-	
-	@Override 
-	public boolean onOptionsItemSelected(MenuItem item) {
-		Context context = getApplicationContext();
-		switch (item.getItemId()) {
-		case 0:
-			try {
-				   Intent callIntent = new Intent(Intent.ACTION_CALL) ; 
-				   callIntent.setData(Uri.parse("tel:+" + restaurant.getString(restaurant.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_PHONE))));
-				   startActivity(callIntent);
-				} catch (Exception e) {
-				   Log.e(TAG, "Calling caused an exception: ", e);
-				}
+	/*case MENU_LOGIN:
+			Intent login = new Intent(this, FoodoLogin.class);
+			startActivityForResult(login, 1);
 			return true;
-		case 1:
+		case MENU_LOGOUT:
 			SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-			if(settings.getBoolean("access", true)){
-				showDialog(RATING_DIALOG);
-				return true;
-			}
-			else {
-				Toast.makeText(context, "You have to be signed in", Toast.LENGTH_SHORT).show();
-			}
-			return true;
-		
-		case 2:
-			reviews();
-			return true;
-		}
-		return false;
-	}
+			SharedPreferences.Editor editor = settings.edit();
+            editor.putBoolean("access", false);
+	        editor.commit();
+	        Context context = getApplicationContext();
+			Toast.makeText(context, "You have been logged out", Toast.LENGTH_SHORT).show();
+
+			return true;*/
 	
 	public void reviews() {
 		Intent i = new Intent(this, ReadReviews.class);
 		i.putExtra(RestaurantDbAdapter.KEY_ROWID, mRowId);
 		startActivityForResult(i, 1);
 	}
+	
+	public void login(){
+		Intent login = new Intent(this, FoodoLogin.class);
+		startActivityForResult(login, 1);
+		CharSequence str = getString(R.string.logout);
+		Button b = (Button)findViewById(R.id.bLog);
+		b.setText(str);
+	}
+	
+	public void logout(){
+		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+		SharedPreferences.Editor editor = settings.edit();
+        editor.putBoolean("access", false);
+        editor.commit();
+        Context context = getApplicationContext();
+		Toast.makeText(context, "You have been logged out", Toast.LENGTH_SHORT).show();
+		CharSequence str = getString(R.string.login);
+		Button b = (Button)findViewById(R.id.bLog);
+		b.setText(str);
+	}
+	
 	// button click listener
 	class clicker implements Button.OnClickListener
     {     
@@ -277,6 +269,15 @@ public class FoodoDetails extends Activity{
 			}
 			else if(v==btnViewOnMap){
 				Toast.makeText(context, bTextViewOnMap, Toast.LENGTH_SHORT).show();
+			}
+			else if (v==btnLog){
+				SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(FoodoDetails.this);
+				if(settings.getBoolean("access", true)){
+					logout();
+				}
+				else{					
+					login();
+				}
 			}
 		
 		}

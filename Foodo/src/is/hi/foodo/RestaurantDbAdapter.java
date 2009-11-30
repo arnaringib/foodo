@@ -394,8 +394,10 @@ public class RestaurantDbAdapter {
     
     public void emptyDatabase() {
     	mDb.execSQL(DATABASE_EMPTY);
-    	mDb.execSQL(DATABASE_T_EMPTY);
     	mDb.execSQL(RT_DATABASE_EMPTY);
     }
-   
+    
+    public void emptyTypesTable(){
+    	mDb.execSQL(DATABASE_T_EMPTY);
+    }
 }

@@ -153,7 +153,7 @@ public class RestaurantWebService extends Activity {
     		JSONArray list = json.getJSONObject("responseData").getJSONArray("Types");
     		
     		//Empty database
-    		mDb.emptyDatabase();
+    		mDb.emptyTypesTable();
     		
     		int n = list.length();
     		for (int i = 0; i < n; i++) {

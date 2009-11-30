@@ -15,10 +15,10 @@ import android.widget.TextView;
 
 public class WriteReviews extends Activity implements View.OnClickListener, Runnable {
 	
-	private static final String TAG = "WriteReviews";
+	//private static final String TAG = "WriteReviews";
 	
-	private static final int REVIEW_SUCCESSFUL = 1;
-	private static final int REVIEW_FAILED = 2;
+	//private static final int REVIEW_SUCCESSFUL = 1;
+	//private static final int REVIEW_FAILED = 2;
 	
 	private ProgressDialog pd;
 	

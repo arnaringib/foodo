@@ -16,7 +16,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -60,7 +59,6 @@ public class ReadReviews extends ListActivity implements Runnable {
 		
 		mService = new ReviewWebService();
         
-		//gatherList();
 		getListView().setTextFilterEnabled(true);
 		getListView().setClickable(false);
 		registerForContextMenu(getListView());

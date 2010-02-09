@@ -36,7 +36,8 @@ public class FoodoDetails extends Activity{
 	Cursor types;
 	
 	//View items
-	private Button btnRate, btnReviews, btnCall, btnViewOnMap,btnLog;
+	private Button btnRate, btnReviews, btnCall, btnViewOnMap, btnLog;
+	private Button btnMenu;
 	private TextView mNameText;
 	private TextView mInfo;
 	private TextView mTypes;
@@ -195,6 +196,7 @@ public class FoodoDetails extends Activity{
 	}
 
 	public void setupButtons() {
+		this.btnMenu = (Button)this.findViewById(R.id.bMenu);
 		this.btnRate = (Button)this.findViewById(R.id.bRate);
 		this.btnReviews = (Button)this.findViewById(R.id.bReviews);
 		this.btnCall = (Button)this.findViewById(R.id.bCall);
@@ -202,6 +204,7 @@ public class FoodoDetails extends Activity{
 
 	//	this.btnViewOnMap = (Button)this.findViewById(R.id.bViewOnMap);
 		
+		btnMenu.setOnClickListener(new clicker());
 		btnRate.setOnClickListener(new clicker());
   		btnReviews.setOnClickListener(new clicker());
 		btnCall.setOnClickListener(new clicker()); 
@@ -230,6 +233,12 @@ public class FoodoDetails extends Activity{
 		startActivityForResult(i, 1);
 	}
 	
+	public void menu(){
+		Intent i = new Intent(this,FoodoMenu.class);
+		i.putExtra(RestaurantDbAdapter.KEY_ROWID, mRowId);
+		startActivityForResult(i,1);
+	}
+	
 	public void login(){
 		Intent login = new Intent(this, FoodoLogin.class);
 		startActivityForResult(login, 1);
@@ -253,9 +262,10 @@ public class FoodoDetails extends Activity{
 	// button click listener
 	class clicker implements Button.OnClickListener
     {     
-
+		
 		public void onClick(View v)
 		{
+		// TODO: Put the following code in a Case!
 			Context context = getApplicationContext();
 			if(v==btnRate){
 				SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(FoodoDetails.this);
@@ -279,10 +289,10 @@ public class FoodoDetails extends Activity{
 					}
 			
 			}
-			else if(v==btnViewOnMap){
+			else if(v == btnViewOnMap){
 				Toast.makeText(context, bTextViewOnMap, Toast.LENGTH_SHORT).show();
 			}
-			else if (v==btnLog){
+			else if (v == btnLog){
 				SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(FoodoDetails.this);
 				if(settings.getBoolean("access", true)){
 					logout();
@@ -290,6 +300,9 @@ public class FoodoDetails extends Activity{
 				else{					
 					login();
 				}
+			}
+			else if(v == btnMenu){
+				menu();				
 			}
 		
 		}

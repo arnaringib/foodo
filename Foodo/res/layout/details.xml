@@ -48,7 +48,12 @@
 		android:inputType="textMultiLine"
 		android:maxLines="4"
 	/>
-
+	<Button 
+		android:text="Menu" 
+		android:id="@+id/bMenu" 
+		android:layout_width="150dip"
+		android:layout_height="wrap_content">
+		</Button>
 		   
 	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	    	android:layout_width="fill_parent"

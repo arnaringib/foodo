@@ -47,11 +47,14 @@
 		android:layout_height="wrap_content"
 		android:inputType="textMultiLine"
 		android:maxLines="4"
+		android:clickable="false"
 	/>
 	<Button 
 		android:text="Menu" 
 		android:id="@+id/bMenu" 
 		android:layout_width="150dip"
+		android:layout_gravity="center"
+		android:layout_marginTop="50dip"
 		android:layout_height="wrap_content">
 		</Button>
 		   

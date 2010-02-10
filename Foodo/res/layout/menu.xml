@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-	<RelativeLayout
-	  xmlns:android="http://schemas.android.com/apk/res/android"
-	  android:layout_width="fill_parent"
-	  android:layout_height="fill_parent"
-	  android:padding="5dip"
-	  android:focusable="false"
-	  android:clickable="true"
-	>
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent"
+  android:padding="5dip"
+>  
    <TextView android:id="@+id/menuPlace"
   				android:layout_width="fill_parent"
   				android:layout_height="wrap_content"
@@ -15,27 +13,23 @@
   				android:layout_alignParentTop="true"
 			/>
 <LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" 
-    android:orientation="vertical" 
-    android:layout_width="wrap_content" 
-    android:layout_height="wrap_content"
-    android:paddingTop="41dip" 
-	android:paddingBottom="50dip" >
+	    xmlns:android="http://schemas.android.com/apk/res/android" 
+	    android:orientation="vertical" 
+	    android:layout_width="wrap_content" 
+	    android:layout_height="wrap_content"
+	    android:paddingTop="41dip" 
+		android:paddingBottom="50dip" 
+		>
  
-      <ListView android:id="@android:id/list"
+ 		<ListView android:id="@android:id/list"
     		android:layout_width="fill_parent"
     		android:layout_height="wrap_content"
-    		android:drawSelectorOnTop="false"
-    		android:focusable="false"
-  			android:clickable="false"
-  			android:layout_below="@id/menuPlace"
-  			android:layout_alignWithParentIfMissing="true"
+    		android:drawSelectorOnTop="false"/>
     		/>
-    <TextView android:id="@android:id/empty"
+    	<TextView android:id="@android:id/empty"
    			android:layout_width="fill_parent"
    			android:layout_height="wrap_content"
-   			android:text="@string/no_reviews"
-
+   			android:text="@string/no_menu"
    			android:layout_below="@android:id/list"
    			android:paddingTop="30dip"
    			/>
@@ -47,6 +41,7 @@
 			android:layout_height="wrap_content"
 			android:background="@drawable/buttonstates"
 			android:textColor="#FFFFFF"
-			android:layout_alignParentBottom="true">
+			android:layout_alignParentBottom="true"
+			>
 	</Button>
 </RelativeLayout>

@@ -3,19 +3,23 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:padding="5dip">
+    android:padding="5dip"
+   >
   	
   	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     	android:layout_width="wrap_content"
     	android:layout_height="wrap_content"
     	android:orientation="horizontal"
-    	android:paddingBottom="2dip">
+    	android:paddingBottom="2dip"
+    	android:focusable="false"
+    	>
 		<TextView android:id="@+id/nrMenu"
 	  				android:layout_width="wrap_content"
 	  				android:layout_height="wrap_content"
 	  				android:text="#. "
 	  				android:textSize="16dip"
 	  				android:layout_alignParentTop="true"
+	  				android:focusable="false"
 		/>
 		<TextView android:id="@+id/nameMenu"
 	  				android:layout_width="wrap_content"
@@ -26,24 +30,27 @@
 	  				android:layout_toRightOf="@id/nrMenu"
 	  				android:layout_alignParentTop="true"
 	  				android:layout_alignParentRight="true"
+	  				android:focusable="false"
 		/>
 	</LinearLayout>
 	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     	android:layout_width="wrap_content"
     	android:layout_height="wrap_content"
-    	android:orientation="horizontal">
+    	android:orientation="horizontal"
+    	android:focusable="false"
+    	>
 	<TextView android:id="@+id/priceText"
  				android:layout_width="wrap_content"
  				android:layout_height="wrap_content"
  				android:text="Price: "
-
+				android:focusable="false"
 		        android:layout_marginTop="2dip"
 		/>
 	<TextView android:id="@+id/priceMenu"
  				android:layout_width="wrap_content"
  				android:layout_height="wrap_content"
  				android:text="Sample"
-				
+				android:focusable="false"
 		        android:layout_marginTop="2dip"
 		/>
     </LinearLayout>
@@ -52,5 +59,6 @@
  				android:layout_height="fill_parent"
  				android:inputType="textMultiLine"
  				android:layout_below="@id/priceMenu"
+ 				android:focusable="false"
 		/>
 </LinearLayout>

@@ -12,6 +12,7 @@
     <string name="menu_logout">Logout</string>
     <string name="see_restaurant">Get details?</string>
     <string name="no_reviews">No reviews for this restaurant yet.</string>
+    <string name="no_menu">No menu for this restaurant yet.</string>
     <string name="login">Login</string>
     <string name="logout">Logout</string>
     <string name="no_order">You haven't added anything to the order</string>

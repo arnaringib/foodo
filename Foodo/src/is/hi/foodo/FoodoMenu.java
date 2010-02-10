@@ -10,9 +10,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -21,8 +24,11 @@ import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,7 +37,7 @@ import android.widget.Toast;
 
 public class FoodoMenu extends ListActivity implements Runnable {
 
-	private static final String TAG = "FoodoMap";
+	private static final String TAG = "FoodoMenu";
 	private static final int ORDER_VIEW = 3;
 	
 	
@@ -47,6 +53,7 @@ public class FoodoMenu extends ListActivity implements Runnable {
 	
 	private Button btnConfOrder;
 	
+	static final int MENU_DIALOG = 0;
 	//private Cursor mRestaurantCursor;
 	
 	List< Map<String,String> > mMenu;
@@ -63,7 +70,7 @@ public class FoodoMenu extends ListActivity implements Runnable {
 		mService = new ReviewWebService(); // TODO !
         
 		getListView().setTextFilterEnabled(true);
-		getListView().setClickable(false);
+		getListView().setClickable(true);
 		registerForContextMenu(getListView());
 		
 		setupButtons();
@@ -106,19 +113,18 @@ public class FoodoMenu extends ListActivity implements Runnable {
     		Cursor restaurant = mDbHelper.fetchRestaurant(mRowId);
     		startManagingCursor(restaurant);
     		
-    		TextView mPlaceName = (TextView) this.findViewById(R.id.menuPlace);
-    		mPlaceName.setText(restaurant.getString(restaurant.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_NAME)));
+    //		TextView mPlaceName = (TextView) this.findViewById(R.id.menuPlace);
+   // 		mPlaceName.setText(restaurant.getString(restaurant.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_NAME)));
     	}
 	}
 	
 	public void setupList() {
-	
         SimpleAdapter adapter = new SimpleAdapter(
         		this,
         		mMenu, 
         		R.layout.listmenu,
-        		new String[] { TITLE , NUMBER, ITEMNAME, PRICE },
-        		new int[] { R.id.menuPlace, R.id.nrMenu, R.id.nameMenu, R.id.priceMenu }
+        		new String[] { NUMBER, ITEMNAME, PRICE },
+        		new int[] { R.id.nrMenu, R.id.nameMenu, R.id.priceMenu }
         );
         
         setListAdapter(adapter);
@@ -154,7 +160,42 @@ public class FoodoMenu extends ListActivity implements Runnable {
 		
 		}
     }	
-	
+	protected Dialog onCreateDialog(int id) {
+		switch(id) {
+			case MENU_DIALOG:
+		            LayoutInflater factory = LayoutInflater.from(this);
+		            final View layout = factory.inflate(R.layout.menudialog, null);
+	            	
+		       //   RatingBar rb = (RatingBar) layout.findViewById(R.id.ratingbar);
+	            	final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+		            return new AlertDialog.Builder(FoodoMenu.this)
+		                .setTitle("Item order")
+		                .setView(layout)
+		                .setPositiveButton("Order!", new DialogInterface.OnClickListener() {
+		                    public void onClick(DialogInterface dialog, int whichButton) {
+		                    	/* User clicked OK, add new rating */
+		                    	RatingBar rb = (RatingBar) layout.findViewById(R.id.ratingbar);
+		                    	Log.d(TAG, "Giving rating: " + rb.getRating());
+		                    	// get UserId from SharedPreferences
+		                    }
+		                })
+		                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+		                    public void onClick(DialogInterface dialog, int whichButton) {
+
+		                        /* User clicked cancel so do some stuff */
+		                    }
+		                })
+		                .create();
+		        }
+		return null;
+	}
+	@Override
+	protected void onListItemClick(ListView l, View v, int position, long id) {
+		super.onListItemClick(l, v, position, id);
+		Context context = getApplicationContext();
+		Toast.makeText(context, "Click works ..", Toast.LENGTH_SHORT).show();
+		showDialog(MENU_DIALOG);
+	}
 	
 	private void loadMenu() {
 		pd = ProgressDialog.show(FoodoMenu.this, "Loading..", "Updating");
@@ -195,6 +236,6 @@ public class FoodoMenu extends ListActivity implements Runnable {
 			setupList();
 		}
 	};
-
+	
 }
 

@@ -96,7 +96,7 @@ public class FoodoDetails extends Activity{
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == MENU_VIEW) {
             if (resultCode == RESULT_OK) {
-                Toast.makeText(this, "Your order is being process!", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Your order is being processed!", Toast.LENGTH_LONG).show();
             }
         }
 	}

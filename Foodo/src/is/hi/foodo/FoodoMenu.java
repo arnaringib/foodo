@@ -30,7 +30,6 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.SimpleAdapter;
-import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -39,7 +38,10 @@ public class FoodoMenu extends ListActivity implements Runnable {
 
 	private static final String TAG = "FoodoMenu";
 	private static final int ORDER_VIEW = 3;
+	private ArrayList<String[]> order;
 	
+	private static final String FULLORDER = "FullOrder";
+	private static final String RESTNAME = "RestName";
 	
 	private static final String TITLE = "Burger Joint";
 	private static final String NUMBER = "1.";
@@ -63,6 +65,8 @@ public class FoodoMenu extends ListActivity implements Runnable {
 		super.onCreate(savedInstanceState);
 
         setContentView(R.layout.menu); 
+        
+        order = new ArrayList<String[]>();
         
         mDbHelper = new RestaurantDbAdapter(this);
 		mDbHelper.open();
@@ -129,22 +133,28 @@ public class FoodoMenu extends ListActivity implements Runnable {
         
         setListAdapter(adapter);
 	}
+	
+	public String createOrder(){
+		// TODO: Create a loop that goes through the order ArrayList
+		//		and creates the full order. Returns the order as a String.
+		return "Hamburger\t2000 kr.\t X 1\nHamburger\t2000 kr.\t X 1";
+	}
 
-	public void order(){	// TODO !
+	public void order(){		
+		String fullOrder = createOrder();
 		Intent i = new Intent(this, FoodoOrder.class);
-		i.putExtra(RestaurantDbAdapter.KEY_ROWID, mRowId);
+		i.putExtra(FULLORDER, fullOrder);
+		i.putExtra(RESTNAME, TITLE);
 		startActivityForResult(i, ORDER_VIEW);
 	}
 	public void setupButtons() {
 		this.btnConfOrder = (Button)this.findViewById(R.id.bConfOrder);
-		
 		btnConfOrder.setOnClickListener(new clicker());
 			
 	}
 	// button click listener
 	class clicker implements Button.OnClickListener
     {     
-
 		public void onClick(View v)
 		{
 			Context context = getApplicationContext();

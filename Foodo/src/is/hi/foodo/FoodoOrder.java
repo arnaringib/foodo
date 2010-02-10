@@ -12,55 +12,45 @@ import org.json.JSONObject;
 
 import android.app.ListActivity;
 import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
-
-
-public class FoodoMenu extends ListActivity implements Runnable {
-
-	private static final String TAG = "FoodoMap";
-	private static final int ORDER_VIEW = 3;
+public class FoodoOrder extends ListActivity implements Runnable {
 	
+	private static final String TAG = "FoodoOrder";
 	
-	private static final String TITLE = "Burger Joint";
-	private static final String NUMBER = "1.";
-	private static final String PRICE = "6.99$";
-	private static final String ITEMNAME = "Hamburger";
+	private static final String TITLE = "TITLE"; // TODO
+	private static final String REVIEW = "REVIEW";
+	private static final String DATE = "DATE";
 	
 	private ProgressDialog pd;
-	private ReviewWebService mService; // TODO !
+	private ReviewWebService mService; // TODO
 	private RestaurantDbAdapter mDbHelper;
 	private Long mRowId;	
 	
-	private Button btnConfOrder;
+	private Button btnConfOrder, btnChangeOrder;
 	
 	//private Cursor mRestaurantCursor;
 	
-	List< Map<String,String> > mMenu;
+	List< Map<String,String> > mOrder;
 	
 	@Override 
     protected void onCreate(Bundle savedInstanceState) { 
 		super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.menu); 
+        setContentView(R.layout.order); 
         
         mDbHelper = new RestaurantDbAdapter(this);
 		mDbHelper.open();
 		
-		mService = new ReviewWebService(); // TODO !
+		mService = new ReviewWebService(); // TODO
         
 		getListView().setTextFilterEnabled(true);
 		getListView().setClickable(false);
@@ -86,19 +76,10 @@ public class FoodoMenu extends ListActivity implements Runnable {
 	protected void onResume() {
 		super.onResume();
 		
-		mMenu = new ArrayList<Map<String,String>>();
-		loadMenu();
+		mOrder = new ArrayList<Map<String,String>>();
+		loadReviews();
 	}
 	
-	@Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == ORDER_VIEW) {
-            if (resultCode == RESULT_OK) {
-            	setResult(RESULT_OK);
-                finish();
-            }
-        }
-	}
 	
 	private void populateView() {
 		if (mRowId != null)
@@ -106,7 +87,7 @@ public class FoodoMenu extends ListActivity implements Runnable {
     		Cursor restaurant = mDbHelper.fetchRestaurant(mRowId);
     		startManagingCursor(restaurant);
     		
-    		TextView mPlaceName = (TextView) this.findViewById(R.id.menuPlace);
+    		TextView mPlaceName = (TextView) this.findViewById(R.id.orderTitle);
     		mPlaceName.setText(restaurant.getString(restaurant.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_NAME)));
     	}
 	}
@@ -115,25 +96,30 @@ public class FoodoMenu extends ListActivity implements Runnable {
 	
         SimpleAdapter adapter = new SimpleAdapter(
         		this,
-        		mMenu, 
-        		R.layout.listmenu,
-        		new String[] { TITLE , NUMBER, ITEMNAME, PRICE },
-        		new int[] { R.id.menuPlace, R.id.nrMenu, R.id.nameMenu, R.id.priceMenu }
+        		mOrder, 
+        		R.layout.listreview, // TODO
+        		new String[] { TITLE, REVIEW, DATE },
+        		new int[] { R.id.reviewName, R.id.reviewText, R.id.reviewDate }
         );
         
         setListAdapter(adapter);
 	}
 
-	public void order(){	// TODO !
-		Intent i = new Intent(this, FoodoOrder.class);
-		i.putExtra(RestaurantDbAdapter.KEY_ROWID, mRowId);
-		startActivityForResult(i, ORDER_VIEW);
+	public void confOrder(){
+		setResult(RESULT_OK);
+		finish();
 	}
+	
+	public void changeOrder(){
+		finish();
+	}
+	
 	public void setupButtons() {
 		this.btnConfOrder = (Button)this.findViewById(R.id.bConfOrder);
+		this.btnChangeOrder = (Button)this.findViewById(R.id.bChangeOrder);
 		
 		btnConfOrder.setOnClickListener(new clicker());
-			
+		btnChangeOrder.setOnClickListener(new clicker());
 	}
 	// button click listener
 	class clicker implements Button.OnClickListener
@@ -141,24 +127,19 @@ public class FoodoMenu extends ListActivity implements Runnable {
 
 		public void onClick(View v)
 		{
-			Context context = getApplicationContext();
-			if(v==btnConfOrder){
-				SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(FoodoMenu.this);
-				if(settings.getBoolean("access", true)){
-					order();
-				}
-				else {
-					Toast.makeText(context, "You have to be signed in", Toast.LENGTH_SHORT).show();
-				}
+			if(v == btnConfOrder){
+				confOrder();
 			}
-		
+			else if(v == btnChangeOrder){
+				changeOrder();
+			}
 		}
     }	
 	
 	
-	private void loadMenu() {
-		pd = ProgressDialog.show(FoodoMenu.this, "Loading..", "Updating");
-		Thread thread = new Thread(FoodoMenu.this);
+	private void loadReviews() {
+		pd = ProgressDialog.show(FoodoOrder.this, "Loading..", "Updating");
+		Thread thread = new Thread(FoodoOrder.this);
 		thread.start();
 	}
 
@@ -175,10 +156,9 @@ public class FoodoMenu extends ListActivity implements Runnable {
 				JSONObject r = jReviews.getJSONObject(i);
 				Map<String,String> map = new HashMap<String, String>();
 				map.put(TITLE, r.getString("user"));
-				map.put(NUMBER, r.getString("review"));
-				map.put(ITEMNAME, r.getString("created_at"));
-				map.put(PRICE, r.getString("review"));
-				mMenu.add(map);
+				map.put(REVIEW, r.getString("review"));
+				map.put(DATE, r.getString("created_at"));
+				mOrder.add(map);
 			}
 		}
 		catch (JSONException e) {

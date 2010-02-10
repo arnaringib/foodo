@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<RelativeLayout
+	  xmlns:android="http://schemas.android.com/apk/res/android"
+	  android:layout_width="fill_parent"
+	  android:layout_height="fill_parent"
+	  android:padding="5dip"
+	  android:focusable="false"
+	  android:clickable="false"
+	>
+   <TextView android:id="@+id/orderTitle"
+  				android:layout_width="fill_parent"
+  				android:layout_height="wrap_content"
+  				android:text="Your Order"
+  				android:textSize="22dip"
+  				android:layout_alignParentTop="true"
+			/>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:orientation="vertical" 
+    android:layout_width="wrap_content" 
+    android:layout_height="wrap_content"
+    android:paddingTop="41dip" 
+	android:paddingBottom="50dip" >
+    <ListView android:id="@android:id/list"
+    		android:layout_width="fill_parent"
+    		android:layout_height="wrap_content"
+    		android:drawSelectorOnTop="false"
+    		android:focusable="false"
+  			android:clickable="false"
+  			android:layout_below="@id/orderTitle"
+  			android:layout_alignWithParentIfMissing="true"
+    		/>
+    <TextView android:id="@android:id/empty"
+   			android:layout_width="fill_parent"
+   			android:layout_height="wrap_content"
+   			android:text="@string/no_order"
+   			android:layout_below="@android:id/list"
+   			android:paddingTop="30dip"
+   			/>
+</LinearLayout>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	    	android:layout_width="fill_parent"
+	    	android:layout_height="fill_parent"
+	    	android:orientation="horizontal"
+	    	android:gravity="bottom">
+		<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    	android:layout_width="fill_parent"
+    	android:layout_height="fill_parent"
+    	android:layout_weight="1"
+    	android:gravity="bottom"
+    	android:orientation="horizontal">
+			<Button 
+			android:text="Change Order" 
+			android:id="@+id/bChangeOrder" 
+			android:layout_width="fill_parent" 
+			android:layout_height="wrap_content"
+			android:background="@drawable/buttonstates"
+			android:textColor="#FFFFFF">
+			</Button>
+		</LinearLayout>
+		<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    	android:layout_width="fill_parent"
+    	android:layout_height="fill_parent"
+    	android:layout_weight="1"
+    	android:gravity="bottom"
+    	android:orientation="horizontal">
+			<Button 
+			android:text="Confirm Order" 
+			android:id="@+id/bConfOrder" 
+			android:layout_width="fill_parent" 
+			android:layout_height="wrap_content"
+			android:background="@drawable/buttonstates"
+			android:textColor="#FFFFFF">
+			</Button>
+
+		</LinearLayout>
+	</LinearLayout>
+</RelativeLayout>

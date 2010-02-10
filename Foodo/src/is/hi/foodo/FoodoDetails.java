@@ -23,6 +23,7 @@ import android.widget.Toast;
 public class FoodoDetails extends Activity{
 	
 	private static final String TAG = "FoodoDetails";
+	private static final int MENU_VIEW = 2;
 	
 	static final int RATING_DIALOG = 0;
 	private RatingBar showRatingbar;
@@ -90,6 +91,16 @@ public class FoodoDetails extends Activity{
 		super.onDestroy();
 		mDbHelper.close();
 	}
+	
+	@Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == MENU_VIEW) {
+            if (resultCode == RESULT_OK) {
+                Toast.makeText(this, "Your order is being process!", Toast.LENGTH_LONG).show();
+            }
+        }
+	}
+	
 	protected Dialog onCreateDialog(int id) {
 		switch(id) {
 			case RATING_DIALOG:
@@ -236,7 +247,7 @@ public class FoodoDetails extends Activity{
 	public void menu(){
 		Intent i = new Intent(this,FoodoMenu.class);
 		i.putExtra(RestaurantDbAdapter.KEY_ROWID, mRowId);
-		startActivityForResult(i,1);
+		startActivityForResult(i,MENU_VIEW);
 	}
 	
 	public void login(){

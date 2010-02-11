@@ -5,7 +5,7 @@
 		android:layout_height="fill_parent"
 		android:paddingLeft="5dip"
 		>
-		<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	<!-- 	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 		android:orientation="vertical"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
@@ -13,7 +13,7 @@
 			<TextView android:id="@+id/itemName"
   				android:layout_width="wrap_content"
   				android:layout_height="wrap_content"
-  				android:text="Name of Restaurant"
+  				android:text="Name of Item"
   				android:textSize="20dip"
   				android:layout_alignParentTop="true"
 			/>
@@ -23,7 +23,7 @@
 			android:layout_height="2px"
 			android:layout_marginTop="3px"
 			android:background="?android:attr/listDivider"
-			/>
+			/> -->
 					<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 		android:orientation="horizontal"
 		android:layout_width="wrap_content"
@@ -45,7 +45,7 @@
 				<TextView android:id="@+id/itemCounter"
   					android:layout_width="wrap_content"
   					android:layout_height="wrap_content"
-  					android:text="11"
+  					android:text=""
   					android:paddingLeft="9dip"
   					android:textStyle="bold"
   					android:textSize="30dip"
@@ -72,7 +72,7 @@
 					<TextView android:id="@+id/itemCounter"
 	  					android:layout_width="wrap_content"
 	  					android:layout_height="70dip"
-	  					android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget sapien turpis. Etiam ut mollis nibh. In suscipit ipsum id urna sodales sagittis. In sed lectus in nisi lacinia accumsan."
+	  					android:text=""
 	  					android:textSize="13dip"
 	  					
 	  					android:paddingLeft="9dip"
@@ -86,13 +86,13 @@
 				android:paddingTop="10dip"
 			
 				>
-					<Button android:id="@+id/btnOrder"
+				<!-- 	<Button android:id="@+id/btnOrder"
 					android:layout_width="fill_parent"
 					android:layout_height="wrap_content"
 					android:paddingTop="10dip"
 					android:text="Add to order"
 
-					/>
+					/>-->
 			</LinearLayout>
 			</LinearLayout>
 		</LinearLayout>

@@ -30,6 +30,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -44,9 +45,11 @@ public class FoodoMenu extends ListActivity implements Runnable {
 	private static final String RESTNAME = "RestName";
 	
 	private static final String TITLE = "Burger Joint";
-	private static final String NUMBER = "1.";
-	private static final String PRICE = "6.99$";
-	private static final String ITEMNAME = "Hamburger";
+	private static final String NUMBER = "number";
+	private static final String PRICE = "price";
+	private static final String ITEMNAME = "itemname";
+	
+	private static int item;
 	
 	private ProgressDialog pd;
 	private ReviewWebService mService; // TODO !
@@ -76,6 +79,7 @@ public class FoodoMenu extends ListActivity implements Runnable {
 		getListView().setTextFilterEnabled(true);
 		getListView().setClickable(true);
 		registerForContextMenu(getListView());
+	
 		
 		setupButtons();
 		
@@ -90,7 +94,8 @@ public class FoodoMenu extends ListActivity implements Runnable {
         
         Log.d(TAG, "ReId is: " + mRowId);
         
-        populateView();
+        //populateView();
+        
 	}
 	
 	@Override
@@ -98,7 +103,24 @@ public class FoodoMenu extends ListActivity implements Runnable {
 		super.onResume();
 		
 		mMenu = new ArrayList<Map<String,String>>();
-		loadMenu();
+        // DUMMY DATA
+		Map<String,String> map = new HashMap<String, String>();
+		map.put(NUMBER, "1");
+		map.put(ITEMNAME, "Grilled langoustine with chili-garlic butter and salad");
+		map.put(PRICE, "5200");
+		mMenu.add(map);
+		map = new HashMap<String, String>();
+		map.put(NUMBER, "2");
+		map.put(ITEMNAME, "Turbot, cauliflower, grapes and almonds");
+		map.put(PRICE, "5200");
+		mMenu.add(map);
+		map = new HashMap<String, String>();
+		map.put(NUMBER, "3");
+		map.put(ITEMNAME, "Fillet of lamb, shoulder and beatroot");
+		map.put(PRICE, "5200");
+		mMenu.add(map);   
+		//loadMenu();
+		setupList();
 	}
 	
 	@Override
@@ -117,8 +139,8 @@ public class FoodoMenu extends ListActivity implements Runnable {
     		Cursor restaurant = mDbHelper.fetchRestaurant(mRowId);
     		startManagingCursor(restaurant);
     		
-    //		TextView mPlaceName = (TextView) this.findViewById(R.id.menuPlace);
-   // 		mPlaceName.setText(restaurant.getString(restaurant.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_NAME)));
+    		TextView mPlaceName = (TextView) this.findViewById(R.id.menuPlace);
+    		mPlaceName.setText(restaurant.getString(restaurant.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_NAME)));
     	}
 	}
 	
@@ -135,9 +157,13 @@ public class FoodoMenu extends ListActivity implements Runnable {
 	}
 	
 	public String createOrder(){
-		// TODO: Create a loop that goes through the order ArrayList
-		//		and creates the full order. Returns the order as a String.
-		return "Hamburger\t2000 kr.\t X 1\nHamburger\t2000 kr.\t X 1";
+		//TODO: Dummy!
+		String result = "";
+		int total = 0;
+		result += mMenu.get(item).get(ITEMNAME) + " \n " + mMenu.get(item).get(PRICE) + " kr. X 1\n";
+		total += Integer.parseInt(mMenu.get(1).get(PRICE));
+		result += "--------------------\n Total: " + total + " kr." ;
+		return result;
 	}
 
 	public void order(){		
@@ -177,22 +203,18 @@ public class FoodoMenu extends ListActivity implements Runnable {
 		            final View layout = factory.inflate(R.layout.menudialog, null);
 	            	
 		       //   RatingBar rb = (RatingBar) layout.findViewById(R.id.ratingbar);
-	            	final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+	            	//final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
 		            return new AlertDialog.Builder(FoodoMenu.this)
-		                .setTitle("Item order")
+		                .setTitle(mMenu.get(item).get(ITEMNAME))
 		                .setView(layout)
-		                .setPositiveButton("Order!", new DialogInterface.OnClickListener() {
+		                .setPositiveButton("Add to Order", new DialogInterface.OnClickListener() {
 		                    public void onClick(DialogInterface dialog, int whichButton) {
 		                    	/* User clicked OK, add new rating */
-		                    	RatingBar rb = (RatingBar) layout.findViewById(R.id.ratingbar);
-		                    	Log.d(TAG, "Giving rating: " + rb.getRating());
-		                    	// get UserId from SharedPreferences
 		                    }
 		                })
 		                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 		                    public void onClick(DialogInterface dialog, int whichButton) {
-
-		                        /* User clicked cancel so do some stuff */
+		                    	dismissDialog(MENU_DIALOG);
 		                    }
 		                })
 		                .create();
@@ -202,16 +224,18 @@ public class FoodoMenu extends ListActivity implements Runnable {
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
-		Context context = getApplicationContext();
-		Toast.makeText(context, "Click works ..", Toast.LENGTH_SHORT).show();
+		//Context context = getApplicationContext();
+        //Toast.makeText(context,""+ position, Toast.LENGTH_SHORT).show();
+		v.refreshDrawableState();
+		item = position;
 		showDialog(MENU_DIALOG);
 	}
 	
-	private void loadMenu() {
+	/*private void loadMenu() {
 		pd = ProgressDialog.show(FoodoMenu.this, "Loading..", "Updating");
 		Thread thread = new Thread(FoodoMenu.this);
 		thread.start();
-	}
+	}*/
 
 	@Override
 	public void run() {
@@ -224,12 +248,12 @@ public class FoodoMenu extends ListActivity implements Runnable {
 			for (int i = 0; i < n; i++)
 			{
 				JSONObject r = jReviews.getJSONObject(i);
-				Map<String,String> map = new HashMap<String, String>();
+				/*Map<String,String> map = new HashMap<String, String>();
 				map.put(TITLE, r.getString("user"));
 				map.put(NUMBER, r.getString("review"));
 				map.put(ITEMNAME, r.getString("created_at"));
 				map.put(PRICE, r.getString("review"));
-				mMenu.add(map);
+				mMenu.add(map);*/
 			}
 		}
 		catch (JSONException e) {

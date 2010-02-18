@@ -2,7 +2,6 @@ package is.hi.foodo;
 
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,7 +15,6 @@ import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -28,7 +26,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.RatingBar;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,11 +35,6 @@ import android.widget.Toast;
 public class FoodoMenu extends ListActivity implements Runnable {
 
 	private static final String TAG = "FoodoMenu";
-	private static final int ORDER_VIEW = 3;
-	private ArrayList<String[]> order;
-	
-	private static final String FULLORDER = "FullOrder";
-	private static final String RESTNAME = "RestName";
 	
 	private static final String TITLE = "Burger Joint";
 	private static final String NUMBER = "number";
@@ -59,6 +51,7 @@ public class FoodoMenu extends ListActivity implements Runnable {
 	private Button btnConfOrder;
 	
 	static final int MENU_DIALOG = 0;
+	static final int ORDER_DIALOG = 1;
 	//private Cursor mRestaurantCursor;
 	
 	List< Map<String,String> > mMenu;
@@ -68,8 +61,6 @@ public class FoodoMenu extends ListActivity implements Runnable {
 		super.onCreate(savedInstanceState);
 
         setContentView(R.layout.menu); 
-        
-        order = new ArrayList<String[]>();
         
         mDbHelper = new RestaurantDbAdapter(this);
 		mDbHelper.open();
@@ -103,34 +94,8 @@ public class FoodoMenu extends ListActivity implements Runnable {
 		super.onResume();
 		
 		mMenu = new ArrayList<Map<String,String>>();
-        // DUMMY DATA
-		Map<String,String> map = new HashMap<String, String>();
-		map.put(NUMBER, "1");
-		map.put(ITEMNAME, "Grilled langoustine with chili-garlic butter and salad");
-		map.put(PRICE, "5200");
-		mMenu.add(map);
-		map = new HashMap<String, String>();
-		map.put(NUMBER, "2");
-		map.put(ITEMNAME, "Turbot, cauliflower, grapes and almonds");
-		map.put(PRICE, "5200");
-		mMenu.add(map);
-		map = new HashMap<String, String>();
-		map.put(NUMBER, "3");
-		map.put(ITEMNAME, "Fillet of lamb, shoulder and beatroot");
-		map.put(PRICE, "5200");
-		mMenu.add(map);   
 		//loadMenu();
 		setupList();
-	}
-	
-	@Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == ORDER_VIEW) {
-            if (resultCode == RESULT_OK) {
-            	setResult(RESULT_OK);
-                finish();
-            }
-        }
 	}
 	
 	private void populateView() {
@@ -157,22 +122,11 @@ public class FoodoMenu extends ListActivity implements Runnable {
 	}
 	
 	public String createOrder(){
-		//TODO: Dummy!
 		String result = "";
-		int total = 0;
-		result += mMenu.get(item).get(ITEMNAME) + " \n " + mMenu.get(item).get(PRICE) + " kr. X 1\n";
-		total += Integer.parseInt(mMenu.get(1).get(PRICE));
-		result += "--------------------\n Total: " + total + " kr." ;
+		//TODO!
 		return result;
 	}
 
-	public void order(){		
-		String fullOrder = createOrder();
-		Intent i = new Intent(this, FoodoOrder.class);
-		i.putExtra(FULLORDER, fullOrder);
-		i.putExtra(RESTNAME, TITLE);
-		startActivityForResult(i, ORDER_VIEW);
-	}
 	public void setupButtons() {
 		this.btnConfOrder = (Button)this.findViewById(R.id.bConfOrder);
 		btnConfOrder.setOnClickListener(new clicker());
@@ -187,7 +141,7 @@ public class FoodoMenu extends ListActivity implements Runnable {
 			if(v==btnConfOrder){
 				SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(FoodoMenu.this);
 				if(settings.getBoolean("access", true)){
-					order();
+					showDialog(ORDER_DIALOG);
 				}
 				else {
 					Toast.makeText(context, "You have to be signed in", Toast.LENGTH_SHORT).show();
@@ -202,8 +156,8 @@ public class FoodoMenu extends ListActivity implements Runnable {
 		            LayoutInflater factory = LayoutInflater.from(this);
 		            final View layout = factory.inflate(R.layout.menudialog, null);
 	            	
-		       //   RatingBar rb = (RatingBar) layout.findViewById(R.id.ratingbar);
-	            	//final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+		            // RatingBar rb = (RatingBar) layout.findViewById(R.id.ratingbar);
+	            	// final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
 		            return new AlertDialog.Builder(FoodoMenu.this)
 		                .setTitle(mMenu.get(item).get(ITEMNAME))
 		                .setView(layout)
@@ -218,8 +172,31 @@ public class FoodoMenu extends ListActivity implements Runnable {
 		                    }
 		                })
 		                .create();
-		        }
-		return null;
+		   case ORDER_DIALOG:
+			    LayoutInflater factoryOrder = LayoutInflater.from(this);
+	            final View layoutOrder = factoryOrder.inflate(R.layout.orderdialog, null);
+	            
+	            TextView mOrder = (TextView) layoutOrder.findViewById(R.id.totalOrder);
+	            mOrder.setText(createOrder());
+	            return new AlertDialog.Builder(FoodoMenu.this)
+	            	.setTitle(R.string.your_order)
+	                .setView(layoutOrder)
+	                .setPositiveButton(R.string.change_order, new DialogInterface.OnClickListener() {
+	                	public void onClick(DialogInterface dialog, int whichButton) {
+	                		dismissDialog(ORDER_DIALOG);
+		                }
+		            })
+		            .setNegativeButton(R.string.confirm_order, new DialogInterface.OnClickListener() {
+		            	public void onClick(DialogInterface dialog, int whichButton) {
+		            		dismissDialog(ORDER_DIALOG);
+		                	setResult(RESULT_OK);
+		                    finish();
+		            	}
+		            })
+	                .create();
+		   default:
+				return null;
+		}
 	}
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {

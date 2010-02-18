@@ -16,7 +16,6 @@
          <activity android:name=".FoodoFilter"/>
          <activity android:name=".FoodoLogin"/>
          <activity android:name=".FoodoRegister"/>
-         <activity android:name=".FoodoOrder"/>
          <activity android:name=".ReadReviews"/>
          <activity android:name=".FoodoMenu"/>
          <activity android:name=".WriteReviews"/>

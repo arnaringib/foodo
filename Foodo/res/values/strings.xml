@@ -16,4 +16,8 @@
     <string name="login">Login</string>
     <string name="logout">Logout</string>
     <string name="no_order">You haven't added anything to the order</string>
+    <string name="your_order">Your Order</string>
+    <string name="confirm_order">Confirm Order</string>
+    <string name="change_order">Change Order</string>
+    <string name="empty_order">Empty Order</string>
 </resources>

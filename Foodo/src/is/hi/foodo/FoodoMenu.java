@@ -127,43 +127,42 @@ public class FoodoMenu extends ListActivity implements Runnable {
 		return result;
 	}
 
+	/**
+	 * Use: setupButtons()
+	 * 
+	 * Finds the buttonview for the confirm button in the view,
+	 * and adds a click listener
+	 */
 	public void setupButtons() {
 		this.btnConfOrder = (Button)this.findViewById(R.id.bConfOrder);
-		btnConfOrder.setOnClickListener(new clicker());
-			
+		btnConfOrder.setOnClickListener(new View.OnClickListener(){
+				public void onClick(View v)
+				{
+					Context context = getApplicationContext();
+					if(v==btnConfOrder){
+						SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(FoodoMenu.this);
+						if(settings.getBoolean("access", true)){
+							showDialog(ORDER_DIALOG);
+						}
+						else {
+							Toast.makeText(context, "You have to be signed in", Toast.LENGTH_SHORT).show();
+						}
+					}
+				}
+			});
 	}
-	// button click listener
-	class clicker implements Button.OnClickListener
-    {     
-		public void onClick(View v)
-		{
-			Context context = getApplicationContext();
-			if(v==btnConfOrder){
-				SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(FoodoMenu.this);
-				if(settings.getBoolean("access", true)){
-					showDialog(ORDER_DIALOG);
-				}
-				else {
-					Toast.makeText(context, "You have to be signed in", Toast.LENGTH_SHORT).show();
-				}
-			}
-		
-		}
-    }	
+	
 	protected Dialog onCreateDialog(int id) {
 		switch(id) {
 			case MENU_DIALOG:
 		            LayoutInflater factory = LayoutInflater.from(this);
-		            final View layout = factory.inflate(R.layout.menudialog, null);
-	            	
-		            // RatingBar rb = (RatingBar) layout.findViewById(R.id.ratingbar);
-	            	// final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+		            final View layout = factory.inflate(R.layout.menudialog, null);	            
 		            return new AlertDialog.Builder(FoodoMenu.this)
 		                .setTitle(mMenu.get(item).get(ITEMNAME))
 		                .setView(layout)
 		                .setPositiveButton("Add to Order", new DialogInterface.OnClickListener() {
 		                    public void onClick(DialogInterface dialog, int whichButton) {
-		                    	/* User clicked OK, add new rating */
+		                    	// TODO
 		                    }
 		                })
 		                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

@@ -2,6 +2,7 @@ package is.hi.foodo;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,16 +36,14 @@ import android.widget.Toast;
 public class FoodoMenu extends ListActivity implements Runnable {
 
 	private static final String TAG = "FoodoMenu";
-	
-	private static final String TITLE = "Burger Joint";
-	private static final String NUMBER = "number";
-	private static final String PRICE = "price";
-	private static final String ITEMNAME = "itemname";
+	private static final String NUMBER = "NUMBER";
+	private static final String ITEMNAME = "ITEMNAME";
+	private static final String PRICE = "PRICE";
 	
 	private static int item;
 	
 	private ProgressDialog pd;
-	private ReviewWebService mService; // TODO !
+	private MenuWebService mService; // TODO ! // done ? 
 	private RestaurantDbAdapter mDbHelper;
 	private Long mRowId;	
 	
@@ -65,7 +64,7 @@ public class FoodoMenu extends ListActivity implements Runnable {
         mDbHelper = new RestaurantDbAdapter(this);
 		mDbHelper.open();
 		
-		mService = new ReviewWebService(); // TODO !
+		mService = new MenuWebService(); 
         
 		getListView().setTextFilterEnabled(true);
 		getListView().setClickable(true);
@@ -85,7 +84,7 @@ public class FoodoMenu extends ListActivity implements Runnable {
         
         Log.d(TAG, "ReId is: " + mRowId);
         
-        //populateView();
+        populateView();
         
 	}
 	
@@ -94,7 +93,7 @@ public class FoodoMenu extends ListActivity implements Runnable {
 		super.onResume();
 		
 		mMenu = new ArrayList<Map<String,String>>();
-		//loadMenu();
+		loadMenu();
 		setupList();
 	}
 	
@@ -117,7 +116,6 @@ public class FoodoMenu extends ListActivity implements Runnable {
         		new String[] { NUMBER, ITEMNAME, PRICE },
         		new int[] { R.id.nrMenu, R.id.nameMenu, R.id.priceMenu }
         );
-        
         setListAdapter(adapter);
 	}
 	
@@ -207,29 +205,28 @@ public class FoodoMenu extends ListActivity implements Runnable {
 		showDialog(MENU_DIALOG);
 	}
 	
-	/*private void loadMenu() {
+	private void loadMenu() {
 		pd = ProgressDialog.show(FoodoMenu.this, "Loading..", "Updating");
 		Thread thread = new Thread(FoodoMenu.this);
 		thread.start();
-	}*/
+	}
 
 	@Override
 	public void run() {
 		
-		JSONArray jReviews = mService.getReviews(mRowId);
+		JSONArray jMenu = mService.getMenu(mRowId);
 		
-		int n = jReviews.length();
+		int n = jMenu.length();
 		
 		try {
 			for (int i = 0; i < n; i++)
 			{
-				JSONObject r = jReviews.getJSONObject(i);
-				/*Map<String,String> map = new HashMap<String, String>();
-				map.put(TITLE, r.getString("user"));
-				map.put(NUMBER, r.getString("review"));
-				map.put(ITEMNAME, r.getString("created_at"));
-				map.put(PRICE, r.getString("review"));
-				mMenu.add(map);*/
+				JSONObject r = jMenu.getJSONObject(i);
+				Map<String,String> map = new HashMap<String, String>();
+				map.put(NUMBER, r.getString("id"));
+				map.put(ITEMNAME, r.getString("name"));
+				map.put(PRICE, r.getString("price"));
+				mMenu.add(map);
 			}
 		}
 		catch (JSONException e) {

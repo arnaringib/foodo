@@ -392,11 +392,16 @@ public class RestaurantDbAdapter {
         return mDb.update(DATABASE_TABLE, args, KEY_ROWID + "=" + rowId, null) > 0;
     }   
     
+    /**
+     * Clears all restaurants and types relations
+     */
     public void emptyDatabase() {
     	mDb.execSQL(DATABASE_EMPTY);
     	mDb.execSQL(RT_DATABASE_EMPTY);
     }
-    
+    /**
+     * Clears all types from database
+     */
     public void emptyTypesTable(){
     	mDb.execSQL(DATABASE_T_EMPTY);
     }

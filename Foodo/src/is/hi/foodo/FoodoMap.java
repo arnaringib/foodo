@@ -63,7 +63,7 @@ public class FoodoMap extends MapActivity implements Runnable, LocationListener 
         mDbHelper = new RestaurantDbAdapter(this);
         mDbHelper.open();
 		if (mService == null)
-			mService = new RestaurantWebService(mDbHelper);
+			mService = new RestaurantWebService(mDbHelper,((FoodoApp)getApplicationContext()).getService());
 		mService.updateAllTypes();
         mDbHelper.fetchAllTypes();
        
@@ -292,7 +292,7 @@ public class FoodoMap extends MapActivity implements Runnable, LocationListener 
 
 	@Override
 	public void run() {
-		if (mService.updateAll())
+		if (mService.updateAllRestaurants())
 			handler.sendEmptyMessage(MSG_UPDATE_SUCCESSFUL);
 		else
 			handler.sendEmptyMessage(MSG_UPDATE_FAILED);

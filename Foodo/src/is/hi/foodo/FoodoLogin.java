@@ -93,6 +93,7 @@ public class FoodoLogin extends Activity implements Runnable {
 				SharedPreferences.Editor editor = app_preferences.edit();
 	            editor.putBoolean("access", true);
 	            editor.putLong("user",id);
+	            editor.putString("api_key", uManager.getApiKey());
 		       // Don't forget to commit edits!!!
 		       editor.commit();
 		       FoodoLogin.this.finish();

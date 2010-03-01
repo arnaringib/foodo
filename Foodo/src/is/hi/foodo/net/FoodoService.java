@@ -56,5 +56,13 @@ public interface FoodoService {
 	 * @throws FoodoServiceException 
 	 */
 	public JSONObject loginUser(String email, String password) throws FoodoServiceException;
+	
+	/**
+	 * Get all available restaurant types
+	 * 
+	 * @return List of types
+	 * @throws FoodoServiceException
+	 */
+	public JSONArray getTypes() throws FoodoServiceException;
 
 }

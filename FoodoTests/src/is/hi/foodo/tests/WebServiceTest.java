@@ -129,5 +129,12 @@ public class WebServiceTest extends AndroidTestCase {
 		JSONArray reviews = service.submitReview(testSubjectId, apikey, review);
 		assertTrue(reviews.length() == reviews_pre.length() + 1);
 	}
+	
+	public void testTypes() throws FoodoServiceException {
+		
+		JSONArray types = service.getTypes();
+		Log.d(TAG, types.toString());
+		assertTrue(types.length() >= 0);
+	}
 
 }

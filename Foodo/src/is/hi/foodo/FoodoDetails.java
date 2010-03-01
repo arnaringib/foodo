@@ -1,5 +1,6 @@
 package is.hi.foodo;
 
+import is.hi.foodo.net.FoodoService;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -20,7 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-public class FoodoDetails extends Activity{
+public class FoodoDetails extends Activity {
 	
 	private static final String TAG = "FoodoDetails";
 	private static final int MENU_VIEW = 2;
@@ -49,7 +50,7 @@ public class FoodoDetails extends Activity{
 	static final CharSequence bTextCall = "I cant call ..";
 	static final CharSequence bTextViewOnMap = "Cant view on map ..";
 	
-	private long user_id;
+	//private long user_id;
 	
 		
 	@Override
@@ -69,7 +70,7 @@ public class FoodoDetails extends Activity{
 		mDbHelper = new RestaurantDbAdapter(this);
         mDbHelper.open();
         
-        mService = new RestaurantWebService(mDbHelper);
+        mService = new RestaurantWebService(mDbHelper, ((FoodoApp)getApplicationContext()).getService());
         
         //Check if resuming from a saved instance state
         mRowId = (savedInstanceState != null ? savedInstanceState.getLong(RestaurantDbAdapter.KEY_ROWID) : null);
@@ -79,11 +80,8 @@ public class FoodoDetails extends Activity{
         	Bundle extras = getIntent().getExtras();
         	mRowId = extras != null ? extras.getLong(RestaurantDbAdapter.KEY_ROWID) : null;
         }
-    	
-        
-        
-        populateView();
-        
+
+        populateView();        
 	}
 	
 	@Override
@@ -110,6 +108,7 @@ public class FoodoDetails extends Activity{
 		            RatingBar rb = (RatingBar) layout.findViewById(R.id.ratingbar);
 	            	rb.setRating(mRating);
 	            	final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+	            	
 		            return new AlertDialog.Builder(FoodoDetails.this)
 		                .setTitle("Rating")
 		                .setView(layout)
@@ -118,11 +117,28 @@ public class FoodoDetails extends Activity{
 		                    	/* User clicked OK, add new rating */
 		                    	RatingBar rb = (RatingBar) layout.findViewById(R.id.ratingbar);
 		                    	Log.d(TAG, "Giving rating: " + rb.getRating());
+		                    
 		                    	// get UserId from SharedPreferences
-		                    	user_id = settings.getLong("user", 0);
-		                    	showRatingbar.setRating(
-		                    			(float) mService.addRating(mRowId, rb.getRating(), user_id)
-		                    	);
+		                    	//long user_id = settings.getLong("user", 0);
+		                    	
+		                    	
+		                    	//Get user api key from SharedPrefrences
+		                    	String user_api_key = settings.getString("api_key", "");
+		                    	
+		                    	FoodoService service = ((FoodoApp)FoodoDetails.this.getApplicationContext()).getService();
+		                    	
+		                    	try {
+			                    	float newrating = (float) service.submitRating(
+			                    			mRowId, 
+			                    			user_api_key, 
+			                    			(int)rb.getRating()
+			                    	).getDouble("rating");  	
+			                    	showRatingbar.setRating(newrating);
+		                    	}
+		                    	catch (Exception e) {
+		                    		//TODO should notify of this?
+		                    		Log.d(TAG, "Not able to submit rating", e);
+		                    	}
 		                    }
 		                })
 		                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

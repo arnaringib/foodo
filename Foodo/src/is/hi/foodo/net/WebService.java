@@ -234,5 +234,19 @@ public class WebService implements FoodoService {
         	throw new FoodoServiceException("Unexpected error while submitting review");
         }
 	}
+	
+	public JSONArray getTypes() throws FoodoServiceException {
+		
+		try {
+			return this.get("/types/").getJSONArray("Types");
+		}
+		catch (FoodoServiceException e) {
+			throw e;
+		}
+		catch (Exception e) {
+			Log.d(TAG, "Exception in getTypes", e);
+			throw new FoodoServiceException("Unexpected error while fetching restaurant types");
+		}
+	}
 
 }

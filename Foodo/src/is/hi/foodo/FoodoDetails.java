@@ -33,7 +33,7 @@ public class FoodoDetails extends Activity {
 	private float mRating;
 	
 	RestaurantDbAdapter mDbHelper;
-	RestaurantWebService mService;
+	RestaurantLoader mService;
 	Cursor restaurant;
 	Cursor types;
 	
@@ -70,7 +70,7 @@ public class FoodoDetails extends Activity {
 		mDbHelper = new RestaurantDbAdapter(this);
         mDbHelper.open();
         
-        mService = new RestaurantWebService(mDbHelper, ((FoodoApp)getApplicationContext()).getService());
+        mService = new RestaurantLoader(mDbHelper, ((FoodoApp)getApplicationContext()).getService());
         
         //Check if resuming from a saved instance state
         mRowId = (savedInstanceState != null ? savedInstanceState.getLong(RestaurantDbAdapter.KEY_ROWID) : null);

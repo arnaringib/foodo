@@ -48,7 +48,7 @@ public class FoodoMap extends MapActivity implements Runnable, LocationListener 
 	RestaurantDbAdapter mDbHelper;
 	List<Overlay> mapRestaurantsOverlays;
 	
-	RestaurantWebService mService;
+	RestaurantLoader mService;
 	
 	Filter filter;	
 	
@@ -63,7 +63,7 @@ public class FoodoMap extends MapActivity implements Runnable, LocationListener 
         mDbHelper = new RestaurantDbAdapter(this);
         mDbHelper.open();
 		if (mService == null)
-			mService = new RestaurantWebService(mDbHelper,((FoodoApp)getApplicationContext()).getService());
+			mService = new RestaurantLoader(mDbHelper,((FoodoApp)getApplicationContext()).getService());
 		mService.updateAllTypes();
         mDbHelper.fetchAllTypes();
        

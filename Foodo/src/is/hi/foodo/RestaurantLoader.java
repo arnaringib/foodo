@@ -7,14 +7,14 @@ import org.json.JSONObject;
 
 import android.util.Log;
 
-public class RestaurantWebService {
+public class RestaurantLoader {
 	
 	private static final String TAG = "RestaurantWebService";
     	
 	RestaurantDbAdapter mDb; 
 	FoodoService mService;
 	
-    public RestaurantWebService(RestaurantDbAdapter db, FoodoService service) {
+    public RestaurantLoader(RestaurantDbAdapter db, FoodoService service) {
     	mDb = db;
     	mService = service;
     }

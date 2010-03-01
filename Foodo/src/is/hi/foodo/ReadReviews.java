@@ -1,6 +1,9 @@
 package is.hi.foodo;
 
 
+import is.hi.foodo.net.FoodoService;
+import is.hi.foodo.net.FoodoServiceException;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,7 +41,7 @@ public class ReadReviews extends ListActivity implements Runnable {
 	private static final String DATE = "DATE";
 	
 	private ProgressDialog pd;
-	private ReviewWebService mService;
+	private FoodoService mService;
 	private RestaurantDbAdapter mDbHelper;
 	private Long mRowId;	
 	
@@ -57,7 +60,7 @@ public class ReadReviews extends ListActivity implements Runnable {
         mDbHelper = new RestaurantDbAdapter(this);
 		mDbHelper.open();
 		
-		mService = new ReviewWebService();
+		mService = ((FoodoApp)this.getApplicationContext()).getService();
         
 		getListView().setTextFilterEnabled(true);
 		getListView().setClickable(false);
@@ -152,24 +155,27 @@ public class ReadReviews extends ListActivity implements Runnable {
 
 	@Override
 	public void run() {
-		
-		JSONArray jReviews = mService.getReviews(mRowId);
-		
-		int n = jReviews.length();
-		
+
 		try {
+			JSONArray jReviews = mService.getRestaurantReviews(mRowId);
+			int n = jReviews.length();
+			
 			for (int i = 0; i < n; i++)
 			{
 				JSONObject r = jReviews.getJSONObject(i);
 				Map<String,String> map = new HashMap<String, String>();
 				map.put(TITLE, r.getString("user"));
-				map.put(REVIEW, r.getString("review"));
-				map.put(DATE, r.getString("created_at"));
+				map.put(REVIEW, r.getString("description"));
+				map.put(DATE, r.getString("created"));
 				mReviews.add(map);
 			}
 		}
 		catch (JSONException e) {
 			//TODO 
+			Log.d(TAG, "JSON exception while loading reviews", e);
+		}
+		catch (FoodoServiceException e) {
+			Log.d(TAG, "Not able to load reviews", e);
 		}
 		
 		handler.sendEmptyMessage(0);

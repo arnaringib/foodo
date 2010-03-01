@@ -1,5 +1,6 @@
 package is.hi.foodo;
 
+import is.hi.foodo.net.FoodoServiceException;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
@@ -12,13 +13,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class WriteReviews extends Activity implements View.OnClickListener, Runnable {
 	
-	//private static final String TAG = "WriteReviews";
+	private static final String TAG = "WriteReviews";
 	
-	//private static final int REVIEW_SUCCESSFUL = 1;
-	//private static final int REVIEW_FAILED = 2;
+	private static final int REVIEW_SUCCESSFUL = 1;
+	private static final int REVIEW_FAILED = 2;
 	
 	private ProgressDialog pd;
 	
@@ -31,8 +33,6 @@ public class WriteReviews extends Activity implements View.OnClickListener, Runn
 	private EditText mReview;
 	private Button mButton;
 	
-	private ReviewWebService mService;
-	
 	@Override 
     public void onCreate(Bundle savedInstanceState) { 
 		super.onCreate(savedInstanceState);
@@ -42,8 +42,6 @@ public class WriteReviews extends Activity implements View.OnClickListener, Runn
         mDbHelper = new RestaurantDbAdapter(this);
 		mDbHelper.open();
         
-		mService = new ReviewWebService();
-		
         //Check if resuming from a saved instance state
         mRowId = (savedInstanceState != null ? savedInstanceState.getLong(RestaurantDbAdapter.KEY_ROWID) : null);
         //Get id from intent if not set
@@ -84,16 +82,23 @@ public class WriteReviews extends Activity implements View.OnClickListener, Runn
 	@Override
 	public void run() {
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-		long user_id = settings.getLong("user", new Long(0));
-
-		mService.addReview(user_id, mRowId, mReview.getText().toString());
-		handler.sendEmptyMessage(0);
+		String user_api_key = settings.getString("api_key", "");
+		
+		try {
+			((FoodoApp)getApplicationContext()).getService().submitReview(mRowId, user_api_key, mReview.getText().toString());
+			handler.sendEmptyMessage(REVIEW_SUCCESSFUL);
+		} catch (FoodoServiceException e) {
+			handler.sendEmptyMessage(REVIEW_FAILED);
+		}
 	}
 	
 	private Handler handler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
 			pd.dismiss();
+			if (msg.what == REVIEW_FAILED) {
+				Toast.makeText(WriteReviews.this, "Could not send review", Toast.LENGTH_SHORT).show();
+			}
 			finish();
 		}
 	};

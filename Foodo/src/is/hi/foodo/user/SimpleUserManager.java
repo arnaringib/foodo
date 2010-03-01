@@ -1,4 +1,4 @@
-package is.hi.foodo;
+package is.hi.foodo.user;
 
 /*import java.util.HashMap;
 import java.util.Map;

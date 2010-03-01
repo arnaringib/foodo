@@ -1,5 +1,6 @@
 package is.hi.foodo;
 
+import is.hi.foodo.user.UserManager;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -22,18 +23,18 @@ public class FoodoLogin extends Activity implements Runnable {
 	private static final String TAG = "FoodoLogin";
 	private SharedPreferences  app_preferences;
 	
-	private FoodoUserManager uManager;
+	private UserManager uManager;
 	private ProgressDialog pd;
 	private long id;
 	
 	private CharSequence emailValue;
 	private CharSequence passwordValue;
 	
-	@Override 
+	@Override
     public void onCreate(Bundle savedInstanceState) { 
 		super.onCreate(savedInstanceState);
 		
-		uManager = new FoodoUserManager();
+		uManager = ((FoodoApp)this.getApplicationContext()).getUserManager();
         
 		//load up the layout 
         setContentView(R.layout.login); 

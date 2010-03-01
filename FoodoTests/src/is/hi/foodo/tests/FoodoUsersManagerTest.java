@@ -1,7 +1,8 @@
 package is.hi.foodo.tests;
 
-import is.hi.foodo.FoodoUserManager;
-import is.hi.foodo.UserManager;
+import is.hi.foodo.net.WebService;
+import is.hi.foodo.user.FoodoUserManager;
+import is.hi.foodo.user.UserManager;
 import junit.framework.TestCase;
 
 public class FoodoUsersManagerTest extends TestCase {
@@ -9,7 +10,7 @@ public class FoodoUsersManagerTest extends TestCase {
 	private FoodoUserManager manager;
 	
 	public void setUp() {
-		manager = new FoodoUserManager();
+		manager = new FoodoUserManager(new WebService("http://foodo.morpho.nord.is/api"));
 	}
 	
 	public void testBadPassword() {

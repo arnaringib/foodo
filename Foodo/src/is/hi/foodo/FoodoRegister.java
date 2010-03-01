@@ -1,5 +1,6 @@
 package is.hi.foodo;
 
+import is.hi.foodo.user.UserManager;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -19,7 +20,7 @@ public class FoodoRegister extends Activity implements Runnable {
 	private Button btnReg;
 	static final int PASSWORD_DIALOG = 0, REGISTER_DIALOG = 1;
 	private CharSequence firstName, lastName, email_1, email_2, password, rePassword;
-	private FoodoUserManager uManager;
+	private UserManager uManager;
 	
 	private ProgressDialog pd;
 	 
@@ -33,7 +34,7 @@ public class FoodoRegister extends Activity implements Runnable {
         btnReg = (Button)this.findViewById(R.id.register_button);
         btnReg.setOnClickListener(new clicker());
         
-        uManager = new FoodoUserManager();
+        uManager = ((FoodoApp)this.getApplicationContext()).getUserManager();
 	}
 	
 	

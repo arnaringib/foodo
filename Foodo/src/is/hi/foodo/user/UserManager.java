@@ -1,4 +1,4 @@
-package is.hi.foodo;
+package is.hi.foodo.user;
 
 public interface UserManager {
 	

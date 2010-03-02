@@ -25,6 +25,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -39,28 +40,32 @@ public class FoodoMenu extends ListActivity implements Runnable {
 	private static final String NUMBER = "NUMBER";
 	private static final String ITEMNAME = "ITEMNAME";
 	private static final String PRICE = "PRICE";
+	private static final String AMOUNT = "AMOUNT";
 	
 	private static int item;
 	
 	private ProgressDialog pd;
 	private MenuWebService mService; // TODO ! // done ? 
 	private RestaurantDbAdapter mDbHelper;
-	private Long mRowId;	
-	
-	private Button btnConfOrder;
+	private Long mRowId;
+	private String order;
+	private int amount = 0;
+	private Button btnConfOrder, btnUp, btnDown;
 	
 	static final int MENU_DIALOG = 0;
 	static final int ORDER_DIALOG = 1;
+	static final int BASKET_DIALOG = 2;
 	//private Cursor mRestaurantCursor;
 	
 	List< Map<String,String> > mMenu;
+	List< Map<String, String> > mOrder;
 	
 	@Override 
     protected void onCreate(Bundle savedInstanceState) { 
 		super.onCreate(savedInstanceState);
 
         setContentView(R.layout.menu); 
-        
+   
         mDbHelper = new RestaurantDbAdapter(this);
 		mDbHelper.open();
 		
@@ -69,7 +74,6 @@ public class FoodoMenu extends ListActivity implements Runnable {
 		getListView().setTextFilterEnabled(true);
 		getListView().setClickable(true);
 		registerForContextMenu(getListView());
-	
 		
 		setupButtons();
 		
@@ -88,11 +92,13 @@ public class FoodoMenu extends ListActivity implements Runnable {
         
 	}
 	
+	
 	@Override
 	protected void onResume() {
 		super.onResume();
 		
 		mMenu = new ArrayList<Map<String,String>>();
+		mOrder = new ArrayList<Map<String, String>>();
 		loadMenu();
 		setupList();
 	}
@@ -121,7 +127,8 @@ public class FoodoMenu extends ListActivity implements Runnable {
 	
 	public String createOrder(){
 		String result = "";
-		//TODO!
+		//TODO! 
+		
 		return result;
 	}
 
@@ -140,7 +147,7 @@ public class FoodoMenu extends ListActivity implements Runnable {
 					if(v==btnConfOrder){
 						SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(FoodoMenu.this);
 						if(settings.getBoolean("access", true)){
-							showDialog(ORDER_DIALOG);
+							showDialog(BASKET_DIALOG);
 						}
 						else {
 							Toast.makeText(context, "You have to be signed in", Toast.LENGTH_SHORT).show();
@@ -148,19 +155,48 @@ public class FoodoMenu extends ListActivity implements Runnable {
 					}
 				}
 			});
+		
 	}
+	
 	
 	protected Dialog onCreateDialog(int id) {
 		switch(id) {
 			case MENU_DIALOG:
 		            LayoutInflater factory = LayoutInflater.from(this);
-		            final View layout = factory.inflate(R.layout.menudialog, null);	            
-		            return new AlertDialog.Builder(FoodoMenu.this)
+		            final View layout = factory.inflate(R.layout.menudialog, null);	
+		  		  btnUp = (Button) layout.findViewById(R.id.btnUp);
+		          btnUp.setOnClickListener(new Button.OnClickListener(){
+		  			@Override
+		  			public void onClick(View v)
+		  			{
+		  				amount++;
+		  			}
+		  		});
+		          btnDown = (Button) layout.findViewById(R.id.btnDown);
+		          btnDown.setOnClickListener(new Button.OnClickListener(){
+		  			@Override
+		  			public void onClick(View v)
+		  			{
+		  				if(amount>0){
+		  					amount--;
+		  				}
+		  			}
+		  		});
+		          return new AlertDialog.Builder(FoodoMenu.this)
 		                .setTitle(mMenu.get(item).get(ITEMNAME))
-		                .setView(layout)
+		                .setView(layout)	
 		                .setPositiveButton("Add to Order", new DialogInterface.OnClickListener() {
 		                    public void onClick(DialogInterface dialog, int whichButton) {
-		                    	// TODO
+		                    	// Map for the order information
+		                    	Map<String, String> map = new HashMap<String, String>();
+		                    	map.put(NUMBER, mMenu.get(item).get(NUMBER));
+		                    	map.put(AMOUNT, Integer.toString(amount));
+		                    	mOrder.add(map);
+		                    	amount = 0;
+		                    	
+		                    	//Log.d(TAG, map.get(NUMBER));
+		                    	//Log.d(TAG, map.get(AMOUNT));
+		                    
 		                    }
 		                })
 		                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -172,13 +208,10 @@ public class FoodoMenu extends ListActivity implements Runnable {
 		   case ORDER_DIALOG:
 			    LayoutInflater factoryOrder = LayoutInflater.from(this);
 	            final View layoutOrder = factoryOrder.inflate(R.layout.orderdialog, null);
-	            
-	            TextView mOrder = (TextView) layoutOrder.findViewById(R.id.totalOrder);
-	            mOrder.setText(createOrder());
 	            return new AlertDialog.Builder(FoodoMenu.this)
 	            	.setTitle(R.string.your_order)
 	                .setView(layoutOrder)
-	                .setPositiveButton(R.string.change_order, new DialogInterface.OnClickListener() {
+					.setPositiveButton(R.string.change_order, new DialogInterface.OnClickListener() {
 	                	public void onClick(DialogInterface dialog, int whichButton) {
 	                		dismissDialog(ORDER_DIALOG);
 		                }
@@ -188,6 +221,28 @@ public class FoodoMenu extends ListActivity implements Runnable {
 		            		dismissDialog(ORDER_DIALOG);
 		                	setResult(RESULT_OK);
 		                    finish();
+		            	}
+		            })
+	               .create();
+		   case BASKET_DIALOG:
+			    LayoutInflater factoryBasket = LayoutInflater.from(this);
+	            final View layoutBasket = factoryBasket.inflate(R.layout.basketdialog, null);
+	        	//order = mMenu.get(item).get(ITEMNAME);
+	            //TextView mOrder = (TextView) layoutOrder.findViewById(R.id.totalOrder);
+	            //mOrder.setText(items);
+	           // mOrder.append(order);
+	            return new AlertDialog.Builder(FoodoMenu.this)
+	            	.setTitle(R.string.basket)
+	                .setView(layoutBasket)
+					.setPositiveButton(R.string.change_order, new DialogInterface.OnClickListener() {
+	                	public void onClick(DialogInterface dialog, int whichButton) {
+	                		dismissDialog(BASKET_DIALOG);
+		                }
+		            })
+		            .setNegativeButton(R.string.confirm_order, new DialogInterface.OnClickListener() {
+		            	public void onClick(DialogInterface dialog, int whichButton) {
+		            		dismissDialog(BASKET_DIALOG);
+		                    showDialog(ORDER_DIALOG);
 		            	}
 		            })
 	                .create();

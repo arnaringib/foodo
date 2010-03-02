@@ -1,6 +1,8 @@
 package is.hi.foodo;
 
 
+import is.hi.foodo.net.FoodoServiceException;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,7 +27,6 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -44,8 +45,7 @@ public class FoodoMenu extends ListActivity implements Runnable {
 	
 	private static int item;
 	
-	private ProgressDialog pd;
-	private MenuWebService mService; // TODO ! // done ? 
+	private ProgressDialog pd; 
 	private RestaurantDbAdapter mDbHelper;
 	private Long mRowId;
 	private String order;
@@ -68,8 +68,6 @@ public class FoodoMenu extends ListActivity implements Runnable {
    
         mDbHelper = new RestaurantDbAdapter(this);
 		mDbHelper.open();
-		
-		mService = new MenuWebService(); 
         
 		getListView().setTextFilterEnabled(true);
 		getListView().setClickable(true);
@@ -269,11 +267,11 @@ public class FoodoMenu extends ListActivity implements Runnable {
 	@Override
 	public void run() {
 		
-		JSONArray jMenu = mService.getMenu(mRowId);
-		
-		int n = jMenu.length();
-		
+		//JSONArray jMenu = mService.getMenu(mRowId);
 		try {
+			JSONArray jMenu = ((FoodoApp)getApplicationContext()).getService().getRestaurantMenu(mRowId);
+			int n = jMenu.length();
+			
 			for (int i = 0; i < n; i++)
 			{
 				JSONObject r = jMenu.getJSONObject(i);
@@ -285,7 +283,12 @@ public class FoodoMenu extends ListActivity implements Runnable {
 			}
 		}
 		catch (JSONException e) {
-			//TODO 
+			//TODO
+			Log.d(TAG, "Menu", e);
+		}
+		catch (FoodoServiceException e)
+		{
+			Log.d(TAG, "Exception while getting menu", e);
 		}
 		
 		handler.sendEmptyMessage(0);

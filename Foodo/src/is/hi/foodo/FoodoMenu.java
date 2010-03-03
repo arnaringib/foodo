@@ -45,7 +45,7 @@ public class FoodoMenu extends ListActivity implements Runnable {
 	private static final String AMOUNT = "AMOUNT";
 	
 	private static int item;
-	private static String itemName;
+	private static int itemName;
 	
 	private ProgressDialog pd; 
 	private RestaurantDbAdapter mDbHelper;
@@ -163,11 +163,6 @@ public class FoodoMenu extends ListActivity implements Runnable {
 		
 	}
 	
-	@Override
-	protected void onPrepareDialog(int id, Dialog dialog) {
-		super.onPrepareDialog(id, dialog);
-		dialog.setTitle(mOrder.get(item).get(ITEMNAME));
-	}
 	
 	protected Dialog onCreateDialog(int id) {
 		switch(id) {
@@ -194,6 +189,7 @@ public class FoodoMenu extends ListActivity implements Runnable {
 		  		});
 
 		          return new AlertDialog.Builder(FoodoMenu.this)
+		                .setTitle(mMenu.get(item).get(ITEMNAME))
 		                .setView(itemLayout)	
 		                .setPositiveButton("Add to Order", new DialogInterface.OnClickListener() {
 		                    public void onClick(DialogInterface dialog, int whichButton) {
@@ -222,6 +218,7 @@ public class FoodoMenu extends ListActivity implements Runnable {
 		                })
 		                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 		                    public void onClick(DialogInterface dialog, int whichButton) {
+		                    	//amount = 0;
 		                    	dismissDialog(MENU_DIALOG);
 		                    }
 		                })
@@ -279,7 +276,7 @@ public class FoodoMenu extends ListActivity implements Runnable {
 		for(int i = 0; i < mOrder.size(); i++){
 			if(Integer.parseInt(mOrder.get(i).get(ID)) == item){
 				amount = Integer.parseInt(mOrder.get(i).get(AMOUNT));
-				itemName = mOrder.get(i).get(ITEMNAME);
+				//itemName = mOrder.get(i).get(ITEMNAME);
 				break;
 			}
 		}

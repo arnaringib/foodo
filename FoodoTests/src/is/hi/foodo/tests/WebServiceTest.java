@@ -1,7 +1,12 @@
 package is.hi.foodo.tests;
 
+import is.hi.foodo.FoodoMenu;
 import is.hi.foodo.net.FoodoServiceException;
 import is.hi.foodo.net.WebService;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -18,7 +23,8 @@ public class WebServiceTest extends AndroidTestCase {
 	
 	public void setUp() {
 		service = new WebService("http://foodo.morpho.nord.is/api");
-		testSubjectId = 19;
+		//service = new WebService("http://10.0.2.2:8000/api");
+		testSubjectId = 1;
 	}
 	
 	public void testGetRestaurants() throws FoodoServiceException {
@@ -135,6 +141,23 @@ public class WebServiceTest extends AndroidTestCase {
 		JSONArray types = service.getTypes();
 		Log.d(TAG, types.toString());
 		assertTrue(types.length() >= 0);
+	}
+	
+	public void testSubmitOrder() throws FoodoServiceException {
+		ArrayList<Map<String, String>> order = new ArrayList<Map<String, String>>();
+		
+		for (int i = 1; i <= 2; i++)
+		{
+			Map<String, String> map = new HashMap<String, String>();
+	    	map.put(FoodoMenu.ITEMID, String.valueOf(i));
+	    	map.put(FoodoMenu.AMOUNT, String.valueOf(i+2));
+	    	order.add(map);
+		}
+		
+		Log.d(TAG, order.toString());
+		
+		String apikey = "TEST";
+		service.submitOrder(1, apikey, order);
 	}
 
 }

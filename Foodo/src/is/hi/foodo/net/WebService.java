@@ -1,5 +1,7 @@
 package is.hi.foodo.net;
 
+import is.hi.foodo.FoodoMenu;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -54,7 +56,7 @@ public class WebService implements FoodoService {
 			}
 			catch (IOException e) {}
 		}
-		Log.d(TAG, builder.toString());
+		//Log.d(TAG, builder.toString());
 		return builder.toString();
 	}
 	
@@ -62,7 +64,7 @@ public class WebService implements FoodoService {
 		HttpClient httpclient = new DefaultHttpClient();  
 	    HttpPost httppost = new HttpPost(this.url + path);
 	    
-	    Log.d(TAG, "Post request at: " + this.url + path);
+	    //Log.d(TAG, "Post request at: " + this.url + path);
 	    
 	    try {
 	    	//Add data
@@ -95,7 +97,7 @@ public class WebService implements FoodoService {
 		HttpClient httpclient = new DefaultHttpClient();  
 	    HttpGet httpget = new HttpGet(this.url + path);
 	    
-	    Log.d(TAG, "Get request at: " + this.url + path);
+	    //Log.d(TAG, "Get request at: " + this.url + path);
 	    
 	    try {
 	    	//Execute HTTP Get Request  
@@ -253,8 +255,38 @@ public class WebService implements FoodoService {
 	@Override
 	public JSONObject submitOrder(long restaurantId, String apiKey,
 			List<Map<String, String>> items) throws FoodoServiceException {
-		// TODO Auto-generated method stub
-		return null;
+
+		
+		//Prepare JSON object
+		JSONArray order = new JSONArray();
+		try {
+			for (int i = 0; i < items.size(); i++)
+			{
+				JSONObject item = new JSONObject();
+				item.put("id", items.get(i).get(FoodoMenu.ITEMID));
+				item.put("amount", items.get(i).get(FoodoMenu.AMOUNT));
+				order.put(item);
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Log.d(TAG, "Order is: " + order.toString());
+		
+		//Prepare parameters for post request
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);  
+        nameValuePairs.add(new BasicNameValuePair("order", order.toString()));
+        nameValuePairs.add(new BasicNameValuePair("restaurant_id", String.valueOf(restaurantId)));
+        nameValuePairs.add(new BasicNameValuePair("apikey", apiKey));
+        
+        try {
+        	return this.post("/order/", nameValuePairs).getJSONObject("Order");
+        } catch (FoodoServiceException e) {
+        	throw e;
+        } catch (Exception e) {
+        	Log.d(TAG, "Exception in order", e);
+        	throw new FoodoServiceException("Error while sending out order");
+        }
 	}
 
 }

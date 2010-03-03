@@ -96,6 +96,12 @@ public class FoodoDetails extends Activity {
             if (resultCode == RESULT_OK) {
                 Toast.makeText(this, "Your order is being processed!", Toast.LENGTH_LONG).show();
             }
+            else if (resultCode == RESULT_CANCELED)
+            {
+            	Toast.makeText(this, "Order could not be sent! Try again!", Toast.LENGTH_LONG).show();
+            }
+            
+            
         }
 	}
 	

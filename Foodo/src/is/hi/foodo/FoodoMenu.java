@@ -38,11 +38,13 @@ import android.widget.Toast;
 public class FoodoMenu extends ListActivity implements Runnable {
 
 	private static final String TAG = "FoodoMenu";
-	private static final String ID = "ID";
-	private static final String ITEMID = "ITEMID";
-	private static final String ITEMNAME = "ITEMNAME";
-	private static final String PRICE = "PRICE";
-	private static final String AMOUNT = "AMOUNT";
+	
+	public static final String ID = "ID";
+	public static final String ITEMID = "ITEMID";
+	public static final String ITEMNAME = "ITEMNAME";
+	public static final String PRICE = "PRICE";
+	public static final String AMOUNT = "AMOUNT";
+	
 	private static final String TAB = "\t";
 	private static final String TIMES = "x";
 	private static final String NEWLINE = "\n";
@@ -275,8 +277,25 @@ public class FoodoMenu extends ListActivity implements Runnable {
 		            .setNegativeButton(R.string.confirm_order, new DialogInterface.OnClickListener() {
 		            	public void onClick(DialogInterface dialog, int whichButton) {
 		            		dismissDialog(ORDER_DIALOG);
-		                	setResult(RESULT_OK);
-		                    finish();
+		            		
+		            		//Starta loading gaur
+		            		
+		            		//Log.d(TAG, mOrder.toString());
+		            		FoodoApp app = ((FoodoApp)FoodoMenu.this.getApplicationContext());
+		            		String api_key = app.getUserManager().getApiKey();
+		            		try {
+								app.getService().submitOrder(
+										mRowId, 
+										api_key, 
+										mOrder
+								);
+			                	setResult(RESULT_OK);
+			                	finish();
+							} catch (FoodoServiceException e) {
+								Log.d(TAG, "Not able to send order", e);
+								//setResult(RESULT_CANCELED);
+								Toast.makeText(FoodoMenu.this, "Order could not be processed! Please try again", Toast.LENGTH_LONG).show();
+							}
 		            	}
 		            })
 	               .create();

@@ -43,9 +43,11 @@ public class FoodoMenu extends ListActivity implements Runnable {
 	private static final String ITEMNAME = "ITEMNAME";
 	private static final String PRICE = "PRICE";
 	private static final String AMOUNT = "AMOUNT";
+	private static final String TAB = "\t";
+	private static final String TIMES = "x";
+	private static final String NEWLINE = "\n";
 	
 	private static int item;
-	private static int itemName;
 	
 	private ProgressDialog pd; 
 	private RestaurantDbAdapter mDbHelper;
@@ -53,8 +55,8 @@ public class FoodoMenu extends ListActivity implements Runnable {
 	private String dialogItem;
 	private static int amount = 0;
 	private Button btnConfOrder, btnUp, btnDown;
-	private TextView txtItemCounter,txtItemName, txtItemText;
-	private View itemLayout;
+	private View itemLayout, orderLayout;
+	private TextView txtItemCounter, txtItemText;
 	private int tempPrice; 
 	
 	static final int MENU_DIALOG = 0;
@@ -76,6 +78,8 @@ public class FoodoMenu extends ListActivity implements Runnable {
         
         LayoutInflater factory = LayoutInflater.from(this);
         itemLayout = factory.inflate(R.layout.menudialog, null);
+	    LayoutInflater factoryOrder = LayoutInflater.from(this);
+        orderLayout = factoryOrder.inflate(R.layout.orderdialog, null);
 		
 		getListView().setTextFilterEnabled(true);
 		getListView().setClickable(true);
@@ -133,8 +137,23 @@ public class FoodoMenu extends ListActivity implements Runnable {
 	
 	public String createOrder(){
 		String result = "";
-		//TODO! 
-		
+		int sum = 0;
+		for(int i = 0; i < mOrder.size(); i++){
+			result += mOrder.get(i).get(ITEMNAME);
+			result += NEWLINE;
+			result += mOrder.get(i).get(AMOUNT);
+			result += TIMES;
+			result += mOrder.get(i).get(PRICE);
+			result += TAB;
+			result += "=";
+			result += TAB;
+			result += Integer.parseInt(mOrder.get(i).get(PRICE))*Integer.parseInt(mOrder.get(i).get(AMOUNT));
+			result += NEWLINE;
+			result += NEWLINE;
+			sum += Integer.parseInt(mOrder.get(i).get(PRICE))*Integer.parseInt(mOrder.get(i).get(AMOUNT));
+		}
+		result += NEWLINE;
+		result += "Total cost: "+ sum;
 		return result;
 	}
 
@@ -153,7 +172,9 @@ public class FoodoMenu extends ListActivity implements Runnable {
 					if(v==btnConfOrder){
 						SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(FoodoMenu.this);
 						if(settings.getBoolean("access", true)){
-							showDialog(BASKET_DIALOG);
+							TextView totalOrder = (TextView) orderLayout.findViewById(R.id.totalOrder);
+				            totalOrder.setText(createOrder());
+							showDialog(ORDER_DIALOG);
 						}
 						else {
 							Toast.makeText(context, "You have to be signed in", Toast.LENGTH_SHORT).show();
@@ -225,7 +246,9 @@ public class FoodoMenu extends ListActivity implements Runnable {
 		                    		Map<String, String> map = new HashMap<String, String>();
 		                    		map.put(ID, mMenu.get(item).get(ID));
 			                    	map.put(ITEMID, mMenu.get(item).get(ITEMID));
+			                    	map.put(ITEMNAME, mMenu.get(item).get(ITEMNAME));
 			                    	map.put(AMOUNT, Integer.toString(amount));
+			                    	map.put(PRICE, mMenu.get(item).get(PRICE));
 			                    	mOrder.add(map);
 		                    	}
 		                    }
@@ -239,11 +262,11 @@ public class FoodoMenu extends ListActivity implements Runnable {
 		                })
 		                .create();
 		   case ORDER_DIALOG:
-			    LayoutInflater factoryOrder = LayoutInflater.from(this);
-	            final View layoutOrder = factoryOrder.inflate(R.layout.orderdialog, null);
+			    //LayoutInflater factoryOrder = LayoutInflater.from(this);
+	            //final View layoutOrder = factoryOrder.inflate(R.layout.orderdialog, null);
 	            return new AlertDialog.Builder(FoodoMenu.this)
 	            	.setTitle(R.string.your_order)
-	                .setView(layoutOrder)
+	                .setView(orderLayout)
 					.setPositiveButton(R.string.change_order, new DialogInterface.OnClickListener() {
 	                	public void onClick(DialogInterface dialog, int whichButton) {
 	                		dismissDialog(ORDER_DIALOG);

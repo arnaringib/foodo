@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -247,6 +248,13 @@ public class WebService implements FoodoService {
 			Log.d(TAG, "Exception in getTypes", e);
 			throw new FoodoServiceException("Unexpected error while fetching restaurant types");
 		}
+	}
+
+	@Override
+	public JSONObject submitOrder(long restaurantId, String apiKey,
+			List<Map<String, String>> items) throws FoodoServiceException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

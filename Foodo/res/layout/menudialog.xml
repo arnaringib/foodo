@@ -5,16 +5,16 @@
 		android:layout_height="fill_parent"
 		android:paddingLeft="5dip"
 		>
-	<!-- 	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	 	<!-- <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 		android:orientation="vertical"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		>
 			<TextView android:id="@+id/itemName"
-  				android:layout_width="wrap_content"
+  				android:layout_width="fill_parent"
   				android:layout_height="wrap_content"
   				android:text="Name of Item"
-  				android:textSize="20dip"
+  				android:textSize="18dip"
   				android:layout_alignParentTop="true"
 			/>
 		</LinearLayout> 
@@ -69,12 +69,11 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				>
-					<TextView android:id="@+id/itemCounter"
+					<TextView android:id="@+id/itemText"
 	  					android:layout_width="wrap_content"
 	  					android:layout_height="70dip"
 	  					android:text=""
 	  					android:textSize="13dip"
-	  					
 	  					android:paddingLeft="9dip"
 					/>
 				</LinearLayout>

@@ -38,19 +38,23 @@ import android.widget.Toast;
 public class FoodoMenu extends ListActivity implements Runnable {
 
 	private static final String TAG = "FoodoMenu";
-	private static final String NUMBER = "NUMBER";
+	private static final String ID = "ID";
+	private static final String ITEMID = "ITEMID";
 	private static final String ITEMNAME = "ITEMNAME";
 	private static final String PRICE = "PRICE";
 	private static final String AMOUNT = "AMOUNT";
 	
 	private static int item;
+	private static String itemName;
 	
 	private ProgressDialog pd; 
 	private RestaurantDbAdapter mDbHelper;
 	private Long mRowId;
 	private String order;
-	private int amount = 0;
+	private static int amount = 0;
 	private Button btnConfOrder, btnUp, btnDown;
+	private TextView txtItemCounter,txtItemName;
+	private View itemLayout;
 	
 	static final int MENU_DIALOG = 0;
 	static final int ORDER_DIALOG = 1;
@@ -58,7 +62,7 @@ public class FoodoMenu extends ListActivity implements Runnable {
 	//private Cursor mRestaurantCursor;
 	
 	List< Map<String,String> > mMenu;
-	List< Map<String, String> > mOrder;
+	List< Map<String,String> > mOrder;
 	
 	@Override 
     protected void onCreate(Bundle savedInstanceState) { 
@@ -69,6 +73,9 @@ public class FoodoMenu extends ListActivity implements Runnable {
         mDbHelper = new RestaurantDbAdapter(this);
 		mDbHelper.open();
         
+        LayoutInflater factory = LayoutInflater.from(this);
+        itemLayout = factory.inflate(R.layout.menudialog, null);
+		
 		getListView().setTextFilterEnabled(true);
 		getListView().setClickable(true);
 		registerForContextMenu(getListView());
@@ -117,7 +124,7 @@ public class FoodoMenu extends ListActivity implements Runnable {
         		this,
         		mMenu, 
         		R.layout.listmenu,
-        		new String[] { NUMBER, ITEMNAME, PRICE },
+        		new String[] { ITEMID, ITEMNAME, PRICE },
         		new int[] { R.id.nrMenu, R.id.nameMenu, R.id.priceMenu }
         );
         setListAdapter(adapter);
@@ -156,21 +163,25 @@ public class FoodoMenu extends ListActivity implements Runnable {
 		
 	}
 	
+	@Override
+	protected void onPrepareDialog(int id, Dialog dialog) {
+		super.onPrepareDialog(id, dialog);
+		dialog.setTitle(mOrder.get(item).get(ITEMNAME));
+	}
 	
 	protected Dialog onCreateDialog(int id) {
 		switch(id) {
 			case MENU_DIALOG:
-		            LayoutInflater factory = LayoutInflater.from(this);
-		            final View layout = factory.inflate(R.layout.menudialog, null);	
-		  		  btnUp = (Button) layout.findViewById(R.id.btnUp);
+		  		  btnUp = (Button) itemLayout.findViewById(R.id.btnUp);
 		          btnUp.setOnClickListener(new Button.OnClickListener(){
 		  			@Override
 		  			public void onClick(View v)
 		  			{
 		  				amount++;
+		  				txtItemCounter.setText("" + amount);
 		  			}
 		  		});
-		          btnDown = (Button) layout.findViewById(R.id.btnDown);
+		          btnDown = (Button) itemLayout.findViewById(R.id.btnDown);
 		          btnDown.setOnClickListener(new Button.OnClickListener(){
 		  			@Override
 		  			public void onClick(View v)
@@ -178,23 +189,35 @@ public class FoodoMenu extends ListActivity implements Runnable {
 		  				if(amount>0){
 		  					amount--;
 		  				}
+		  				txtItemCounter.setText("" + amount);
 		  			}
 		  		});
+
 		          return new AlertDialog.Builder(FoodoMenu.this)
-		                .setTitle(mMenu.get(item).get(ITEMNAME))
-		                .setView(layout)	
+		                .setView(itemLayout)	
 		                .setPositiveButton("Add to Order", new DialogInterface.OnClickListener() {
 		                    public void onClick(DialogInterface dialog, int whichButton) {
-		                    	// Map for the order information
-		                    	Map<String, String> map = new HashMap<String, String>();
-		                    	map.put(NUMBER, mMenu.get(item).get(NUMBER));
-		                    	map.put(AMOUNT, Integer.toString(amount));
-		                    	mOrder.add(map);
-		                    	amount = 0;
-		                    	
-		                    	//Log.d(TAG, map.get(NUMBER));
-		                    	//Log.d(TAG, map.get(AMOUNT));
-		                    
+		                    	boolean itemNotFound = true;
+		                    	for(int i = 0; i < mOrder.size(); i++){
+		                			if(Integer.parseInt(mOrder.get(i).get(ID)) == item){
+		                				if(amount > 0){
+		                					mOrder.get(i).put(AMOUNT, Integer.toString(amount));
+		                				}
+		                				else{
+		                					mOrder.remove(i);
+		                				}
+		                				itemNotFound = false;
+		                				break;
+		                			}
+		                		}
+		                    	if(itemNotFound){
+		                    		// 	Map for the order information
+		                    		Map<String, String> map = new HashMap<String, String>();
+		                    		map.put(ID, mMenu.get(item).get(ID));
+			                    	map.put(ITEMID, mMenu.get(item).get(ITEMID));
+			                    	map.put(AMOUNT, Integer.toString(amount));
+			                    	mOrder.add(map);
+		                    	}
 		                    }
 		                })
 		                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -251,10 +274,19 @@ public class FoodoMenu extends ListActivity implements Runnable {
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
-		//Context context = getApplicationContext();
-        //Toast.makeText(context,""+ position, Toast.LENGTH_SHORT).show();
-		v.refreshDrawableState();
 		item = position;
+		amount = 0;
+		for(int i = 0; i < mOrder.size(); i++){
+			if(Integer.parseInt(mOrder.get(i).get(ID)) == item){
+				amount = Integer.parseInt(mOrder.get(i).get(AMOUNT));
+				itemName = mOrder.get(i).get(ITEMNAME);
+				break;
+			}
+		}
+        txtItemCounter = (TextView) itemLayout.findViewById(R.id.itemCounter);
+        txtItemCounter.setText(Integer.toString(amount));
+       /* txtItemName = (TextView) itemLayout.findViewById(R.id.itemName);
+        txtItemName.setText(mMenu.get(item).get(ITEMNAME));*/
 		showDialog(MENU_DIALOG);
 	}
 	
@@ -276,7 +308,8 @@ public class FoodoMenu extends ListActivity implements Runnable {
 			{
 				JSONObject r = jMenu.getJSONObject(i);
 				Map<String,String> map = new HashMap<String, String>();
-				map.put(NUMBER, r.getString("id"));
+				map.put(ID, Integer.toString(i));
+				map.put(ITEMID, r.getString("id"));
 				map.put(ITEMNAME, r.getString("name"));
 				map.put(PRICE, r.getString("price"));
 				mMenu.add(map);

@@ -50,11 +50,12 @@ public class FoodoMenu extends ListActivity implements Runnable {
 	private ProgressDialog pd; 
 	private RestaurantDbAdapter mDbHelper;
 	private Long mRowId;
-	private String order;
+	private String dialogItem;
 	private static int amount = 0;
 	private Button btnConfOrder, btnUp, btnDown;
-	private TextView txtItemCounter,txtItemName;
+	private TextView txtItemCounter,txtItemName, txtItemText;
 	private View itemLayout;
+	private int tempPrice; 
 	
 	static final int MENU_DIALOG = 0;
 	static final int ORDER_DIALOG = 1;
@@ -163,10 +164,21 @@ public class FoodoMenu extends ListActivity implements Runnable {
 		
 	}
 	
-	
+	protected void onPrepareDialog (int id, Dialog dialog) {
+		switch(id) {
+			case MENU_DIALOG:
+				dialog.setTitle(dialogItem);
+				tempPrice = Integer.parseInt( mMenu.get(item).get(PRICE));
+				txtItemText.setText("Total price: " + (tempPrice*amount));
+		}
+	}
 	protected Dialog onCreateDialog(int id) {
 		switch(id) {
 			case MENU_DIALOG:
+				  txtItemText = (TextView) itemLayout.findViewById(R.id.itemText);
+				  tempPrice = Integer.parseInt( mMenu.get(item).get(PRICE));
+				  txtItemText.setText("Total price: " + (tempPrice*amount));
+				  
 		  		  btnUp = (Button) itemLayout.findViewById(R.id.btnUp);
 		          btnUp.setOnClickListener(new Button.OnClickListener(){
 		  			@Override
@@ -174,6 +186,7 @@ public class FoodoMenu extends ListActivity implements Runnable {
 		  			{
 		  				amount++;
 		  				txtItemCounter.setText("" + amount);
+				  		txtItemText.setText("Total price: " + (tempPrice*amount));
 		  			}
 		  		});
 		          btnDown = (Button) itemLayout.findViewById(R.id.btnDown);
@@ -185,11 +198,12 @@ public class FoodoMenu extends ListActivity implements Runnable {
 		  					amount--;
 		  				}
 		  				txtItemCounter.setText("" + amount);
+				  		txtItemText.setText("Total price: " + (tempPrice*amount));
 		  			}
+		  			
 		  		});
-
 		          return new AlertDialog.Builder(FoodoMenu.this)
-		                .setTitle(mMenu.get(item).get(ITEMNAME))
+		                .setTitle(dialogItem)
 		                .setView(itemLayout)	
 		                .setPositiveButton("Add to Order", new DialogInterface.OnClickListener() {
 		                    public void onClick(DialogInterface dialog, int whichButton) {
@@ -220,6 +234,7 @@ public class FoodoMenu extends ListActivity implements Runnable {
 		                    public void onClick(DialogInterface dialog, int whichButton) {
 		                    	//amount = 0;
 		                    	dismissDialog(MENU_DIALOG);
+		                    //	removeDialog(MENU_DIALOG);
 		                    }
 		                })
 		                .create();
@@ -245,10 +260,6 @@ public class FoodoMenu extends ListActivity implements Runnable {
 		   case BASKET_DIALOG:
 			    LayoutInflater factoryBasket = LayoutInflater.from(this);
 	            final View layoutBasket = factoryBasket.inflate(R.layout.basketdialog, null);
-	        	//order = mMenu.get(item).get(ITEMNAME);
-	            //TextView mOrder = (TextView) layoutOrder.findViewById(R.id.totalOrder);
-	            //mOrder.setText(items);
-	           // mOrder.append(order);
 	            return new AlertDialog.Builder(FoodoMenu.this)
 	            	.setTitle(R.string.basket)
 	                .setView(layoutBasket)
@@ -273,6 +284,8 @@ public class FoodoMenu extends ListActivity implements Runnable {
 		super.onListItemClick(l, v, position, id);
 		item = position;
 		amount = 0;
+		dialogItem = mMenu.get(item).get(ITEMNAME);
+		Log.i(TAG, dialogItem);
 		for(int i = 0; i < mOrder.size(); i++){
 			if(Integer.parseInt(mOrder.get(i).get(ID)) == item){
 				amount = Integer.parseInt(mOrder.get(i).get(AMOUNT));

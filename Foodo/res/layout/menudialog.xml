@@ -37,9 +37,11 @@
 		android:paddingTop="10dip"
 		>
 		    <Button android:id="@+id/btnUp"
-				android:layout_width="50dip"
+				android:layout_width="35dip"
 				android:layout_height="wrap_content"
 				android:text=" + "
+				android:background="@drawable/buttonstates"
+				android:textColor="#FFFFFF"
 				android:textSize="18dip"
 				/>
 				<TextView android:id="@+id/itemCounter"
@@ -51,9 +53,11 @@
   					android:textSize="30dip"
 				/>
 			<Button android:id="@+id/btnDown"
-				android:layout_width="50dip"
+				android:layout_width="35dip"
 				android:layout_height="wrap_content"
 				android:text=" - "
+				android:background="@drawable/buttonstates"
+				android:textColor="#FFFFFF"
 				android:textSize="21dip"
 				/>
 		</LinearLayout>

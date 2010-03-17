@@ -5,24 +5,29 @@ import is.hi.foodo.net.FoodoServiceException;
 
 import org.json.JSONObject;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 public class FoodoUserManager implements UserManager {
-	
+
 	private static final String TAG = "FoodoUserManager";
-    
-    private boolean isAuthenticated = false;
-    private int id = 0;
+	private final SharedPreferences app_preferences;
+
+	private boolean isAuthenticated = false;
+	private final int id = 0;
 	private String firstName, lastName, email;
 	private String apikey;
-	
+
 	private int errorCode;
-	
-	private FoodoService mService;
-	
-	public FoodoUserManager(FoodoService service)
+
+	private final FoodoService mService;
+
+	public FoodoUserManager(FoodoService service, Context c)
 	{
 		this.mService = service;
+		app_preferences = PreferenceManager.getDefaultSharedPreferences(c);
 	}
 
 	@Override
@@ -43,20 +48,27 @@ public class FoodoUserManager implements UserManager {
 			this.isAuthenticated = false;
 			errorCode = -1;
 		}
-		
+
 		return this.isAuthenticated;
 	}
-	
+
 	@Override
 	public boolean signup(String firstName, String lastName, String email, String password) {
-		
+
 		try {
 			JSONObject user = mService.registerUser(email, password, firstName, lastName);
-			
+
 			this.firstName = user.getString("firstName");
 			this.lastName = user.getString("lastName");
 			this.email = user.getString("email");
 			this.apikey = user.getString("apikey");
+
+			SharedPreferences.Editor editor = app_preferences.edit();
+			editor.putBoolean("access", true);
+			editor.putLong("user",id);
+			editor.putString("api_key", this.getApiKey());
+			// Don't forget to commit edits!!!
+			editor.commit();
 
 			this.isAuthenticated = true;
 		}
@@ -69,7 +81,7 @@ public class FoodoUserManager implements UserManager {
 			errorCode = -1;
 			this.isAuthenticated = false;
 		}
-		
+
 		return this.isAuthenticated;
 	}
 
@@ -77,7 +89,7 @@ public class FoodoUserManager implements UserManager {
 	public String getApiKey() {
 		return this.apikey;
 	}
-	
+
 	@Override
 	public String getFirstName() {
 		return this.firstName;
@@ -97,8 +109,8 @@ public class FoodoUserManager implements UserManager {
 	public int getId() {
 		return this.id;
 	}
-	
-	
+
+
 	@Override
 	public String getError() {
 		String error;
@@ -115,7 +127,7 @@ public class FoodoUserManager implements UserManager {
 		}
 		return error;
 	}
-	
+
 	@Override
 	public int getErrorCode() {
 		return this.errorCode;
@@ -126,4 +138,9 @@ public class FoodoUserManager implements UserManager {
 		return this.isAuthenticated;
 	}
 
+	@Override
+	public boolean isNotAuthenticated() {
+		isAuthenticated = false;
+		return this.isAuthenticated;
+	}
 }

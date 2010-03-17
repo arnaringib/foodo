@@ -2,6 +2,7 @@ package is.hi.foodo;
 
 
 import is.hi.foodo.net.FoodoServiceException;
+import is.hi.foodo.user.UserManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,13 +19,11 @@ import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -64,6 +63,7 @@ public class FoodoMenu extends ListActivity implements Runnable {
 	View listViewItem;
 	private View view;
 	private int tempPrice; 
+	private UserManager uManager;
 
 	static final int MENU_DIALOG = 0;
 	static final int ORDER_DIALOG = 1;
@@ -81,6 +81,8 @@ public class FoodoMenu extends ListActivity implements Runnable {
 
 		mDbHelper = new RestaurantDbAdapter(this);
 		mDbHelper.open();
+
+		uManager = ((FoodoApp)this.getApplicationContext()).getUserManager();
 
 		LayoutInflater factory = LayoutInflater.from(this);
 		itemLayout = factory.inflate(R.layout.menudialog, null);
@@ -176,8 +178,7 @@ public class FoodoMenu extends ListActivity implements Runnable {
 			{
 				Context context = getApplicationContext();
 				if(v==btnConfOrder){
-					SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(FoodoMenu.this);
-					if(settings.getBoolean("access", true)){
+					if(uManager.isAuthenticated()){
 						TextView totalOrder = (TextView) orderLayout.findViewById(R.id.totalOrder);
 						totalOrder.setText(createOrder());
 						showDialog(ORDER_DIALOG);

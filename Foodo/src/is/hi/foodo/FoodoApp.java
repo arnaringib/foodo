@@ -9,19 +9,19 @@ import android.util.Log;
 
 public class FoodoApp extends Application {
 	private static final String TAG = "FoodoApp";
-	
+
 	private FoodoService service;
 	private UserManager userManager;
 
 	@Override
 	public void onCreate() {
 		this.service = new WebService(this.getResources().getString(R.string.api_path));
-		userManager = new FoodoUserManager(this.service);
-		
+		this.userManager = new FoodoUserManager(this.service, FoodoApp.this);
+
 		Log.d(TAG, this.getResources().getString(R.string.api_path));
 		super.onCreate();
 	}
-	
+
 	public UserManager getUserManager() {
 		return userManager;
 	}

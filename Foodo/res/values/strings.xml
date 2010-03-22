@@ -20,4 +20,17 @@
     <string name="change_order">Change Order</string>
     <string name="empty_order">Empty Order</string>
     <string name="basket">Basket</string>
+   	<string name="user_management">User Management</string>
+   	<string name="name">Name: </string>
+   	<string name="email">Email: </string>
+   	<string name="edit_info">Edit info</string>
+   	<string name="edit_password">Edit password</string>
+   	<string name="view_old_orders">View old orders</string>
+   	<string name="view_old_reviews">View old reviews</string>
+   	<string name="user_name">User Name</string>
+   	<string name="user_email">User Email</string>
+   	<string name="number_of_orders">Number of orders: </string>
+   	<string name="numberoforders">0</string>
+   	<string name="number_of_reviews">Number of reviews: </string>
+   	<string name="numberofreviews">0</string>
 </resources>

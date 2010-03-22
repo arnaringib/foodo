@@ -1,5 +1,7 @@
 package is.hi.foodo;
 
+import is.hi.foodo.user.UserManager;
+
 import java.util.List;
 
 import android.app.ProgressDialog;
@@ -29,12 +31,15 @@ public class FoodoMap extends MapActivity implements Runnable, LocationListener 
 
 	private static final int MENU_LIST = Menu.FIRST;
 	private static final int MENU_FILTER = Menu.FIRST + 1;
-	private static final int MENU_UPDATE = Menu.FIRST + 2;
+	//private static final int MENU_UPDATE = Menu.FIRST + 2;
+	private static final int MENU_USERMANAGEMENT = Menu.FIRST + 2;
 
 	private static final int MSG_UPDATE_SUCCESSFUL = 1;
 	private static final int MSG_UPDATE_FAILED = 2;
-	private static final int FILTER_VIEW = 5;
 
+	private static final int FILTER_VIEW = 1;
+	private static final int USERMANAGEMENT_VIEW = 2;
+	private static final int LOGIN_VIEW = 3;
 
 	private ProgressDialog pd;
 
@@ -44,6 +49,7 @@ public class FoodoMap extends MapActivity implements Runnable, LocationListener 
 	MapController control;
 	Drawable drawable;
 	FoodoOverlays foodoRestaurantsOverlays;
+	UserManager uManager;
 
 	RestaurantDbAdapter mDbHelper;
 	List<Overlay> mapRestaurantsOverlays;
@@ -68,6 +74,7 @@ public class FoodoMap extends MapActivity implements Runnable, LocationListener 
 		mService.updateAllTypes();
 		mDbHelper.fetchAllTypes();
 
+		uManager = ((FoodoApp)this.getApplicationContext()).getUserManager();
 
 		initFilter();
 		initMyLocation();
@@ -88,6 +95,15 @@ public class FoodoMap extends MapActivity implements Runnable, LocationListener 
 				setupOverlays();
 			}
 		}
+		//if user has successfully logged in
+		if(requestCode == LOGIN_VIEW)
+		{
+			if (resultCode == RESULT_OK)
+			{
+				Intent user_management = new Intent(this, FoodoUserManagement.class);
+				startActivityForResult(user_management, USERMANAGEMENT_VIEW);
+			}
+		}
 	}
 
 	@Override
@@ -100,6 +116,7 @@ public class FoodoMap extends MapActivity implements Runnable, LocationListener 
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(0,MENU_LIST,0, R.string.menu_listview);
 		menu.add(0,MENU_FILTER,1, R.string.menu_filter);
+		menu.add(0,MENU_USERMANAGEMENT, 2, R.string.user_management);
 		//menu.add(0,MENU_UPDATE,2, R.string.menu_update);
 
 		return true;
@@ -118,8 +135,20 @@ public class FoodoMap extends MapActivity implements Runnable, LocationListener 
 			Intent filter = new Intent(this, FoodoFilter.class);
 			startActivityForResult(filter, FILTER_VIEW);
 			return true;
-		case MENU_UPDATE:
+			/*case MENU_UPDATE:
 			updateOverlays();
+			return true;*/
+		case MENU_USERMANAGEMENT:
+			if(uManager.isAuthenticated())
+			{
+				Intent user_management = new Intent(this, FoodoUserManagement.class);
+				startActivityForResult(user_management, USERMANAGEMENT_VIEW);
+			}
+			else
+			{
+				Intent login = new Intent(this, FoodoLogin.class);
+				startActivityForResult(login, LOGIN_VIEW);
+			}
 			return true;
 		}
 		return false;

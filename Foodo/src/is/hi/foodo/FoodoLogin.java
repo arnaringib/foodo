@@ -87,10 +87,12 @@ public class FoodoLogin extends Activity implements Runnable {
 			pd.dismiss();
 			if (uManager.isAuthenticated()){
 				Toast.makeText(FoodoLogin.this, "Successful login!", Toast.LENGTH_LONG).show();
+				setResult(RESULT_OK);
 				FoodoLogin.this.finish();
 			}
 			else{
 				Log.d(TAG, "login failed!");
+				setResult(RESULT_CANCELED);
 				Toast.makeText(FoodoLogin.this, "Login failed: " + uManager.getError(), Toast.LENGTH_LONG).show();
 			}
 		}

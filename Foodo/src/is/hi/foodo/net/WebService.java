@@ -26,14 +26,14 @@ import org.json.JSONObject;
 import android.util.Log;
 
 public class WebService implements FoodoService {
-	
+
 	private static final String TAG = "WebService";
-	private String url;
-	
+	private final String url;
+
 	public WebService(String url) {
 		this.url = url;
 	}
-	
+
 	private String streamToString(InputStream is) {
 		BufferedReader reader = new BufferedReader( new InputStreamReader(is));
 		StringBuilder builder = new StringBuilder();
@@ -59,70 +59,70 @@ public class WebService implements FoodoService {
 		//Log.d(TAG, builder.toString());
 		return builder.toString();
 	}
-	
+
 	private JSONObject post(String path, List<NameValuePair> data) throws FoodoServiceException {
 		HttpClient httpclient = new DefaultHttpClient();  
-	    HttpPost httppost = new HttpPost(this.url + path);
-	    
-	    //Log.d(TAG, "Post request at: " + this.url + path);
-	    
-	    try {
-	    	//Add data
-	    	httppost.setEntity(new UrlEncodedFormEntity(data));
-	    	
-	    	//Execute HTTP Post Request  
-	        HttpResponse response = httpclient.execute(httppost);
-	        HttpEntity entity = response.getEntity();
-	    
+		HttpPost httppost = new HttpPost(this.url + path);
+
+		//Log.d(TAG, "Post request at: " + this.url + path);
+
+		try {
+			//Add data
+			httppost.setEntity(new UrlEncodedFormEntity(data));
+
+			//Execute HTTP Post Request  
+			HttpResponse response = httpclient.execute(httppost);
+			HttpEntity entity = response.getEntity();
+
 			JSONObject result = new JSONObject(streamToString(entity.getContent()));			
-			
+
 			if (result.getInt("responseCode") == 200) {
 				return result.getJSONObject("responseData");
 			}
 			else {
 				throw new FoodoServiceException(result.getString("errorMessage"));
 			}
-	    }
-	    catch (JSONException e) {
-	    	Log.d(TAG, "There was a JSON exception", e);
-	    }
-	    catch (IOException e) {  
-	    	Log.e(TAG, "There was an IO Stream related error", e);  
-	    }  
-		
+		}
+		catch (JSONException e) {
+			Log.d(TAG, "There was a JSON exception", e);
+		}
+		catch (IOException e) {  
+			Log.e(TAG, "There was an IO Stream related error", e);  
+		}  
+
 		return null;
 	}
-	
+
 	private JSONObject get(String path) throws FoodoServiceException {
 		HttpClient httpclient = new DefaultHttpClient();  
-	    HttpGet httpget = new HttpGet(this.url + path);
-	    
-	    //Log.d(TAG, "Get request at: " + this.url + path);
-	    
-	    try {
-	    	//Execute HTTP Get Request  
-	        HttpResponse response = httpclient.execute(httpget);
-	        HttpEntity entity = response.getEntity();
-	    
+		HttpGet httpget = new HttpGet(this.url + path);
+
+		//Log.d(TAG, "Get request at: " + this.url + path);
+
+		try {
+			//Execute HTTP Get Request  
+			HttpResponse response = httpclient.execute(httpget);
+			HttpEntity entity = response.getEntity();
+
 			JSONObject result = new JSONObject(streamToString(entity.getContent()));			
-			
+
 			if (result.getInt("responseCode") == 200) {
 				return result.getJSONObject("responseData");
 			}
 			else {
 				throw new FoodoServiceException(result.getString("errorMessage"));
 			}
-	    }
-	    catch (JSONException e) {
-	    	Log.d(TAG, "There was a JSON exception", e);
-	    }
-	    catch (IOException e) {  
-	    	Log.e(TAG, "There was an IO Stream related error", e);  
-	    }  
-		
+		}
+		catch (JSONException e) {
+			Log.d(TAG, "There was a JSON exception", e);
+		}
+		catch (IOException e) {  
+			Log.e(TAG, "There was an IO Stream related error", e);  
+		}  
+
 		return null;
 	}
-	
+
 
 	@Override
 	public JSONArray getRestaurants() throws FoodoServiceException {
@@ -136,7 +136,7 @@ public class WebService implements FoodoService {
 			throw new FoodoServiceException("Error while fetching restaurants");
 		}
 	}
-	
+
 	@Override
 	public JSONObject getRestaurantDetails(long restaurantId) throws FoodoServiceException {
 		try {
@@ -177,12 +177,12 @@ public class WebService implements FoodoService {
 	public JSONObject loginUser(String email, String password) throws FoodoServiceException {
 		//Create list for request parameters
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);  
-        nameValuePairs.add(new BasicNameValuePair("email", email));  
-        nameValuePairs.add(new BasicNameValuePair("password", password));
-        
-        try {
-        	return this.post("/users/login/", nameValuePairs).getJSONObject("User");
-        } catch (FoodoServiceException e) {
+		nameValuePairs.add(new BasicNameValuePair("email", email));  
+		nameValuePairs.add(new BasicNameValuePair("password", password));
+
+		try {
+			return this.post("/users/login/", nameValuePairs).getJSONObject("User");
+		} catch (FoodoServiceException e) {
 			throw e;
 		} catch (Exception e) {
 			Log.d(TAG, "Exception in login", e);
@@ -193,21 +193,21 @@ public class WebService implements FoodoService {
 	@Override
 	public JSONObject registerUser(String email, String password,
 			String firstName, String lastName) throws FoodoServiceException {
-		
+
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);  
-        nameValuePairs.add(new BasicNameValuePair("email", email));  
-        nameValuePairs.add(new BasicNameValuePair("password", password));
-        nameValuePairs.add(new BasicNameValuePair("firstname", firstName));
-        nameValuePairs.add(new BasicNameValuePair("lastname", lastName));
-        
-        try {
-        	return this.post("/users/signup/", nameValuePairs).getJSONObject("User");
-        } catch (FoodoServiceException e) {
-        	throw e;
-        } catch (Exception e) {
-        	Log.d(TAG, "Exception in register", e);
-        	throw new FoodoServiceException("Error while registering user");
-        }
+		nameValuePairs.add(new BasicNameValuePair("email", email));  
+		nameValuePairs.add(new BasicNameValuePair("password", password));
+		nameValuePairs.add(new BasicNameValuePair("firstname", firstName));
+		nameValuePairs.add(new BasicNameValuePair("lastname", lastName));
+
+		try {
+			return this.post("/users/signup/", nameValuePairs).getJSONObject("User");
+		} catch (FoodoServiceException e) {
+			throw e;
+		} catch (Exception e) {
+			Log.d(TAG, "Exception in register", e);
+			throw new FoodoServiceException("Error while registering user");
+		}
 	}
 
 	@Override
@@ -226,20 +226,20 @@ public class WebService implements FoodoService {
 	@Override
 	public JSONArray submitReview(long restaurantId, String apikey, String review) throws FoodoServiceException {
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);  
-        nameValuePairs.add(new BasicNameValuePair("review", review));  
-        
-        try {
-        	return this.post("/restaurants/" + restaurantId + "/reviews/create/" + apikey + "/", nameValuePairs).getJSONArray("Reviews");
-        } catch (FoodoServiceException e) {
-        	throw e;
-        } catch (Exception e) {
-        	Log.d(TAG, "Exception in submitReview", e);
-        	throw new FoodoServiceException("Unexpected error while submitting review");
-        }
+		nameValuePairs.add(new BasicNameValuePair("review", review));  
+
+		try {
+			return this.post("/restaurants/" + restaurantId + "/reviews/create/" + apikey + "/", nameValuePairs).getJSONArray("Reviews");
+		} catch (FoodoServiceException e) {
+			throw e;
+		} catch (Exception e) {
+			Log.d(TAG, "Exception in submitReview", e);
+			throw new FoodoServiceException("Unexpected error while submitting review");
+		}
 	}
-	
+
 	public JSONArray getTypes() throws FoodoServiceException {
-		
+
 		try {
 			return this.get("/types/").getJSONArray("Types");
 		}
@@ -256,7 +256,7 @@ public class WebService implements FoodoService {
 	public JSONObject submitOrder(long restaurantId, String apiKey,
 			List<Map<String, String>> items) throws FoodoServiceException {
 
-		
+
 		//Prepare JSON object
 		JSONArray order = new JSONArray();
 		try {
@@ -272,21 +272,21 @@ public class WebService implements FoodoService {
 			e.printStackTrace();
 		}
 		Log.d(TAG, "Order is: " + order.toString());
-		
+
 		//Prepare parameters for post request
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);  
-        nameValuePairs.add(new BasicNameValuePair("order", order.toString()));
-        nameValuePairs.add(new BasicNameValuePair("restaurant_id", String.valueOf(restaurantId)));
-        nameValuePairs.add(new BasicNameValuePair("apikey", apiKey));
-        
-        try {
-        	return this.post("/order/", nameValuePairs).getJSONObject("Order");
-        } catch (FoodoServiceException e) {
-        	throw e;
-        } catch (Exception e) {
-        	Log.d(TAG, "Exception in order", e);
-        	throw new FoodoServiceException("Error while sending out order");
-        }
+		nameValuePairs.add(new BasicNameValuePair("order", order.toString()));
+		nameValuePairs.add(new BasicNameValuePair("restaurant_id", String.valueOf(restaurantId)));
+		nameValuePairs.add(new BasicNameValuePair("apikey", apiKey));
+
+		try {
+			return this.post("/order/", nameValuePairs).getJSONObject("Order");
+		} catch (FoodoServiceException e) {
+			throw e;
+		} catch (Exception e) {
+			Log.d(TAG, "Exception in order", e);
+			throw new FoodoServiceException("Error while sending out order");
+		}
 	}
 
 }

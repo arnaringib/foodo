@@ -18,7 +18,7 @@ public class FoodoUserManager implements UserManager {
 	private boolean isAuthenticated = false;
 	private final int id = 0;
 	private String firstName, lastName, email;
-	private String apikey;
+	private String apikey, reviews, orders;
 
 	private int errorCode;
 
@@ -34,8 +34,12 @@ public class FoodoUserManager implements UserManager {
 	public boolean authenticate(String email, String password) {
 		try {
 			JSONObject user = mService.loginUser(email, password);
+			this.firstName = user.getString("firstName");
+			this.lastName = user.getString("lastName");
 			this.email = user.getString("email");
 			this.apikey = user.getString("apikey");
+			this.orders = user.getString("orders");
+			this.reviews = user.getString("reviews");
 			this.isAuthenticated = true;
 		}
 		catch (FoodoServiceException e)
@@ -105,6 +109,8 @@ public class FoodoUserManager implements UserManager {
 		return this.email;
 	}
 
+
+
 	@Override
 	public int getId() {
 		return this.id;
@@ -138,9 +144,18 @@ public class FoodoUserManager implements UserManager {
 		return this.isAuthenticated;
 	}
 
-	@Override
 	public boolean isNotAuthenticated() {
 		isAuthenticated = false;
 		return this.isAuthenticated;
+	}
+
+	@Override
+	public String getNrOrders() {
+		return this.orders;
+	}
+
+	@Override
+	public String getNrReviews() {
+		return this.reviews;
 	}
 }

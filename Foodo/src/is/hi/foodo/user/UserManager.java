@@ -14,6 +14,8 @@ public interface UserManager {
 	public String getLastName();
 	public String getEmail();
 	public String getApiKey();
+	public String getNrReviews();
+	public String getNrOrders();
 	public int getId();
 
 	public int getErrorCode();

@@ -81,6 +81,14 @@ public class FoodoDetails extends Activity {
 		{
 			Bundle extras = getIntent().getExtras();
 			mRowId = extras != null ? extras.getLong(RestaurantDbAdapter.KEY_ROWID) : null;
+
+			//Started from URI intent
+			if (mRowId == null)
+			{
+				// There might be a more elegant way to do this
+				mRowId = Long.valueOf(getIntent().getDataString().replace("foodo://restaurant/", "").replace("/",""));
+			}
+
 		}
 
 		populateView();        

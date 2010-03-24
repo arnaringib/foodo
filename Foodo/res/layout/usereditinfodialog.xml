@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" 
+	android:layout_height="wrap_content"
+	android:orientation="vertical" 
+	android:padding="5dip">
+
+	<LinearLayout 
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="fill_parent" 
+		android:layout_height="wrap_content"
+		android:orientation="vertical"		
+		android:padding="0dip">
+		
+		<LinearLayout 
+			xmlns:android="http://schemas.android.com/apk/res/android"
+			android:layout_width="fill_parent" 
+			android:layout_height="wrap_content"
+			android:orientation="vertical"		
+			android:padding="0dip">
+			
+			<TextView 
+				android:text="@string/firstname"
+				android:layout_width="wrap_content" 
+				android:layout_height="wrap_content" />
+	
+			<EditText 
+				android:id="@+id/eFirstName"
+				android:layout_height="wrap_content" 
+				android:layout_width="fill_parent"
+				android:singleLine="true" />
+				
+		</LinearLayout>
+
+		<LinearLayout 
+			xmlns:android="http://schemas.android.com/apk/res/android"
+			android:layout_width="fill_parent" 
+			android:layout_height="wrap_content"
+			android:orientation="vertical"		
+			android:padding="0dip">
+			
+			<TextView 
+				android:text="@string/lastname"
+				android:layout_width="wrap_content" 
+				android:layout_height="wrap_content" />
+	
+			<EditText 
+				android:id="@+id/eLastName"
+				android:layout_height="wrap_content"
+				android:layout_width="fill_parent"
+				android:singleLine="true" />
+				
+		</LinearLayout>
+		
+		<LinearLayout 
+			xmlns:android="http://schemas.android.com/apk/res/android"
+			android:layout_width="fill_parent" 
+			android:layout_height="wrap_content"
+			android:orientation="vertical"		
+			android:padding="0dip">
+			
+			<TextView 
+				android:text="@string/email"
+				android:layout_width="wrap_content" 
+				android:layout_height="wrap_content" />
+		
+			<EditText 
+				android:id="@+id/eEmail"
+				android:layout_height="wrap_content" 
+				android:layout_width="fill_parent"
+				android:singleLine="true" />
+		</LinearLayout>
+		<LinearLayout 
+			xmlns:android="http://schemas.android.com/apk/res/android"
+			android:layout_width="fill_parent" 
+			android:layout_height="wrap_content"
+			android:orientation="vertical"		
+			android:layout_marginTop="10dip">
+			
+			<TextView 
+				android:text="@string/enterpassword"
+				android:layout_width="wrap_content" 
+				android:layout_height="wrap_content" />
+		
+			<EditText 
+				android:id="@+id/ePassword"
+				android:layout_height="wrap_content" 
+				android:layout_width="fill_parent"
+				android:singleLine="true" 
+				android:password="true"/>
+		</LinearLayout>
+	</LinearLayout>
+	<LinearLayout 
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="fill_parent" 
+		android:layout_height="wrap_content"
+		android:gravity="center" 
+		android:orientation="horizontal">
+		
+		<Button 
+			android:id="@+id/bUserEditInfo" 
+			android:text="@string/edit_info"
+			android:layout_width="110px" 
+			android:layout_height="wrap_content" />
+		<Button 
+			android:id="@+id/bCancelEditInfo" 
+			android:text="@string/cancel"
+			android:layout_width="110px" 
+			android:layout_height="wrap_content" />
+	</LinearLayout>
+</LinearLayout>

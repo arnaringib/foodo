@@ -75,7 +75,6 @@ public class WebService implements FoodoService {
 			HttpEntity entity = response.getEntity();
 
 			JSONObject result = new JSONObject(streamToString(entity.getContent()));			
-
 			if (result.getInt("responseCode") == 200) {
 				return result.getJSONObject("responseData");
 			}
@@ -211,6 +210,45 @@ public class WebService implements FoodoService {
 	}
 
 	@Override
+	public JSONObject editUser(String apikey, String password, String newEmail,
+			String newFirstName, String newLastName)
+	throws FoodoServiceException {
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);  
+		nameValuePairs.add(new BasicNameValuePair("apikey", apikey));  
+		nameValuePairs.add(new BasicNameValuePair("password", password));
+		nameValuePairs.add(new BasicNameValuePair("newemail", newEmail));
+		nameValuePairs.add(new BasicNameValuePair("newfirstname", newFirstName));
+		nameValuePairs.add(new BasicNameValuePair("newlastname", newLastName));
+
+		try {
+			return this.post("/users/edit/userinfo/", nameValuePairs).getJSONObject("User");
+		} catch (FoodoServiceException e) {
+			throw e;
+		} catch (Exception e) {
+			Log.d(TAG, "Exception in register", e);
+			throw new FoodoServiceException("Error while registering user");
+		}
+	}
+
+	@Override
+	public JSONObject editPassword(String apikey, String currentPassword, 
+			String newPassword) throws FoodoServiceException {
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);  
+		nameValuePairs.add(new BasicNameValuePair("apikey", apikey));  
+		nameValuePairs.add(new BasicNameValuePair("password", currentPassword));
+		nameValuePairs.add(new BasicNameValuePair("newpassword", newPassword));
+
+		try {
+			return this.post("/users/edit/password/", nameValuePairs).getJSONObject("User");
+		} catch (FoodoServiceException e) {
+			throw e;
+		} catch (Exception e) {
+			Log.d(TAG, "Exception in register", e);
+			throw new FoodoServiceException("Error while registering user");
+		}
+	}
+
+	@Override
 	public JSONObject submitRating(long restaurantId, String apikey, int rating) throws FoodoServiceException {
 		try {
 			return this.get("/restaurants/" + restaurantId + "/rate/" + rating + "/" + apikey).getJSONArray("Restaurants").getJSONObject(0);
@@ -288,5 +326,6 @@ public class WebService implements FoodoService {
 			throw new FoodoServiceException("Error while sending out order");
 		}
 	}
+
 
 }

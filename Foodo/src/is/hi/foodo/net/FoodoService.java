@@ -12,54 +12,66 @@ import org.json.JSONObject;
  *
  */
 public interface FoodoService {
-	
+
 	/**
 	 * Get all available restaurants
 	 * @throws FoodoServiceException 
 	 */
 	public JSONArray getRestaurants() throws FoodoServiceException;
-	
+
 	/**
 	 * Get restaurant details
 	 * @throws FoodoServiceException 
 	 */
 	public JSONObject getRestaurantDetails(long restaurant_id) throws FoodoServiceException;
-	
+
 	/**
 	 * Get restaurant reviews
 	 * @throws FoodoServiceException 
 	 */
 	public JSONArray getRestaurantReviews(long restaurant_id) throws FoodoServiceException;
-	
+
 	/**
 	 * Get restaurant menu
 	 * @throws FoodoServiceException 
 	 */
 	public JSONArray getRestaurantMenu(long restaurant_id) throws FoodoServiceException;
-	
+
 	/**
 	 * Submit rating for a restaurant
 	 * @throws FoodoServiceException 
 	 */
 	public JSONObject submitRating(long restaurant_id, String apikey, int rating) throws FoodoServiceException;
-	
+
 	/**
 	 * Submit review for restaurant
 	 */
 	public JSONArray submitReview(long restaurant_id, String apikey, String review) throws FoodoServiceException;
-	
+
 	/**
 	 * Register new user
 	 * @throws FoodoServiceException 
 	 */
 	public JSONObject registerUser(String email, String password, String firstName, String lastName) throws FoodoServiceException;
-	
+
+	/**
+	 * Edits the name, email of an old user
+	 * @throws FoodoServiceException 
+	 */
+	public JSONObject editUser(String apikey, String password, String newEmail, String newFirstName, String newLastName) throws FoodoServiceException;
+
+	/**
+	 * Edits the password of an old user
+	 * @throws FoodoServiceException
+	 */
+	public JSONObject editPassword(String apikey, String currentPassword, String newPassword) throws FoodoServiceException;
+
 	/**
 	 * Login user
 	 * @throws FoodoServiceException 
 	 */
 	public JSONObject loginUser(String email, String password) throws FoodoServiceException;
-	
+
 	/**
 	 * Get all available restaurant types
 	 * 

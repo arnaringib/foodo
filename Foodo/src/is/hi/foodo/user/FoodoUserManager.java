@@ -89,6 +89,69 @@ public class FoodoUserManager implements UserManager {
 		return this.isAuthenticated;
 	}
 
+
+	@Override
+	public boolean userEditInfo(String password, String newFirstName, String newLastName, String newEmail) {
+		try {
+			JSONObject user = mService.editUser(apikey, password, newEmail, newFirstName, newLastName);
+
+			this.firstName = user.getString("firstName");
+			this.lastName = user.getString("lastName");
+			this.email = user.getString("email");
+			this.apikey = user.getString("apikey");
+
+			SharedPreferences.Editor editor = app_preferences.edit();
+			editor.putBoolean("access", true);
+			editor.putLong("user",id);
+			editor.putString("api_key", this.getApiKey());
+			// Don't forget to commit edits!!!
+			editor.commit();
+
+			this.isAuthenticated = true;
+		}
+		catch (FoodoServiceException e)
+		{
+			errorCode = E_USER_EXISTS;
+			this.isAuthenticated = false;
+		}
+		catch (Exception e) {
+			errorCode = -1;
+			this.isAuthenticated = false;
+		}
+		return this.isAuthenticated;
+	}
+
+	@Override
+	public boolean userEditPassword(String currentPassword, String newPassword){
+		try {
+			JSONObject user = mService.editPassword(apikey, currentPassword, newPassword);
+
+			this.firstName = user.getString("firstName");
+			this.lastName = user.getString("lastName");
+			this.email = user.getString("email");
+			this.apikey = user.getString("apikey");
+
+			SharedPreferences.Editor editor = app_preferences.edit();
+			editor.putBoolean("access", true);
+			editor.putLong("user",id);
+			editor.putString("api_key", this.getApiKey());
+			// Don't forget to commit edits!!!
+			editor.commit();
+
+			this.isAuthenticated = true;
+		}
+		catch (FoodoServiceException e)
+		{
+			errorCode = E_USER_EXISTS;
+			this.isAuthenticated = false;
+		}
+		catch (Exception e) {
+			errorCode = -1;
+			this.isAuthenticated = false;
+		}
+		return this.isAuthenticated;
+	}
+
 	@Override
 	public String getApiKey() {
 		return this.apikey;

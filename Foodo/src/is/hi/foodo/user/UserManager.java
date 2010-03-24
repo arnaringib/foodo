@@ -9,6 +9,8 @@ public interface UserManager {
 	public boolean isNotAuthenticated();
 	public boolean authenticate(String email, String password);
 	public boolean signup(String firstName, String lastName, String email, String password);
+	public boolean userEditInfo(String password, String newFirstName, String newLastName, String newEmail);
+	public boolean userEditPassword(String currentPassword, String newPassword);
 
 	public String getFirstName();
 	public String getLastName();

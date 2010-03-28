@@ -216,7 +216,7 @@ public class FoodoUserManagement extends Activity {
 		bLogout = (Button) findViewById(R.id.bLogout);
 		bLogout.setOnClickListener(new OnClickListener(){
 			public void onClick(View v){
-				uManager.isNotAuthenticated();
+				uManager.deAuthenticate();
 				FoodoUserManagement.this.finish();
 			}
 		});

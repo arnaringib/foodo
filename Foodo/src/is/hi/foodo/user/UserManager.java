@@ -6,7 +6,7 @@ public interface UserManager {
 	public static final int E_USER_EXISTS = 2;
 
 	public boolean isAuthenticated();
-	public boolean isNotAuthenticated();
+	public boolean deAuthenticate();
 	public boolean authenticate(String email, String password);
 	public boolean signup(String firstName, String lastName, String email, String password);
 	public boolean userEditInfo(String password, String newFirstName, String newLastName, String newEmail);

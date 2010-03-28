@@ -28,6 +28,7 @@ public class FoodoUserManager implements UserManager {
 	{
 		this.mService = service;
 		app_preferences = PreferenceManager.getDefaultSharedPreferences(c);
+		// tékka á savef prefs...??
 	}
 
 	@Override
@@ -40,6 +41,15 @@ public class FoodoUserManager implements UserManager {
 			this.apikey = user.getString("apikey");
 			this.orders = user.getString("orders");
 			this.reviews = user.getString("reviews");
+			this.isAuthenticated = true;
+
+			SharedPreferences.Editor editor = app_preferences.edit();
+			editor.putBoolean("access", true);
+			editor.putLong("user",id);
+			editor.putString("api_key", this.getApiKey());
+			// commit edits!!!
+			editor.commit();
+
 			this.isAuthenticated = true;
 		}
 		catch (FoodoServiceException e)
@@ -173,7 +183,6 @@ public class FoodoUserManager implements UserManager {
 	}
 
 
-
 	@Override
 	public int getId() {
 		return this.id;
@@ -207,8 +216,12 @@ public class FoodoUserManager implements UserManager {
 		return this.isAuthenticated;
 	}
 
-	public boolean isNotAuthenticated() {
-		isAuthenticated = false;
+	public boolean deAuthenticate() {
+		SharedPreferences.Editor editor = app_preferences.edit();
+		editor.putBoolean("access", false);
+		editor.commit();
+
+		this.isAuthenticated = false;
 		return this.isAuthenticated;
 	}
 

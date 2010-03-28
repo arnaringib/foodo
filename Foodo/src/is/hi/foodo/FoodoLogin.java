@@ -23,7 +23,6 @@ public class FoodoLogin extends Activity implements Runnable {
 
 	private UserManager uManager;
 	private ProgressDialog pd;
-	private long id;
 
 	private CharSequence emailValue;
 	private CharSequence passwordValue;
@@ -77,7 +76,6 @@ public class FoodoLogin extends Activity implements Runnable {
 	@Override
 	public void run() {
 		uManager.authenticate(emailValue.toString(), passwordValue.toString());
-		id = uManager.getId();
 		handler.sendEmptyMessage(0);
 	}
 

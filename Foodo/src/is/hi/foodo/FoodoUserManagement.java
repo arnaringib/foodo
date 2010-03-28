@@ -66,8 +66,8 @@ public class FoodoUserManagement extends Activity {
 		sUserFirstName =  uManager.getFirstName();
 		sUserLastName = uManager.getLastName();
 		sUserEmail = uManager.getEmail();
-		sNumberOfOrders = uManager.getNrOrders();
-		sNumberOfReviews = uManager.getNrReviews();
+		sNumberOfOrders = String.valueOf(uManager.getNrOrders());
+		sNumberOfReviews = String.valueOf(uManager.getNrReviews());
 
 		Log.d(TAG, "UserFirstName: " + sUserFirstName);
 	}
@@ -216,7 +216,7 @@ public class FoodoUserManagement extends Activity {
 		bLogout = (Button) findViewById(R.id.bLogout);
 		bLogout.setOnClickListener(new OnClickListener(){
 			public void onClick(View v){
-				uManager.deAuthenticate();
+				uManager.deauthenticate();
 				FoodoUserManagement.this.finish();
 			}
 		});

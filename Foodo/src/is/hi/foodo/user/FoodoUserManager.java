@@ -3,6 +3,7 @@ package is.hi.foodo.user;
 import is.hi.foodo.net.FoodoService;
 import is.hi.foodo.net.FoodoServiceException;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
@@ -15,10 +16,8 @@ public class FoodoUserManager implements UserManager {
 	private static final String TAG = "FoodoUserManager";
 	private final SharedPreferences app_preferences;
 
+	private JSONObject user;
 	private boolean isAuthenticated = false;
-	private final int id = 0;
-	private String firstName, lastName, email;
-	private String apikey, reviews, orders;
 
 	private int errorCode;
 
@@ -27,29 +26,38 @@ public class FoodoUserManager implements UserManager {
 	public FoodoUserManager(FoodoService service, Context c)
 	{
 		this.mService = service;
-		app_preferences = PreferenceManager.getDefaultSharedPreferences(c);
-		// tékka á savef prefs...??
+		this.app_preferences = PreferenceManager.getDefaultSharedPreferences(c);
+		this.load();
+	}
+
+
+	private void save() {
+		Log.d(TAG, "Login information saved!");
+		SharedPreferences.Editor editor = app_preferences.edit();
+		editor.putBoolean("access", this.isAuthenticated);
+		if (user != null)
+		{
+			editor.putString("user_json", user.toString());
+		}
+		editor.commit();
+	}
+
+	private void load() {
+		Log.d(TAG, "Login information loaded!");
+		this.isAuthenticated = this.app_preferences.getBoolean("access", false);
+		try {
+			if (this.app_preferences.contains("user_json")) {
+				this.user = new JSONObject(this.app_preferences.getString("user_json", ""));
+			}
+		} catch (JSONException e) {
+			Log.d(TAG, "Could not load user", e);
+		}
 	}
 
 	@Override
 	public boolean authenticate(String email, String password) {
 		try {
-			JSONObject user = mService.loginUser(email, password);
-			this.firstName = user.getString("firstName");
-			this.lastName = user.getString("lastName");
-			this.email = user.getString("email");
-			this.apikey = user.getString("apikey");
-			this.orders = user.getString("orders");
-			this.reviews = user.getString("reviews");
-			this.isAuthenticated = true;
-
-			SharedPreferences.Editor editor = app_preferences.edit();
-			editor.putBoolean("access", true);
-			editor.putLong("user",id);
-			editor.putString("api_key", this.getApiKey());
-			// commit edits!!!
-			editor.commit();
-
+			this.user = mService.loginUser(email, password);
 			this.isAuthenticated = true;
 		}
 		catch (FoodoServiceException e)
@@ -63,6 +71,19 @@ public class FoodoUserManager implements UserManager {
 			errorCode = -1;
 		}
 
+		this.save();
+
+		return this.isAuthenticated;
+	}
+
+	@Override
+	//What do we want to return true if success or isAuthenticated, or should this be void ??
+	public boolean deauthenticate() {
+
+		this.isAuthenticated = false;
+		this.user = null;
+		save();
+
 		return this.isAuthenticated;
 	}
 
@@ -70,20 +91,7 @@ public class FoodoUserManager implements UserManager {
 	public boolean signup(String firstName, String lastName, String email, String password) {
 
 		try {
-			JSONObject user = mService.registerUser(email, password, firstName, lastName);
-
-			this.firstName = user.getString("firstName");
-			this.lastName = user.getString("lastName");
-			this.email = user.getString("email");
-			this.apikey = user.getString("apikey");
-
-			SharedPreferences.Editor editor = app_preferences.edit();
-			editor.putBoolean("access", true);
-			editor.putLong("user",id);
-			editor.putString("api_key", this.getApiKey());
-			// Don't forget to commit edits!!!
-			editor.commit();
-
+			user = mService.registerUser(email, password, firstName, lastName);
 			this.isAuthenticated = true;
 		}
 		catch (FoodoServiceException e)
@@ -96,6 +104,7 @@ public class FoodoUserManager implements UserManager {
 			this.isAuthenticated = false;
 		}
 
+		save();
 		return this.isAuthenticated;
 	}
 
@@ -103,89 +112,77 @@ public class FoodoUserManager implements UserManager {
 	@Override
 	public boolean userEditInfo(String password, String newFirstName, String newLastName, String newEmail) {
 		try {
-			JSONObject user = mService.editUser(apikey, password, newEmail, newFirstName, newLastName);
-
-			this.firstName = user.getString("firstName");
-			this.lastName = user.getString("lastName");
-			this.email = user.getString("email");
-			this.apikey = user.getString("apikey");
-
-			SharedPreferences.Editor editor = app_preferences.edit();
-			editor.putBoolean("access", true);
-			editor.putLong("user",id);
-			editor.putString("api_key", this.getApiKey());
-			// Don't forget to commit edits!!!
-			editor.commit();
-
+			user = mService.editUser(this.getApiKey(), password, newEmail, newFirstName, newLastName);
 			this.isAuthenticated = true;
 		}
 		catch (FoodoServiceException e)
 		{
-			errorCode = E_USER_EXISTS;
+			errorCode = E_LOGIN;
 			this.isAuthenticated = false;
 		}
 		catch (Exception e) {
 			errorCode = -1;
 			this.isAuthenticated = false;
 		}
+
+		save();
 		return this.isAuthenticated;
 	}
 
 	@Override
 	public boolean userEditPassword(String currentPassword, String newPassword){
 		try {
-			JSONObject user = mService.editPassword(apikey, currentPassword, newPassword);
-
-			this.firstName = user.getString("firstName");
-			this.lastName = user.getString("lastName");
-			this.email = user.getString("email");
-			this.apikey = user.getString("apikey");
-
-			SharedPreferences.Editor editor = app_preferences.edit();
-			editor.putBoolean("access", true);
-			editor.putLong("user",id);
-			editor.putString("api_key", this.getApiKey());
-			// Don't forget to commit edits!!!
-			editor.commit();
-
+			user = mService.editPassword(this.getApiKey(), currentPassword, newPassword);
 			this.isAuthenticated = true;
 		}
 		catch (FoodoServiceException e)
 		{
-			errorCode = E_USER_EXISTS;
+			errorCode = E_LOGIN;
 			this.isAuthenticated = false;
 		}
 		catch (Exception e) {
 			errorCode = -1;
 			this.isAuthenticated = false;
 		}
+
+		save();
 		return this.isAuthenticated;
 	}
 
 	@Override
 	public String getApiKey() {
-		return this.apikey;
+		try {
+			return this.user.getString("apikey");
+		} catch (JSONException e) {
+			return null;
+		}
 	}
 
 	@Override
 	public String getFirstName() {
-		return this.firstName;
+		try {
+			return this.user.getString("firstName");
+		} catch (JSONException e) {
+			return null;
+		}
 	}
 
 	@Override
 	public String getLastName() {
-		return this.lastName;
+		try {
+			return this.user.getString("lastName");
+		} catch (JSONException e) {
+			return null;
+		}
 	}
 
 	@Override
 	public String getEmail() {
-		return this.email;
-	}
-
-
-	@Override
-	public int getId() {
-		return this.id;
+		try {
+			return this.user.getString("email");
+		} catch (JSONException e) {
+			return null;
+		}
 	}
 
 
@@ -213,25 +210,25 @@ public class FoodoUserManager implements UserManager {
 
 	@Override
 	public boolean isAuthenticated() {
-		return this.isAuthenticated;
-	}
-
-	public boolean deAuthenticate() {
-		SharedPreferences.Editor editor = app_preferences.edit();
-		editor.putBoolean("access", false);
-		editor.commit();
-
-		this.isAuthenticated = false;
+		Log.d(TAG, "Checking for authentication!");
 		return this.isAuthenticated;
 	}
 
 	@Override
-	public String getNrOrders() {
-		return this.orders;
+	public int getNrOrders() {
+		try {
+			return this.user.getInt("orders");
+		} catch (JSONException e) {
+			return 0;
+		}
 	}
 
 	@Override
-	public String getNrReviews() {
-		return this.reviews;
+	public int getNrReviews() {
+		try {
+			return this.user.getInt("reviews");
+		} catch (JSONException e) {
+			return 0;
+		}
 	}
 }

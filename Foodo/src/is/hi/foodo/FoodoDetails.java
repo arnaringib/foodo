@@ -273,7 +273,7 @@ public class FoodoDetails extends Activity {
 	}
 
 	public void logout(){
-		uManager.deAuthenticate();
+		uManager.deauthenticate();
 		Context context = getApplicationContext();
 		Toast.makeText(context, "You have been logged out", Toast.LENGTH_SHORT).show();
 		CharSequence str = getString(R.string.login);

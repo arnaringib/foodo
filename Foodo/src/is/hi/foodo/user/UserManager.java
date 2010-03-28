@@ -6,8 +6,10 @@ public interface UserManager {
 	public static final int E_USER_EXISTS = 2;
 
 	public boolean isAuthenticated();
-	public boolean deAuthenticate();
+
 	public boolean authenticate(String email, String password);
+	public boolean deauthenticate();
+
 	public boolean signup(String firstName, String lastName, String email, String password);
 	public boolean userEditInfo(String password, String newFirstName, String newLastName, String newEmail);
 	public boolean userEditPassword(String currentPassword, String newPassword);
@@ -16,9 +18,8 @@ public interface UserManager {
 	public String getLastName();
 	public String getEmail();
 	public String getApiKey();
-	public String getNrReviews();
-	public String getNrOrders();
-	public int getId();
+	public int getNrReviews();
+	public int getNrOrders();
 
 	public int getErrorCode();
 	public String getError();

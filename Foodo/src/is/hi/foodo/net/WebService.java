@@ -213,6 +213,7 @@ public class WebService implements FoodoService {
 	public JSONObject editUser(String apikey, String password, String newEmail,
 			String newFirstName, String newLastName)
 	throws FoodoServiceException {
+		Log.d(TAG, "In edtir user!");
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);  
 		nameValuePairs.add(new BasicNameValuePair("apikey", apikey));  
 		nameValuePairs.add(new BasicNameValuePair("password", password));
@@ -221,6 +222,7 @@ public class WebService implements FoodoService {
 		nameValuePairs.add(new BasicNameValuePair("newlastname", newLastName));
 
 		try {
+			Log.d(TAG, "Still in editr user!, going to post"); //Something fails here need to check it
 			return this.post("/users/edit/userinfo/", nameValuePairs).getJSONObject("User");
 		} catch (FoodoServiceException e) {
 			throw e;

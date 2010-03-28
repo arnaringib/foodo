@@ -71,6 +71,7 @@ public class FoodoMap extends MapActivity implements Runnable, LocationListener 
 		if (mService == null) {
 			mService = new RestaurantLoader(mDbHelper,((FoodoApp)getApplicationContext()).getService());
 		}
+		mService.updateAllRestaurants();
 		mService.updateAllTypes();
 		mDbHelper.fetchAllTypes();
 

@@ -4,6 +4,7 @@ import is.hi.foodo.user.UserManager;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -27,6 +28,7 @@ public class FoodoUserManagement extends Activity {
 
 	private static int EDITINFO_DIALOG = 0;
 	private static int EDITPASSWORD_DIALOG = 1;
+	private static int OLDORDERS = 2;
 
 	private Button bEditInfo, bEditPassword,
 	bViewOldOrders, bViewOldReviews, bLogout,
@@ -202,7 +204,8 @@ public class FoodoUserManagement extends Activity {
 		bViewOldOrders = (Button) findViewById(R.id.bViewOldOrders);
 		bViewOldOrders.setOnClickListener(new OnClickListener(){
 			public void onClick(View v){
-				//TODO: Add an view old orders intent or dialog
+				Intent oldOrders = new Intent(v.getContext(), FoodoUserOldOrders.class);
+				startActivityForResult(oldOrders, OLDORDERS);
 			}			
 		});
 

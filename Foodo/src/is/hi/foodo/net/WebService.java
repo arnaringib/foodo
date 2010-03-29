@@ -251,6 +251,18 @@ public class WebService implements FoodoService {
 	}
 
 	@Override
+	public JSONArray getUserOrders(String apikey) throws FoodoServiceException {
+		try {
+			return this.get("/users/orders/" + apikey + "/").getJSONArray("Orders");
+		} catch (FoodoServiceException e) {
+			throw e;
+		} catch (Exception e) {
+			Log.d(TAG, "Exception in register", e);
+			throw new FoodoServiceException("Error while registering user");
+		}
+	}
+
+	@Override
 	public JSONObject submitRating(long restaurantId, String apikey, int rating) throws FoodoServiceException {
 		try {
 			return this.get("/restaurants/" + restaurantId + "/rate/" + rating + "/" + apikey).getJSONArray("Restaurants").getJSONObject(0);

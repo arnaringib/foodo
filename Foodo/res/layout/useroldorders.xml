@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout 
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" 
+	android:layout_height="fill_parent"
+	android:padding="5dip" 
+	android:focusable="false" 
+	android:clickable="false">
+	
+	<TextView
+		android:id="@+id/oldOrders"  
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:text="@string/old_orders"
+		android:textSize="22dip"
+		android:gravity="center"
+		android:layout_alignParentTop="true" />
+		
+	<LinearLayout 
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:orientation="vertical"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content" 
+		android:paddingTop="41dip">
+
+		<ListView 
+			android:id="@+id/listuserorders" 
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content" 
+			android:drawSelectorOnTop="false"
+			android:focusable="false" 
+			android:layout_below="@id/oldOrders"
+			android:layout_alignWithParentIfMissing="true" />
+		<TextView 
+			android:id="@+id/tHaventOrdered"
+			android:layout_width="fill_parent" 
+			android:layout_height="wrap_content"
+			android:text="@string/havent_ordered" 
+			android:layout_below="@id/listuserorders"
+			android:paddingTop="30dip" 
+			android:visibility="invisible"/>
+	
+	</LinearLayout>
+</RelativeLayout>

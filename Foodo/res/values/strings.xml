@@ -44,4 +44,8 @@
    	<string name="new_password">Enter a new password:</string>
    	<string name="new_password_again">Enter your new password again:</string>
    	<string name="password_conflict">Your new password didn\'t match.</string>
+   	<string name="old_orders">Old orders</string>
+   	<string name="havent_ordered">You haven\'t ordered anything.</string>
+   	<string name="order_made">Order made: </string>
+   	<string name="total_amount">Total amount: </string>
 </resources>

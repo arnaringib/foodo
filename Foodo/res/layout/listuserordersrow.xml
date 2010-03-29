@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" 
+	android:layout_height="wrap_content"
+	android:orientation="vertical">
+
+	<TextView 
+		android:id="@+id/tRestaurant" 
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:textSize="16dip"
+		/>
+	
+	<LinearLayout 
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" 
+	android:layout_height="wrap_content"
+	android:orientation="horizontal">
+	
+		<TextView  
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content" 
+			android:textSize="14dip"
+			android:text="@string/order_made"/>	
+		<TextView 
+			android:id="@+id/tCreated" 
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content" 
+			android:textSize="14dip"
+			/>
+
+	</LinearLayout>
+	
+	<LinearLayout 
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" 
+	android:layout_height="wrap_content"
+	android:orientation="horizontal">
+	
+		<TextView  
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content" 
+			android:textSize="14dip"
+			android:text="@string/total_amount"/>	
+		<TextView 
+			android:id="@+id/tAmount" 
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content" 
+			android:textSize="14dip"
+			/>
+
+	</LinearLayout>
+	
+</LinearLayout>

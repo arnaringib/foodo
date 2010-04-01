@@ -48,4 +48,10 @@
    	<string name="havent_ordered">You haven\'t ordered anything.</string>
    	<string name="order_made">Order made: </string>
    	<string name="total_amount">Total amount: </string>
+   	<string name="use_this_order">Use this order</string>
+   	<string name="yes">Yes</string>
+   	<string name="no">No</string>
+   	<string name="sure_send_this_order">Are you sure you want send this order?</string>
+   	<string name="order_processed">Your order is being processed.</string>
 </resources>
+

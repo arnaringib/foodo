@@ -10,6 +10,7 @@ public interface UserManager {
 	public boolean authenticate(String email, String password);
 	public boolean deauthenticate();
 
+	public boolean getUserInfo(String apikey);
 	public boolean signup(String firstName, String lastName, String email, String password);
 	public boolean userEditInfo(String password, String newFirstName, String newLastName, String newEmail);
 	public boolean userEditPassword(String currentPassword, String newPassword);

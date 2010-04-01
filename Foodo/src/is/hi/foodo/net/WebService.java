@@ -210,6 +210,23 @@ public class WebService implements FoodoService {
 	}
 
 	@Override
+	public JSONObject getUserInfo(String apikey) throws FoodoServiceException {
+		//Create list for request parameters
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);  
+		nameValuePairs.add(new BasicNameValuePair("apikey", apikey));
+
+		try {
+			return this.post("/users/info/", nameValuePairs).getJSONObject("User");
+		} catch (FoodoServiceException e) {
+			throw e;
+		} catch (Exception e) {
+			Log.d(TAG, "Exception in login", e);
+			throw new FoodoServiceException("Error while logging in");
+		}
+	}
+
+
+	@Override
 	public JSONObject editUser(String apikey, String password, String newEmail,
 			String newFirstName, String newLastName)
 	throws FoodoServiceException {

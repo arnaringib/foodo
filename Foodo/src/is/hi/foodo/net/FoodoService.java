@@ -81,6 +81,14 @@ public interface FoodoService {
 	public JSONArray getUserOrders(String apikey) throws FoodoServiceException;
 
 	/**
+	 * Returns all the user information.
+	 * @param apikey
+	 * @return JSONObject
+	 * @throws FoodoServiceException
+	 */
+	public JSONObject getUserInfo(String apikey) throws FoodoServiceException;
+
+	/**
 	 * Get all available restaurant types
 	 * 
 	 * @return List of types

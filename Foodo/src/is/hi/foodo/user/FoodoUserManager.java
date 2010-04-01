@@ -88,6 +88,21 @@ public class FoodoUserManager implements UserManager {
 	}
 
 	@Override
+	public boolean getUserInfo(String apikey) {
+		try {
+			user = mService.getUserInfo(apikey);
+			this.isAuthenticated = true;
+		}
+		catch (Exception e) {
+			errorCode = E_LOGIN;
+			this.isAuthenticated = false;
+		}
+
+		save();
+		return this.isAuthenticated;
+	}
+
+	@Override
 	public boolean signup(String firstName, String lastName, String email, String password) {
 
 		try {

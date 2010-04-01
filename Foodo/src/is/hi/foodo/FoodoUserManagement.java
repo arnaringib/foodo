@@ -50,21 +50,24 @@ public class FoodoUserManagement extends Activity {
 
 		uManager = ((FoodoApp)this.getApplicationContext()).getUserManager();
 
-		getUserInfo();
 
+		getUserInfo();
 		setupTextView();
 		setupButtons();
 	}
 
 	@Override
-	protected void onDestroy() {
-		super.onDestroy();
+	protected void onRestart() {
+		getUserInfo();
+		setupTextView();
+		super.onRestart();
 	}
 
 	/**
 	 * Access the User manager and gets the information of the user. 
 	 */
 	private void getUserInfo(){
+		uManager.getUserInfo(uManager.getApiKey());
 		sUserFirstName =  uManager.getFirstName();
 		sUserLastName = uManager.getLastName();
 		sUserEmail = uManager.getEmail();

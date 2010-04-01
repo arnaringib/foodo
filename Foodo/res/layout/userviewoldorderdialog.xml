@@ -11,5 +11,20 @@
  		android:layout_height="wrap_content"
  		android:paddingTop="0dip"
  		/>
- 		
+ 
+ 	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+ 		android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+    	android:orientation="horizontal"
+    	android:gravity="center"
+    	>
+ 			<Button 
+ 				android:id="@+id/bUseOldOrder"
+				android:layout_width="150dip"
+				android:layout_height="wrap_content"
+				android:text="@string/use_this_order"
+				android:layout_marginTop="5dip"
+				/>
+				
+	</LinearLayout> 		
 </LinearLayout>

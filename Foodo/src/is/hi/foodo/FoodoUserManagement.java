@@ -29,6 +29,7 @@ public class FoodoUserManagement extends Activity {
 	private static int EDITINFO_DIALOG = 0;
 	private static int EDITPASSWORD_DIALOG = 1;
 	private static int OLDORDERS = 2;
+	private static int OLDREVIEWS = 3;
 
 	private Button bEditInfo, bEditPassword,
 	bViewOldOrders, bViewOldReviews, bLogout,
@@ -215,7 +216,8 @@ public class FoodoUserManagement extends Activity {
 		bViewOldReviews = (Button) findViewById(R.id.bViewOldReviews);
 		bViewOldReviews.setOnClickListener(new OnClickListener(){
 			public void onClick(View v){
-				//TODO: Add a view old reviews intent or dialog			
+				Intent oldReviews = new Intent(v.getContext(), FoodoUserOldReviews.class);
+				startActivityForResult(oldReviews, OLDREVIEWS);
 			}
 		});
 

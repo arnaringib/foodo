@@ -358,5 +358,18 @@ public class WebService implements FoodoService {
 		}
 	}
 
+	public JSONArray getUserReviews(String apikey) throws FoodoServiceException
+	{
+		try {
+			return this.get("/users/reviews/" + apikey + "/").getJSONArray("Reviews");
+
+		} catch (FoodoServiceException e) {
+			throw e;
+		} catch (Exception e) {
+			Log.d(TAG, "Exception in reviews", e);
+			throw new FoodoServiceException("Error while fetching reviews");
+		}
+
+	}
 
 }

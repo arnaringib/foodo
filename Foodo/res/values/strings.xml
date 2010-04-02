@@ -11,6 +11,7 @@
     <string name="menu_logout">Logout</string>
     <string name="see_restaurant">Get details?</string>
     <string name="no_reviews">No reviews for this restaurant yet.</string>
+    <string name="no_user_reviews">No reviews to display</string>
     <string name="no_menu">No menu for this restaurant yet.</string>
     <string name="login">Login</string>
     <string name="logout">Logout</string>
@@ -47,7 +48,10 @@
    	<string name="old_orders">Old orders</string>
    	<string name="havent_ordered">You haven\'t ordered anything.</string>
    	<string name="order_made">Order made: </string>
-   	<string name="total_amount">Total amount: </string>
+   	<string name="total_amount">Total amount:</string>
+   	<string name="review">Review:</string>
+   	<string name="created">Created:</string>
+   	<string name="reviews_title">Reviews</string>
    	<string name="use_this_order">Use this order</string>
    	<string name="yes">Yes</string>
    	<string name="no">No</string>

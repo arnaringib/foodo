@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<RelativeLayout
+	  xmlns:android="http://schemas.android.com/apk/res/android"
+	  android:layout_width="fill_parent"
+	  android:layout_height="fill_parent"
+	  android:padding="5dip"
+	  android:focusable="false"
+	  android:clickable="false"
+	>
+   <TextView android:id="@+id/oldReviewPlace"
+  				android:layout_width="fill_parent"
+  				android:layout_height="wrap_content"
+  				android:text="@string/reviews_title"
+  				android:textSize="22dip"
+  				android:gravity="center"
+  				android:layout_alignParentTop="true"
+  				android:textStyle="bold"
+			/>
+
+	<LinearLayout
+	    xmlns:android="http://schemas.android.com/apk/res/android" 
+	    android:orientation="vertical" 
+	    android:layout_width="wrap_content" 
+	    android:layout_height="wrap_content"
+	    android:paddingTop="41dip" 
+		android:paddingBottom="50dip" >
+	 
+	      <ListView android:id="@+id/listoldreviews"
+	    		android:layout_width="fill_parent"
+	    		android:layout_height="wrap_content"
+	    		android:drawSelectorOnTop="false"
+	    		android:focusable="false"
+	  			android:clickable="false"
+	  			android:layout_below="@id/oldReviewPlace"
+	  			android:layout_alignWithParentIfMissing="true"
+	    		/>
+	    <TextView android:id="@+id/noReviews"
+	   			android:layout_width="fill_parent"
+	   			android:layout_height="wrap_content"
+	   			android:text="@string/no_user_reviews"
+	   			android:layout_below="@android:id/list"
+	   			android:paddingTop="30dip"
+	   			android:visibility="invisible"
+	   			/>	
+	</LinearLayout>
+ <!--  	<Button 
+			android:text="Edit Review" 
+			android:id="@+id/bEditReview" 
+			android:layout_width="fill_parent" 
+			android:layout_height="wrap_content"
+			android:background="@drawable/buttonstates"
+			android:textColor="#FFFFFF"
+			android:layout_alignParentBottom="true">
+	</Button>-->  
+</RelativeLayout>

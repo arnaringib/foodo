@@ -29,6 +29,7 @@
          <activity android:name=".WriteReviews"/>
          <activity android:name=".FoodoUserManagement"/>
          <activity android:name=".FoodoUserOldOrders"/>
+         <activity android:name=".FoodoUserOldReviews"/>
         <uses-library android:name="com.google.android.maps" />
     </application>
     

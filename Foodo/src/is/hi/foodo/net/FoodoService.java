@@ -107,4 +107,9 @@ public interface FoodoService {
 	 */
 	public JSONObject submitOrder(long restaurant_id, String api_key, List<Map<String,String>> items) throws FoodoServiceException;
 
+	/**
+	 * Get user reviews
+	 * @throws FoodoServiceException 
+	 */
+	public JSONArray getUserReviews(String apikey) throws FoodoServiceException;
 }

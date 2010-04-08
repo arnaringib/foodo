@@ -43,6 +43,7 @@ public class FoodoDetails extends Activity {
 	private TextView mNameText;
 	private TextView mInfo;
 	private TextView mTypes;
+	boolean closeOnViewMap = true;
 
 	//Temporary stings for toasts
 	static final CharSequence bTextDescr = "No description ..";
@@ -87,6 +88,7 @@ public class FoodoDetails extends Activity {
 			{
 				// There might be a more elegant way to do this
 				mRowId = Long.valueOf(getIntent().getDataString().replace("foodo://restaurant/", "").replace("/",""));
+				closeOnViewMap = false;
 			}
 
 		}
@@ -245,13 +247,14 @@ public class FoodoDetails extends Activity {
 		this.btnCall = (Button)this.findViewById(R.id.bCall);
 		this.btnLog = (Button)this.findViewById(R.id.bLog);
 
-		//	this.btnViewOnMap = (Button)this.findViewById(R.id.bViewOnMap);
+		this.btnViewOnMap = (Button)this.findViewById(R.id.bViewOnMap);
 
 		btnMenu.setOnClickListener(new clicker());
 		btnRate.setOnClickListener(new clicker());
 		btnReviews.setOnClickListener(new clicker());
 		btnCall.setOnClickListener(new clicker()); 
 		btnLog.setOnClickListener(new clicker()); 
+		btnViewOnMap.setOnClickListener(new clicker());
 
 	}
 
@@ -266,7 +269,20 @@ public class FoodoDetails extends Activity {
 		i.putExtra(RestaurantDbAdapter.KEY_ROWID, mRowId);
 		startActivityForResult(i,MENU_VIEW);
 	}
-
+	public void viewOnMap(){
+		if(closeOnViewMap) {
+			getIntent().putExtra("Latitude", restaurant.getInt(restaurant.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_LAT)));
+			getIntent().putExtra("Longitude", restaurant.getInt(restaurant.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_LNG)));
+			setResult(RESULT_OK, getIntent());
+			finish();
+		}
+		else {
+			Intent i = new Intent(this, FoodoMap.class);
+			i.putExtra("Latitude", restaurant.getInt(restaurant.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_LAT)));
+			i.putExtra("Longitude", restaurant.getInt(restaurant.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_LNG)));	
+			startActivity(i);
+		}
+	}
 	public void login(){
 		Intent login = new Intent(this, FoodoLogin.class);
 		startActivityForResult(login, 1);
@@ -311,7 +327,8 @@ public class FoodoDetails extends Activity {
 
 			}
 			else if(v == btnViewOnMap){
-				Toast.makeText(context, bTextViewOnMap, Toast.LENGTH_SHORT).show();
+				viewOnMap();
+				//	Log.i(TAG, "View on map click!");
 			}
 			else if (v == btnLog){
 				if(uManager.isAuthenticated()){

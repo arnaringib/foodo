@@ -40,10 +40,15 @@ public class FoodoMap extends MapActivity implements Runnable, LocationListener 
 	private static final int FILTER_VIEW = 1;
 	private static final int USERMANAGEMENT_VIEW = 2;
 	private static final int LOGIN_VIEW = 3;
+	private static final int DETAILS_VIEW = 4;
 
 	private ProgressDialog pd;
 
 	private MyLocationOverlay myLocOverlay;
+
+	private int spanLat;
+	private int spanLon;
+	GeoPoint aPoint;
 
 	MapView mapView;
 	MapController control;
@@ -57,6 +62,7 @@ public class FoodoMap extends MapActivity implements Runnable, LocationListener 
 	RestaurantLoader mService;
 
 	Filter filter;	
+	Bundle extras;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -78,7 +84,14 @@ public class FoodoMap extends MapActivity implements Runnable, LocationListener 
 
 		initFilter();
 		initMyLocation();
-		updateOverlays();
+		//Span map if coming from QR code
+		if(getIntent().getExtras() != null) {
+			extras = getIntent().getExtras();
+			spanMap();
+		}
+		if(extras == null) {
+			updateOverlays();
+		}
 		setupOverlays();
 	}
 
@@ -94,6 +107,13 @@ public class FoodoMap extends MapActivity implements Runnable, LocationListener 
 		if (requestCode == FILTER_VIEW) {
 			if (resultCode == RESULT_OK) {
 				setupOverlays();
+			}
+		}
+		if (requestCode == DETAILS_VIEW) {
+			if(resultCode == RESULT_OK) {
+				//Span map if coming from the details view.
+				extras = data.getExtras();
+				spanMap();
 			}
 		}
 		//if user has successfully logged in
@@ -163,7 +183,7 @@ public class FoodoMap extends MapActivity implements Runnable, LocationListener 
 	public void startDetails(long id) {
 		Intent i = new Intent(this, FoodoDetails.class);
 		i.putExtra(RestaurantDbAdapter.KEY_ROWID, id);
-		startActivity(i);
+		startActivityForResult(i, DETAILS_VIEW);
 	}
 
 	/**
@@ -173,6 +193,14 @@ public class FoodoMap extends MapActivity implements Runnable, LocationListener 
 		myLocOverlay = new MyLocationOverlay(this, mapView);
 		myLocOverlay.enableMyLocation();
 
+	}
+	public void spanMap() {
+		spanLat = extras.getInt("Latitude");
+		spanLon = extras.getInt("Longitude");
+		aPoint = new GeoPoint(spanLat, spanLon);
+		control = mapView.getController();
+
+		control.animateTo(aPoint);
 	}
 
 	/**

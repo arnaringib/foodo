@@ -11,17 +11,19 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
 public class FoodoList extends ListActivity {
-	
+
 	private RestaurantDbAdapter mDbHelper;
 	private Cursor mRestaurantCursor;
-	
+
 	ArrayList<String> mList;
-	
+
+	private static final int DETAILS_VIEW = 4;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.list);
-		
+
 		mDbHelper = new RestaurantDbAdapter(this);
 		mDbHelper.open();
 
@@ -29,7 +31,7 @@ public class FoodoList extends ListActivity {
 		getListView().setTextFilterEnabled(true);
 		registerForContextMenu(getListView());
 	}
-	
+
 	private void fillData() {
 		//Get all rows from database
 		mRestaurantCursor = mDbHelper.fetchAllRestaurants(Filter.ratingFrom,
@@ -40,25 +42,35 @@ public class FoodoList extends ListActivity {
 				Filter.checkedTypes,
 				Filter.typesId);
 		startManagingCursor(mRestaurantCursor);
-		
+
 		//Create an array of fields we want to display
 		String[] from = new String[]{RestaurantDbAdapter.KEY_NAME, RestaurantDbAdapter.KEY_RATING};
-		
+
 		//Fields we want to bind to
 		int[] to = new int[]{R.id.restaurant, R.id.ReRating};
-		
+
 		SimpleCursorAdapter restaurants = 
-				new SimpleCursorAdapter(this, R.layout.listrow, mRestaurantCursor, from, to);
+			new SimpleCursorAdapter(this, R.layout.listrow, mRestaurantCursor, from, to);
 		setListAdapter(restaurants);
 	}
-
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		//if user is coming from details view and selects "View on Map"
+		if (requestCode == DETAILS_VIEW) {
+			if(resultCode == RESULT_OK) {
+				getIntent().putExtras(data);
+				setResult(RESULT_OK, getIntent());
+				finish();
+			}
+		}
+	}
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
-		
+
 		Intent i = new Intent(this, FoodoDetails.class);
 		i.putExtra(RestaurantDbAdapter.KEY_ROWID, id);
-    	startActivity(i);
+		startActivityForResult(i, DETAILS_VIEW);
 	}
-	
+
 }

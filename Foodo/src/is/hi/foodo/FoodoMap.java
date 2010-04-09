@@ -41,6 +41,7 @@ public class FoodoMap extends MapActivity implements Runnable, LocationListener 
 	private static final int USERMANAGEMENT_VIEW = 2;
 	private static final int LOGIN_VIEW = 3;
 	private static final int DETAILS_VIEW = 4;
+	private static final int LIST_VIEW = 5;
 
 	private ProgressDialog pd;
 
@@ -109,9 +110,18 @@ public class FoodoMap extends MapActivity implements Runnable, LocationListener 
 				setupOverlays();
 			}
 		}
+		//if user is coming from details view and selects "View on Map"
 		if (requestCode == DETAILS_VIEW) {
 			if(resultCode == RESULT_OK) {
 				//Span map if coming from the details view.
+				extras = data.getExtras();
+				spanMap();
+			}
+		}
+		//if user is coming from details view through list view and selects "View on Map"
+		if (requestCode == LIST_VIEW) {
+			if(resultCode == RESULT_OK) {
+				//Span map if coming from the details view through listview.
 				extras = data.getExtras();
 				spanMap();
 			}
@@ -150,7 +160,7 @@ public class FoodoMap extends MapActivity implements Runnable, LocationListener 
 		switch (item.getItemId()) {
 		case MENU_LIST:
 			Intent listView = new Intent(this, FoodoList.class);
-			startActivityForResult(listView, 1);
+			startActivityForResult(listView, LIST_VIEW);
 			return true;
 		case MENU_FILTER:
 			Intent filter = new Intent(this, FoodoFilter.class);

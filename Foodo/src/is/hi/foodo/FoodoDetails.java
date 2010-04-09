@@ -92,7 +92,6 @@ public class FoodoDetails extends Activity {
 			}
 
 		}
-
 		populateView();        
 
 	}

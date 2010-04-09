@@ -190,7 +190,7 @@ public class FoodoMap extends MapActivity implements Runnable, LocationListener 
 	 * Initializes MyLocation
 	 */
 	private void initMyLocation() {
-		myLocOverlay = new MyLocationOverlay(this, mapView);
+		myLocOverlay = new MyLocationRadiusOverlay(this, mapView);
 		myLocOverlay.enableMyLocation();
 
 	}

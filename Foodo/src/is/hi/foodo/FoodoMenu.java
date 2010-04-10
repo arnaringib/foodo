@@ -107,7 +107,7 @@ public class FoodoMenu extends ListActivity implements Runnable {
 		Log.d(TAG, "ReId is: " + mRowId);
 
 		populateView();
-
+		mDbHelper.close();
 	}
 
 

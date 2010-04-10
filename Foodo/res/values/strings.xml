@@ -57,5 +57,8 @@
    	<string name="no">No</string>
    	<string name="sure_send_this_order">Are you sure you want send this order?</string>
    	<string name="order_processed">Your order is being processed.</string>
+   	<string name="select_all">Select all</string>
+   	<string name="deselect_all">Deselect all</string>
+   	<string name="restaurant_types">Restaurant types</string>
 </resources>
 

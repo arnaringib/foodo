@@ -37,6 +37,7 @@ public class FoodoMap extends MapActivity implements Runnable, LocationListener 
 	private static final int MSG_UPDATE_SUCCESSFUL = 1;
 	private static final int MSG_UPDATE_FAILED = 2;
 
+	private static final int START_VIEW = 0;
 	private static final int FILTER_VIEW = 1;
 	private static final int USERMANAGEMENT_VIEW = 2;
 	private static final int LOGIN_VIEW = 3;
@@ -93,7 +94,7 @@ public class FoodoMap extends MapActivity implements Runnable, LocationListener 
 		if(extras == null) {
 			updateOverlays();
 		}
-		setupOverlays();
+		setupOverlays(START_VIEW);
 	}
 
 
@@ -107,7 +108,7 @@ public class FoodoMap extends MapActivity implements Runnable, LocationListener 
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == FILTER_VIEW) {
 			if (resultCode == RESULT_OK) {
-				setupOverlays();
+				setupOverlays(FILTER_VIEW);
 			}
 		}
 		//if user is coming from details view and selects "View on Map"
@@ -293,10 +294,12 @@ public class FoodoMap extends MapActivity implements Runnable, LocationListener 
 
 	/**
 	 * Creates Overlays for restaurants in the database.
-	 * Will try to update overlays of none are found by calling updateOverlays()
-	 * which will call setupOverlays() again if any restaurants are found
+	 * Will try to update overlays of none are found and if and only if 
+	 * the view that called it is START_VIEW by calling updateOverlays()
+	 * which will call setupOverlays() again if any restaurants are found.
+	 * @param view indicating what view called the function.
 	 */
-	private void setupOverlays() {
+	private void setupOverlays(int view) {
 		Cursor c = mDbHelper.fetchAllRestaurants(Filter.ratingFrom,
 				Filter.ratingTo,
 				Filter.lowprice,
@@ -340,13 +343,15 @@ public class FoodoMap extends MapActivity implements Runnable, LocationListener 
 
 			mapView.getOverlays().add(foodoRestaurantsOverlays);
 			mapView.getOverlays().add(myLocOverlay);
-
-			mapView.refreshDrawableState();
 		}
-		else {
+		else if(view == START_VIEW) {
 			updateOverlays();
 		}
+		else{
+			mapView.getOverlays().clear();
+		}
 		c.close();
+		mapView.refreshDrawableState();
 		mapView.invalidate();
 	}
 
@@ -375,7 +380,7 @@ public class FoodoMap extends MapActivity implements Runnable, LocationListener 
 			pd.dismiss();
 			switch (msg.what) {
 			case MSG_UPDATE_SUCCESSFUL:
-				setupOverlays();
+				setupOverlays(START_VIEW);
 				break;
 			case MSG_UPDATE_FAILED:
 				Toast.makeText(FoodoMap.this, "Update failed", Toast.LENGTH_LONG).show();

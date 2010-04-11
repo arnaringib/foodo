@@ -281,8 +281,9 @@ public class RestaurantDbAdapter {
 		" WHERE " + KEY_RATING + ">= " + ratingFrom + " AND " + 
 		KEY_RATING + "<=" + ratingTo + " " + 
 		this.getPricegroup(lowPrice, mediumPrice, highPrice) + 
-		" " + this.getTypes(checkedType, typeId) + 
-		" GROUP BY " + KEY_NAME;
+		" " + this.getTypes(checkedType, typeId) +
+		" GROUP BY " + KEY_ROWID + 
+		" ORDER BY " + KEY_NAME;
 		Log.d(TAG,sql);
 		return mDb.rawQuery(sql, null);
 		/* return mDb.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_NAME,

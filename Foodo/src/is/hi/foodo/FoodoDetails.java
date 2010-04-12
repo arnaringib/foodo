@@ -2,6 +2,13 @@ package is.hi.foodo;
 
 import is.hi.foodo.net.FoodoService;
 import is.hi.foodo.user.UserManager;
+
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -9,12 +16,15 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,6 +53,7 @@ public class FoodoDetails extends Activity {
 	private TextView mNameText;
 	private TextView mInfo;
 	private TextView mTypes;
+	private ImageView mLogo;
 	boolean closeOnViewMap = true;
 
 	//Temporary stings for toasts
@@ -68,6 +79,7 @@ public class FoodoDetails extends Activity {
 		mNameText = (TextView) findViewById(R.id.ReName);
 		mInfo = (TextView) findViewById(R.id.ReInfo);
 		mTypes = (TextView) findViewById(R.id.ReTypes);
+		mLogo = (ImageView) findViewById(R.id.ReLogo);
 
 		//Open connection to DB adapter
 		mDbHelper = new RestaurantDbAdapter(this);
@@ -92,7 +104,12 @@ public class FoodoDetails extends Activity {
 			}
 
 		}
-		populateView();        
+		try {
+			populateView();
+		} catch (MalformedURLException e) {
+			Log.i(TAG, "No logo!");
+			e.printStackTrace();
+		}        
 
 	}
 
@@ -174,8 +191,9 @@ public class FoodoDetails extends Activity {
 
 	/**
 	 * Fills data into the view
+	 * @throws MalformedURLException 
 	 */
-	protected void populateView() {
+	protected void populateView() throws MalformedURLException {
 		if (mRowId != null)
 		{
 			restaurant = mDbHelper.fetchRestaurant(mRowId);
@@ -189,6 +207,10 @@ public class FoodoDetails extends Activity {
 
 			mNameText.setText(restaurant.getString(restaurant.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_NAME)));
 			showRatingbar.setRating(mRating);
+
+			//TODO! Add correct URL with added ID
+			URL aURL = new URL("http://media.foodo.morpho.nord.is/logo/" + restaurant.getInt(restaurant.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_ROWID)) + ".jpg");
+			mLogo.setImageBitmap(Bitmap.createScaledBitmap(getRemoteImage(aURL), 100, 100, false) );
 
 			mInfo.setText(restaurant.getString(restaurant.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_ADDRESS))
 					+ '\n'
@@ -296,7 +318,20 @@ public class FoodoDetails extends Activity {
 		Button b = (Button)findViewById(R.id.bLog);
 		b.setText(str);
 	}
-
+	// Code snippet from http://www.anddev.org/
+	public Bitmap getRemoteImage(final URL aURL) { 
+		try { 
+			final URLConnection conn = aURL.openConnection(); 
+			conn.connect(); 
+			final BufferedInputStream bis = new BufferedInputStream(conn.getInputStream()); 
+			final Bitmap bm = BitmapFactory.decodeStream(bis); 
+			bis.close(); 
+			return bm; 
+		} catch (IOException e) { 
+			Log.d("DEBUGTAG", "Oh noooz an error..."); 
+		} 
+		return null; 
+	}
 	// button click listener
 	class clicker implements Button.OnClickListener
 	{     

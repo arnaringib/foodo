@@ -99,6 +99,7 @@ public class FoodoDetails extends Activity {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+		restaurant.deactivate();
 		mDbHelper.close();
 	}
 
@@ -178,7 +179,7 @@ public class FoodoDetails extends Activity {
 		if (mRowId != null)
 		{
 			restaurant = mDbHelper.fetchRestaurant(mRowId);
-			startManagingCursor(restaurant);
+			//startManagingCursor(restaurant);
 
 			String typeString = makeTypeString();
 			Log.d(TAG, typeString);

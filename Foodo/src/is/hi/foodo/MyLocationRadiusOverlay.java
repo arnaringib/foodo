@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.Point;
 import android.location.Location;
 
@@ -24,8 +25,8 @@ public class MyLocationRadiusOverlay extends MyLocationOverlay {
 		super(context, mapView);
 
 		circlePaint = new Paint();
-		circlePaint.setColor(Color.CYAN);
-		circlePaint.setAlpha(32);
+		circlePaint.setColor(Color.GRAY);
+		circlePaint.setAlpha(64);
 
 	}
 	@Override
@@ -46,14 +47,15 @@ public class MyLocationRadiusOverlay extends MyLocationOverlay {
 			projection.toPixels(gp, p);
 
 			circleRadius = projection.metersToEquatorPixels(Filter.radius*2);
-			canvas.drawCircle(p.x, p.y, circleRadius, circlePaint);
+
+			Path path = new Path();
+			path.addCircle(p.x, p.y, circleRadius, Path.Direction.CW);
+			path.toggleInverseFillType();
+			canvas.drawPath(path, circlePaint);
+
 		}
 
 		return super.draw(canvas, mapView, shadow, when);
 	}
-
-
-
-
 
 }

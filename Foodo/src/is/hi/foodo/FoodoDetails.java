@@ -124,13 +124,13 @@ public class FoodoDetails extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == MENU_VIEW) {
 			if (resultCode == RESULT_OK) {
-				Toast.makeText(this, "Your order is being processed!", Toast.LENGTH_LONG).show();
+				AlertDialog.Builder builder = new AlertDialog.Builder(this);
+				builder
+				.setTitle(R.string.your_order)
+				.setMessage(R.string.order_processed)
+				.setPositiveButton(R.string.ok, null)
+				.show();
 			}
-			else if (resultCode == RESULT_CANCELED)
-			{
-				Toast.makeText(this, "Order could not be sent! Try again!", Toast.LENGTH_LONG).show();
-			}
-
 		}
 		// change login button to logout if user has logged in
 		if(uManager.isAuthenticated()){

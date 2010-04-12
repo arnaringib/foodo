@@ -60,5 +60,6 @@
    	<string name="select_all">Select all</string>
    	<string name="deselect_all">Deselect all</string>
    	<string name="restaurant_types">Restaurant types</string>
+   	<string name="ok">OK</string>
 </resources>
 

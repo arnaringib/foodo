@@ -35,9 +35,12 @@ import android.widget.Toast;
 
 
 
-public class FoodoMenu extends ListActivity implements Runnable {
+public class FoodoMenu extends ListActivity{
 
 	private static final String TAG = "FoodoMenu";
+
+	private static final int GETMENU = 0;
+	private static final int SENDORDER = 1;
 
 	public static final String ID = "ID";
 	public static final String ITEMID = "ITEMID";
@@ -294,25 +297,26 @@ public class FoodoMenu extends ListActivity implements Runnable {
 			.setNegativeButton(R.string.confirm_order, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
 					dismissDialog(ORDER_DIALOG);
-
-					//Starta loading gaur
-
-					//Log.d(TAG, mOrder.toString());
-					FoodoApp app = ((FoodoApp)FoodoMenu.this.getApplicationContext());
-					String api_key = app.getUserManager().getApiKey();
-					try {
-						app.getService().submitOrder(
-								mRowId, 
-								api_key, 
-								mOrder
-						);
-						setResult(RESULT_OK);
-						finish();
-					} catch (FoodoServiceException e) {
-						Log.d(TAG, "Not able to send order", e);
-						//setResult(RESULT_CANCELED);
-						Toast.makeText(FoodoMenu.this, "Order could not be processed! Please try again", Toast.LENGTH_LONG).show();
-					}
+					pd = ProgressDialog.show(FoodoMenu.this, "Sending...", "Sending order");
+					Thread thread = new Thread( new Runnable(){
+						public void run(){
+							FoodoApp app = ((FoodoApp)FoodoMenu.this.getApplicationContext());
+							String api_key = app.getUserManager().getApiKey();
+							try {
+								app.getService().submitOrder(
+										mRowId, 
+										api_key, 
+										mOrder
+								);
+							} catch (FoodoServiceException e) {
+								Log.d(TAG, "Not able to send order", e);
+								Toast.makeText(FoodoMenu.this, "Order could not be processed! Please try again", Toast.LENGTH_LONG).show();
+							}
+							handler.sendEmptyMessage(SENDORDER);			
+						}
+					});
+					thread.start();
+					Log.d(TAG,"Þráður stopp");
 				}
 			})
 			.create();
@@ -362,47 +366,51 @@ public class FoodoMenu extends ListActivity implements Runnable {
 	}
 
 	private void loadMenu() {
-		pd = ProgressDialog.show(FoodoMenu.this, "Loading..", "Updating");
-		Thread thread = new Thread(FoodoMenu.this);
-		thread.start();
-	}
+		pd = ProgressDialog.show(FoodoMenu.this, "Loading..", "Getting menu");
+		Thread thread = new Thread( new Runnable(){
+			public void run(){
+				try {
+					JSONArray jMenu = ((FoodoApp)getApplicationContext()).getService().getRestaurantMenu(mRowId);
+					int n = jMenu.length();
 
-	@Override
-	public void run() {
+					for (int i = 0; i < n; i++)
+					{
+						JSONObject r = jMenu.getJSONObject(i);
+						Map<String,String> map = new HashMap<String, String>();
+						map.put(ID, Integer.toString(i));
+						map.put(ITEMID, r.getString("id"));
+						map.put(ITEMNAME, r.getString("name"));
+						map.put(PRICE, r.getString("price"));
+						mMenu.add(map);
+					}
+				}
+				catch (JSONException e) {
+					//TODO
+					Log.d(TAG, "Menu", e);
+				}
+				catch (FoodoServiceException e)
+				{
+					Log.d(TAG, "Exception while getting menu", e);
+				}
 
-		//JSONArray jMenu = mService.getMenu(mRowId);
-		try {
-			JSONArray jMenu = ((FoodoApp)getApplicationContext()).getService().getRestaurantMenu(mRowId);
-			int n = jMenu.length();
-
-			for (int i = 0; i < n; i++)
-			{
-				JSONObject r = jMenu.getJSONObject(i);
-				Map<String,String> map = new HashMap<String, String>();
-				map.put(ID, Integer.toString(i));
-				map.put(ITEMID, r.getString("id"));
-				map.put(ITEMNAME, r.getString("name"));
-				map.put(PRICE, r.getString("price"));
-				mMenu.add(map);
+				handler.sendEmptyMessage(GETMENU);			
 			}
-		}
-		catch (JSONException e) {
-			//TODO
-			Log.d(TAG, "Menu", e);
-		}
-		catch (FoodoServiceException e)
-		{
-			Log.d(TAG, "Exception while getting menu", e);
-		}
-
-		handler.sendEmptyMessage(0);
+		});
+		thread.start();
 	}
 
 	private final Handler handler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
-			pd.dismiss();
-			setupList();
+			if(msg.what == GETMENU){
+				setupList();
+				pd.dismiss();
+			}
+			else if(msg.what == SENDORDER){
+				pd.dismiss();
+				setResult(RESULT_OK);
+				finish();
+			}
 		}
 	};
 

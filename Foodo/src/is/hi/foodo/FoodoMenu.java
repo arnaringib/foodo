@@ -219,9 +219,6 @@ public class FoodoMenu extends ListActivity{
 				{
 					amount++;
 					txtItemCounter.setText("" + amount);
-
-					view.setBackgroundColor(Color.GRAY);
-
 					txtItemText.setText("Total price: " + (tempPrice*amount));
 
 				}
@@ -235,11 +232,6 @@ public class FoodoMenu extends ListActivity{
 						amount--;
 					}
 					txtItemCounter.setText("" + amount);
-
-					if(amount == 0){
-						view.setBackgroundColor(Color.TRANSPARENT);
-					}
-
 					txtItemText.setText("Total price: " + (tempPrice*amount));
 
 				}
@@ -251,13 +243,21 @@ public class FoodoMenu extends ListActivity{
 			.setPositiveButton("Add to Order", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
 					boolean itemNotFound = true;
+					if(amount > 0){
+						view.setBackgroundColor(Color.GRAY);
+					}
+					else{
+						view.setBackgroundColor(Color.TRANSPARENT);
+					}
 					for(int i = 0; i < mOrder.size(); i++){
 						if(Integer.parseInt(mOrder.get(i).get(ID)) == item){
 							if(amount > 0){
 								mOrder.get(i).put(AMOUNT, Integer.toString(amount));
+
 							}
 							else{
 								mOrder.remove(i);
+
 							}
 							itemNotFound = false;
 							break;
@@ -316,7 +316,7 @@ public class FoodoMenu extends ListActivity{
 						}
 					});
 					thread.start();
-					Log.d(TAG,"Þráður stopp");
+					Log.d(TAG,"ï¿½rï¿½ï¿½ur stopp");
 				}
 			})
 			.create();

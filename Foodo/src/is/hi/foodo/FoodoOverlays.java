@@ -18,6 +18,7 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.Projection;
 
 public class FoodoOverlays extends ItemizedOverlay<FoodoOverlayItem> {
+
 	private ArrayList<FoodoOverlayItem> mRestaurantsOverlays = new ArrayList<FoodoOverlayItem>();
 	private final MapView mapView;
 	private int last;
@@ -26,7 +27,7 @@ public class FoodoOverlays extends ItemizedOverlay<FoodoOverlayItem> {
 	private final Paint text;
 	private final Paint box;
 
-	private final int textOffset = 10;
+	private final static int LABEL_ZOOM_LEVEL = 14;
 
 	public FoodoOverlays(Drawable defaultMarker, MapView mapView) {
 		super(boundCenterBottom(defaultMarker));
@@ -117,28 +118,31 @@ public class FoodoOverlays extends ItemizedOverlay<FoodoOverlayItem> {
 	public void draw(Canvas canvas, MapView mapView, boolean shadow) {
 		super.draw(canvas, mapView, shadow);
 
-		Projection projection = mapView.getProjection();
-		int n = this.size();
-		for (int i = 0; i < n; i++)
+		if (mapView.getZoomLevel() > LABEL_ZOOM_LEVEL) 
 		{
-			FoodoOverlayItem r = getItem(i);
+			Projection projection = mapView.getProjection();
+			int n = this.size();
+			for (int i = 0; i < n; i++)
+			{
+				FoodoOverlayItem r = getItem(i);
 
-			Point point = new Point();
-			projection.toPixels(r.getPoint(), point);
+				Point point = new Point();
+				projection.toPixels(r.getPoint(), point);
 
-			String title = r.getTitle();
+				String title = r.getTitle();
 
-			Rect rect = new Rect();
-			text.getTextBounds(title, 0, title.length(), rect);
+				Rect rect = new Rect();
+				text.getTextBounds(title, 0, title.length(), rect);
 
-			rect.bottom = rect.bottom+10;
-			rect.right = rect.right+10;
-			rect.offset(point.x+textOffset-5, point.y-5);
+				rect.bottom = rect.bottom+10;
+				rect.right = rect.right+10;
+				rect.offset(point.x-5, point.y-5);
+				rect.offset(5-rect.width()/2, -rect.height()-10);
 
-			canvas.drawRect(rect, box);
-			canvas.drawText(r.getTitle(), point.x+textOffset, point.y, text);
+				canvas.drawRect(rect, box);
+				canvas.drawText(r.getTitle(), point.x-(rect.width()/2)+5, point.y-rect.height()-10, text);
+			}
 		}
-
 	}
 
 }

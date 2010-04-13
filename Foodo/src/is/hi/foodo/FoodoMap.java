@@ -4,12 +4,18 @@ import is.hi.foodo.user.UserManager;
 
 import java.util.List;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.DialogInterface.OnClickListener;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -31,7 +37,6 @@ public class FoodoMap extends MapActivity implements Runnable, LocationListener 
 
 	private static final int MENU_LIST = Menu.FIRST;
 	private static final int MENU_FILTER = Menu.FIRST + 1;
-	//private static final int MENU_UPDATE = Menu.FIRST + 2;
 	private static final int MENU_USERMANAGEMENT = Menu.FIRST + 2;
 
 	private static final int MSG_UPDATE_SUCCESSFUL = 1;
@@ -53,6 +58,7 @@ public class FoodoMap extends MapActivity implements Runnable, LocationListener 
 	GeoPoint aPoint;
 
 	MapView mapView;
+	ConnectivityManager mConnectivityManager;
 	MapController control;
 	Drawable drawable;
 	FoodoOverlays foodoRestaurantsOverlays;
@@ -63,7 +69,7 @@ public class FoodoMap extends MapActivity implements Runnable, LocationListener 
 
 	RestaurantLoader mService;
 
-	Filter filter;	
+	Filter filter;
 	Bundle extras;
 
 	@Override
@@ -79,22 +85,47 @@ public class FoodoMap extends MapActivity implements Runnable, LocationListener 
 		if (mService == null) {
 			mService = new RestaurantLoader(mDbHelper,((FoodoApp)getApplicationContext()).getService());
 		}
-		mService.updateAllTypes();
-		mDbHelper.fetchAllTypes();
 
-		uManager = ((FoodoApp)this.getApplicationContext()).getUserManager();
+		//Check for wireless connection
+		mConnectivityManager = 
+			(ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
 
-		initFilter();
-		initMyLocation();
-		//Span map if coming from QR code
-		if(getIntent().getExtras() != null) {
-			extras = getIntent().getExtras();
-			spanMap();
+		if((mConnectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.DISCONNECTED) || 
+				(mConnectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.DISCONNECTED)||
+				(mConnectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTING) || 
+				(mConnectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTING)){
+			AlertDialog.Builder noConnectionBuilder = new AlertDialog.Builder(this);
+			noConnectionBuilder
+			.setTitle(R.string.no_wireless)
+			.setMessage(R.string.need_internet)
+			.setPositiveButton(R.string.ok, new OnClickListener(){
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					// If no internet connection is found 
+					// the program is useless.
+					finish();
+				}
+			})
+			.show();
 		}
-		if(extras == null) {
-			updateOverlays();
+		else{
+			mService.updateAllTypes();
+			mDbHelper.fetchAllTypes();
+
+			uManager = ((FoodoApp)this.getApplicationContext()).getUserManager();
+
+			initFilter();
+			initMyLocation();
+			//Span map if coming from QR code
+			if(getIntent().getExtras() != null) {
+				extras = getIntent().getExtras();
+				spanMap();
+			}
+			if(extras == null) {
+				updateOverlays();
+			}
+			setupOverlays(START_VIEW);
 		}
-		setupOverlays(START_VIEW);
 	}
 
 

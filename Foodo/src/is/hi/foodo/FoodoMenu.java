@@ -243,6 +243,7 @@ public class FoodoMenu extends ListActivity{
 			.setPositiveButton("Add to Order", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
 					boolean itemNotFound = true;
+					// Change background for selected item on the menu
 					if(amount > 0){
 						view.setBackgroundColor(Color.GRAY);
 					}

@@ -1,4 +1,4 @@
-package is.hi.foodo.tests;
+/*package is.hi.foodo.tests;
 
 import is.hi.foodo.net.WebService;
 import is.hi.foodo.user.FoodoUserManager;
@@ -46,4 +46,4 @@ public class FoodoUsersManagerTest extends TestCase {
 		assertEquals("581bbd1735743510e82b098e776bd8abbc7e31ad", manager.getApiKey());
 	}
 
-}
+}*/

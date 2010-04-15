@@ -20,6 +20,16 @@ public interface FoodoService {
 	public JSONArray getRestaurants() throws FoodoServiceException;
 
 	/**
+	 * 
+	 * @param lat latitude
+	 * @param lon longitude
+	 * @param distance_km Distance in kilometers
+	 * @return Array of restaurants within distance_km of lat, lon
+	 * @throws FoodoServiceException
+	 */
+	public JSONArray getNearByRestaurants(double lat, double lon, int distance_km) throws FoodoServiceException;
+
+	/**
 	 * Get restaurant details
 	 * @throws FoodoServiceException 
 	 */
@@ -112,4 +122,5 @@ public interface FoodoService {
 	 * @throws FoodoServiceException 
 	 */
 	public JSONArray getUserReviews(String apikey) throws FoodoServiceException;
+
 }

@@ -159,5 +159,19 @@ public class WebServiceTest extends AndroidTestCase {
 		String apikey = "TEST";
 		service.submitOrder(1, apikey, order);
 	}
+	
+	public void testNearbyRestaurants() throws FoodoServiceException {
+		
+		double lat = 64.135933; 
+		double lon = -21.93885; 
+		
+		int distanceKm = 2;
+		
+		JSONArray restaurants = service.getNearByRestaurants(lat, lon, distanceKm);
+		assertTrue(restaurants != null);
+		Log.d(TAG, "Nearby: " + restaurants.toString());
+		assertTrue(restaurants.length() >= 0);
+
+	}
 
 }

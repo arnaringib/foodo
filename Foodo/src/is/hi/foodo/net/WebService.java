@@ -137,6 +137,20 @@ public class WebService implements FoodoService {
 	}
 
 	@Override
+	public JSONArray getNearByRestaurants(double lat, double lon, int distanceKm)
+	throws FoodoServiceException {
+		try {
+			JSONObject o = this.get("/restaurants/near/" + lat + "/" + lon + "/" + distanceKm);
+			return o.getJSONArray("Restaurants");
+		} catch (FoodoServiceException e) {
+			throw e;
+		} catch (Exception e) {
+			Log.d(TAG, "Exception", e);
+			throw new FoodoServiceException("Error while fetching restaurants");
+		}
+	}
+
+	@Override
 	public JSONObject getRestaurantDetails(long restaurantId) throws FoodoServiceException {
 		try {
 			return this.get("/restaurants/" + restaurantId + "/").getJSONArray("Restaurants").getJSONObject(0);

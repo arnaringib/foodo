@@ -43,13 +43,5 @@
 	   			android:visibility="invisible"
 	   			/>	
 	</LinearLayout>
- <!--  	<Button 
-			android:text="Edit Review" 
-			android:id="@+id/bEditReview" 
-			android:layout_width="fill_parent" 
-			android:layout_height="wrap_content"
-			android:background="@drawable/buttonstates"
-			android:textColor="#FFFFFF"
-			android:layout_alignParentBottom="true">
-	</Button>-->  
+ 
 </RelativeLayout>

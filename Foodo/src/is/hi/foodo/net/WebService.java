@@ -386,4 +386,23 @@ public class WebService implements FoodoService {
 
 	}
 
+	public JSONArray editUserReview(long restaurantId, long reviewId, String apikey, String review) throws FoodoServiceException
+	{
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);  
+		nameValuePairs.add(new BasicNameValuePair("editreview", review));  
+		nameValuePairs.add(new BasicNameValuePair("apikey", apikey));  
+		nameValuePairs.add(new BasicNameValuePair("restaurant_id", Long.toString(restaurantId)));
+		nameValuePairs.add(new BasicNameValuePair("review_id", Long.toString(reviewId)));
+
+		try {
+			return this.post("/users/edit/review/", nameValuePairs).getJSONArray("Reviews");
+
+		} catch (FoodoServiceException e) {
+			throw e;
+		} catch (Exception e) {
+			Log.d(TAG, "Exception in editing reviews", e);
+			throw new FoodoServiceException("Error while editing reviews");
+		}
+
+	}
 }

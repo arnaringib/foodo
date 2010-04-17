@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="api_path">http://foodo.morpho.nord.is/api</string>
-    <!-- <string name="api_path">http://10.0.2.2:8000/api</string> -->
+     <string name="api_path">http://foodo.morpho.nord.is/api</string> 
+<!--    <string name="api_path">http://10.0.2.2:8000/api</string> -->
 </resources>

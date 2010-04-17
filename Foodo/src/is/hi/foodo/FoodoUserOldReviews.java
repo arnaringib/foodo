@@ -12,15 +12,22 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
 
 public class FoodoUserOldReviews extends Activity {
 
@@ -30,17 +37,23 @@ public class FoodoUserOldReviews extends Activity {
 	private static final String RESTAURANT = "restaurant";
 	private static final String CREATED = "created";
 	private static final String DESCRIPTION = "description";
+	private static final String ID = "id";
 
 	private ProgressDialog pd;
+	private Dialog dViewOldReviews;
 	private FoodoService mService;
 	private RestaurantDbAdapter mDbHelper;
 	private Cursor restaurant;
 	private UserManager uManager;
 	private ListView lReviews;
-	private TextView tNoReviews;
+	private TextView tNoReviews, tOldReview, tEditOldReview;
 	private JSONArray userReviews;
 	private ArrayList<Map<String,String>> mReviews;
-	//private Button btnEditReview;
+	private Button btnEditReview;
+	private int mCurSelectedItem;
+
+	private static final int EDITREVIEW = 1;
+	private static final int GETREVIEWS = 0;
 
 	@Override 
 	protected void onCreate(Bundle savedInstanceState) { 
@@ -54,12 +67,17 @@ public class FoodoUserOldReviews extends Activity {
 		mService = ((FoodoApp)this.getApplicationContext()).getService();
 		uManager = ((FoodoApp)this.getApplicationContext()).getUserManager();
 
-		mReviews = new ArrayList<Map<String,String>>();
-
 		pd = ProgressDialog.show(FoodoUserOldReviews.this, "Working", "Getting reviews...");
 
+		getReviews();
 
-		// Get all reviews from this particular user.
+	}
+
+
+	/*
+	 * Get all reviews from this particular user.
+	 */
+	private void getReviews(){
 		Thread thread = new Thread( new Runnable(){
 			public void run(){
 				try {
@@ -68,10 +86,10 @@ public class FoodoUserOldReviews extends Activity {
 					Log.d(TAG, "Exception in mService.getUserReviews");
 					Log.d(TAG, e.toString());
 				}
-				hDialogs.sendEmptyMessage(0);
+				hDialogs.sendEmptyMessage(GETREVIEWS);
 			}
 		});
-		thread.start();		
+		thread.start();	
 	}
 
 	@Override
@@ -90,42 +108,55 @@ public class FoodoUserOldReviews extends Activity {
 
 	/**
 	 * Setup for the view of old orders,
-	 * also creates a listener for the view.
-	 * When a order is clicked on a dialog opens 
-	 * with the order.
+	 * with a listener.
+	 * When a review is clicked a dialog opens 
+	 * with editable review.
 	 */
 	private void setupView(){
 		lReviews = (ListView) findViewById(R.id.listoldreviews);
 		tNoReviews = (TextView) findViewById(R.id.noReviews);
 
-		/*lReviews.setOnItemClickListener(new OnItemClickListener(){
+		lReviews.setOnItemClickListener(new OnItemClickListener(){
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View view, int id,
 					long arg3) {
+				mCurSelectedItem = id;
+
 				dViewOldReviews = new Dialog(view.getContext());
-				dViewOldReviews.setContentView(R.layout.userviewoldorderdialog);
+				dViewOldReviews.setContentView(R.layout.oldreviewdialog);
 				dViewOldReviews.setTitle(mReviews.get(id).get(RESTAURANT));
 				dViewOldReviews.setCanceledOnTouchOutside(true);
 				dViewOldReviews.show();
 
-				tTotalReviews = (TextView) dViewOldReviews.findViewById(R.id.noReviews);
+				tOldReview = (TextView) dViewOldReviews.findViewById(R.id.oldReview);
+				tEditOldReview = (TextView) dViewOldReviews.findViewById(R.id.eOldReview);
 				try {
 					JSONObject review = userReviews.getJSONObject(id);
-					//tTotalReviews.setText(createReview(review));
+					tOldReview.setText(review.getString(CREATED));
+					tEditOldReview.setText(review.getString(DESCRIPTION));
 				} 	
 				catch (Exception e) {
 					Log.d(TAG, "Exception in getUserReviews");
 					Log.d(TAG, e.toString());
-				}			
-			}
-		});*/
-	}
+				}	
 
+				btnEditReview = (Button) dViewOldReviews.findViewById(R.id.bEditReview);
+
+				btnEditReview.setOnClickListener(new OnClickListener(){
+					@Override
+					public void onClick(View v) {
+						editReview();
+					}
+				});				
+			}
+		});
+	}
 
 	/**
 	 * Fills the list view with former reviews from user if any.
 	 */
 	private void fillList(){
+		mReviews = new ArrayList<Map<String,String>>();
 		try{
 			if(userReviews.length() > 0){
 				for(int i = 0; i < userReviews.length(); i++){
@@ -139,6 +170,7 @@ public class FoodoUserOldReviews extends Activity {
 											RestaurantDbAdapter.KEY_NAME)));
 					mReview.put(CREATED, review.getString(CREATED));
 					mReview.put(DESCRIPTION, review.getString(DESCRIPTION));
+					mReview.put(ID, review.getString(ID));
 					mReviews.add(mReview);
 
 				}
@@ -157,22 +189,52 @@ public class FoodoUserOldReviews extends Activity {
 			lReviews.setAdapter(adapter);
 		}
 		catch (Exception e) {
-			Log.d(TAG, "Exception in getUserReviews");
+			Log.d(TAG, "Exception in getUserReviews");	
 			Log.d(TAG, e.toString());
 		}
 	}
 
+	private void editReview(){
+		pd = ProgressDialog.show(FoodoUserOldReviews.this, "Working", "Sending review...");
+
+		Thread thread = new Thread( new Runnable(){
+			public void run(){
+				JSONObject review;
+				try {
+					review = userReviews.getJSONObject(mCurSelectedItem);
+					mService.editUserReview(review.getLong(RESTAURANT_ID),
+							review.getLong(ID),
+							uManager.getApiKey(),
+							tEditOldReview.getText().toString());
+				} catch (Exception e) {
+					Log.d(TAG, "Exception in editing review");
+					Log.d(TAG, e.toString());
+				}
+				hDialogs.sendEmptyMessage(1);				
+			}
+		});
+		thread.start();
+		dViewOldReviews.dismiss();
+	}
+
 	/**
 	 * Thread handler, used to handle getting 
-	 * all reviews from the server and setup the views
+	 * all reviews from the server, setup the views
 	 * and filling the list view.
 	 */
 	private final Handler hDialogs  = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
-			pd.dismiss();
-			setupView();
-			fillList();
+			if (msg.what == EDITREVIEW){
+				getReviews();
+				Toast.makeText(FoodoUserOldReviews.this.getBaseContext(), R.string.review_edited, Toast.LENGTH_SHORT).show();
+			}else if(msg.what == GETREVIEWS){
+				setupView();
+				fillList();
+				pd.dismiss();
+			}
+
+
 		}
 	};
 }

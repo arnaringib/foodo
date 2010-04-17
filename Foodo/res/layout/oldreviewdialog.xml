@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="5dip">
+ 
+ 		<TextView  
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content" 
+			android:textSize="14dip"
+			android:text="@string/created"/>	
+   <TextView 
+   		android:id="@+id/oldReview"
+		android:layout_width="fill_parent"
+ 		android:layout_height="wrap_content"
+ 		android:paddingTop="0dip"
+
+ 		/>
+   <EditText 
+				android:id="@+id/eOldReview"
+				android:layout_height="wrap_content" 
+				android:layout_width="fill_parent"/>
+ 
+ 	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+ 		android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+    	android:orientation="horizontal"
+    	android:gravity="center"
+    	>
+ 			<Button 
+ 				android:id="@+id/bEditReview"
+				android:layout_width="150dip"
+				android:layout_height="wrap_content"
+				android:text="@string/edit_review"
+				android:layout_marginTop="5dip"
+				/>
+				
+	</LinearLayout> 		
+</LinearLayout>

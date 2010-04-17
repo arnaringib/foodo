@@ -246,6 +246,8 @@ public class FoodoMenu extends ListActivity{
 					// Change background for selected item on the menu
 					if(amount > 0){
 						view.setBackgroundColor(Color.GRAY);
+						Log.i(TAG, view.toString());
+						Log.i(TAG, Integer.toString(view.getId()));
 					}
 					else{
 						view.setBackgroundColor(Color.TRANSPARENT);

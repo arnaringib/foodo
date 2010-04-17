@@ -123,4 +123,10 @@ public interface FoodoService {
 	 */
 	public JSONArray getUserReviews(String apikey) throws FoodoServiceException;
 
+	/**
+	 * Edit user reviews
+	 * @throws FoodoServiceException 
+	 */
+	public JSONArray editUserReview(long restaurantId, long reviewId, String apikey, String review) throws FoodoServiceException;
+
 }

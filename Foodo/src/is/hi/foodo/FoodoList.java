@@ -52,7 +52,7 @@ public class FoodoList extends ListActivity {
 		SimpleCursorAdapter restaurants = 
 			new SimpleCursorAdapter(this, R.layout.listrow, mRestaurantCursor, from, to);
 		setListAdapter(restaurants);
-	}
+	}	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		//if user is coming from details view and selects "View on Map"

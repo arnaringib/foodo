@@ -208,7 +208,7 @@ public class FoodoDetails extends Activity {
 			mNameText.setText(restaurant.getString(restaurant.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_NAME)));
 			showRatingbar.setRating(mRating);
 
-			//TODO! Add correct URL with added ID
+
 			URL aURL = new URL("http://media.foodo.morpho.nord.is/logo/" + restaurant.getInt(restaurant.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_ROWID)) + ".jpg");
 			mLogo.setImageBitmap(Bitmap.createScaledBitmap(getRemoteImage(aURL), 100, 100, false) );
 

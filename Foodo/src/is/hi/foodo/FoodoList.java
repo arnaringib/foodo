@@ -44,10 +44,10 @@ public class FoodoList extends ListActivity {
 		startManagingCursor(mRestaurantCursor);
 
 		//Create an array of fields we want to display
-		String[] from = new String[]{RestaurantDbAdapter.KEY_NAME, RestaurantDbAdapter.KEY_RATING};
+		String[] from = new String[]{RestaurantDbAdapter.KEY_NAME, RestaurantDbAdapter.KEY_RATING, RestaurantDbAdapter.KEY_ADDRESS};
 
 		//Fields we want to bind to
-		int[] to = new int[]{R.id.restaurant, R.id.ReRating};
+		int[] to = new int[]{R.id.restaurant, R.id.ReRating, R.id.reAddress};
 
 		SimpleCursorAdapter restaurants = 
 			new SimpleCursorAdapter(this, R.layout.listrow, mRestaurantCursor, from, to);

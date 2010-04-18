@@ -196,8 +196,18 @@ public class FoodoDetails extends Activity {
 	 * @throws MalformedURLException 
 	 */
 	protected void populateView() throws MalformedURLException {
+
 		if (mRowId != null)
 		{
+			if (!mDbHelper.hasRestaurant(mRowId))
+			{
+				Log.d(TAG, "Restaurant not found!");
+				if (!mService.updateRestaurant(mRowId))
+				{
+					Log.d(TAG, "Failed to fetch restaurant");
+					Toast.makeText(FoodoDetails.this, "Restaurant not found", Toast.LENGTH_LONG).show();
+				}
+			}
 			restaurant = mDbHelper.fetchRestaurant(mRowId);
 			//startManagingCursor(restaurant);
 

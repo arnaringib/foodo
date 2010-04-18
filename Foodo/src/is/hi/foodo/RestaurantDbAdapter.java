@@ -424,4 +424,9 @@ public class RestaurantDbAdapter {
 
 		mDb.update(DATABASE_TABLE, args, KEY_ROWID + "=" + rowId, null);
 	}
+
+	public boolean hasRestaurant(Long rowId) {
+		Cursor c = this.fetchRestaurant(rowId);
+		return (c.getCount() > 0);
+	}
 }

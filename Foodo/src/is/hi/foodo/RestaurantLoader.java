@@ -1,6 +1,7 @@
 package is.hi.foodo;
 
 import is.hi.foodo.net.FoodoService;
+import is.hi.foodo.net.FoodoServiceException;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -112,6 +113,19 @@ public class RestaurantLoader {
 		} 
 		catch (Exception e) {
 			Log.d(TAG, "Unexpected exception while loading types", e);
+			return false;
+		}
+	}
+
+	public boolean updateRestaurant(Long rowId) {
+		JSONArray list = new JSONArray();
+		try {
+			JSONObject r = mService.getRestaurantDetails(rowId);
+			list.put(r);
+			return this.updateDb(list);
+		} catch (FoodoServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 			return false;
 		}
 	}

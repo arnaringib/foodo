@@ -205,7 +205,15 @@ public class FoodoDetails extends Activity {
 
 			mRating = restaurant.getFloat(restaurant.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_RATING));
 
-			mNameText.setText(restaurant.getString(restaurant.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_NAME)));
+			String title;
+			if(restaurant.getString(restaurant.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_NAME)).length() < 40){
+				title = restaurant.getString(restaurant.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_NAME));
+			}
+			else{
+				title = (restaurant.getString(restaurant.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_NAME)).subSequence(0,40) + "...");
+			}
+
+			mNameText.setText(title);
 			showRatingbar.setRating(mRating);
 
 

@@ -122,9 +122,7 @@ public class FoodoMap extends MapActivity implements Runnable, LocationListener 
 				extras = getIntent().getExtras();
 				spanMap();
 			}
-			if(extras == null) {
-				updateOverlays();
-			}
+			updateOverlays();
 			//setupOverlays(START_VIEW);
 		}
 	}

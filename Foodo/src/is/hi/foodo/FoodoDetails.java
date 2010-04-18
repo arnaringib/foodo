@@ -230,7 +230,15 @@ public class FoodoDetails extends Activity {
 
 
 			URL aURL = new URL("http://media.foodo.morpho.nord.is/logo/" + restaurant.getInt(restaurant.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_ROWID)) + ".jpg");
-			mLogo.setImageBitmap(Bitmap.createScaledBitmap(getRemoteImage(aURL), 100, 100, false) );
+
+			try {
+				mLogo.setImageBitmap(Bitmap.createScaledBitmap(getRemoteImage(aURL), 100, 100, false));
+			}
+			catch (NullPointerException e)
+			{
+				Log.d(TAG, "Failed to load image, using static");
+				mLogo.setImageDrawable(getResources().getDrawable(R.drawable.sample_details));
+			}
 
 			mInfo.setText(restaurant.getString(restaurant.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_ADDRESS))
 					+ '\n'

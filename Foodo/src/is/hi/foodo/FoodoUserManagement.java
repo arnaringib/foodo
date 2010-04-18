@@ -226,7 +226,7 @@ public class FoodoUserManagement extends Activity {
 			public void onClick(View v){
 				uManager.deauthenticate();
 				FoodoUserManagement.this.finish();
-				Toast.makeText(FoodoUserManagement.this, "User logged out successfully", Toast.LENGTH_LONG).show();
+				Toast.makeText(FoodoUserManagement.this, "You have been logged out.", Toast.LENGTH_LONG).show();
 			}
 		});
 	}

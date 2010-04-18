@@ -273,7 +273,7 @@ public class RestaurantDbAdapter {
 			boolean[] checkedType,
 			int[] typeId) {
 		String sql = "SELECT " + KEY_ROWID + ", " + KEY_ADDRESS + ", " + KEY_NAME + ", " + KEY_LAT
-		+ ", " + KEY_LNG + ", " + KEY_RATING + ", " + KEY_RATING_COUNT +
+		+ ", " + KEY_ZIP + ", " + KEY_CITY + ", " + KEY_LNG + ", " + KEY_RATING + ", " + KEY_RATING_COUNT +
 		" FROM " + DATABASE_TABLE + 
 		" INNER JOIN " + RT_DATABASE_TABLE + 
 		" ON " + DATABASE_TABLE + "." + KEY_ROWID + "=" + 

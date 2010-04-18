@@ -140,6 +140,7 @@ public class WebService implements FoodoService {
 	public JSONArray getNearByRestaurants(double lat, double lon, int distanceKm)
 	throws FoodoServiceException {
 		try {
+			Log.d(TAG, "Loading from: " + lat + ", " + lon + ", km: " + distanceKm);
 			JSONObject o = this.get("/restaurants/near/" + lat + "/" + lon + "/" + distanceKm);
 			return o.getJSONArray("Restaurants");
 		} catch (FoodoServiceException e) {

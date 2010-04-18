@@ -7,6 +7,8 @@ import org.json.JSONObject;
 
 import android.util.Log;
 
+import com.google.android.maps.GeoPoint;
+
 public class RestaurantLoader {
 
 	private static final String TAG = "RestaurantWebService";
@@ -19,10 +21,9 @@ public class RestaurantLoader {
 		mService = service;
 	}
 
-	public boolean updateAllRestaurants() {
+	private boolean updateDb(JSONArray list)
+	{
 		try {
-			JSONArray list = mService.getRestaurants();
-
 			//Remove all restaurants from database
 			mDb.emptyDatabase();
 
@@ -52,7 +53,7 @@ public class RestaurantLoader {
 							o.getJSONArray("types").getLong(j)
 					);
 				}
-				Log.d(TAG, o.getString("name"));
+				//Log.d(TAG, o.getString("name"));
 			}
 			return true;
 		}
@@ -60,6 +61,33 @@ public class RestaurantLoader {
 			//TODO log this
 			Log.d(TAG, "Exception in loadFromWebService");
 			Log.d(TAG, e.toString());
+			return false;
+		}
+	}
+
+	public boolean updateAllRestaurants() {
+		try {
+			JSONArray list = mService.getRestaurants();
+			return this.updateDb(list);
+		}
+		catch (Exception e)
+		{
+			return false;
+		}
+	}
+
+	public boolean updateAllRestaurantsFromLocation(GeoPoint myLocation, int radius) {
+		Log.d(TAG, "UPDATING FROM LOCATION" + myLocation.toString() + "radius: " + radius);
+		try {
+
+			int targetRadius = 20;
+
+			JSONArray list = mService.getNearByRestaurants(myLocation.getLatitudeE6()/1E6, myLocation.getLongitudeE6()/1E6, targetRadius);
+			Log.d(TAG, list.toString());
+			return this.updateDb(list);
+		}
+		catch (Exception e)
+		{
 			return false;
 		}
 	}
@@ -78,7 +106,7 @@ public class RestaurantLoader {
 						o.getLong("id"), 
 						o.getString("name")
 				);
-				Log.d(TAG, o.getString("name"));
+				//Log.d(TAG, o.getString("name"));
 			}
 			return true;
 		} 
@@ -87,4 +115,5 @@ public class RestaurantLoader {
 			return false;
 		}
 	}
+
 }

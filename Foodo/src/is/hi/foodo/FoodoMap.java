@@ -41,6 +41,7 @@ public class FoodoMap extends MapActivity implements Runnable, LocationListener 
 
 	private static final int MSG_UPDATE_SUCCESSFUL = 1;
 	private static final int MSG_UPDATE_FAILED = 2;
+	private static final int MSG_UPDATE_LOCATION_SUCCESSFUL = 3;
 
 	private static final int START_VIEW = 0;
 	private static final int FILTER_VIEW = 1;
@@ -124,7 +125,7 @@ public class FoodoMap extends MapActivity implements Runnable, LocationListener 
 			if(extras == null) {
 				updateOverlays();
 			}
-			setupOverlays(START_VIEW);
+			//setupOverlays(START_VIEW);
 		}
 	}
 
@@ -391,14 +392,20 @@ public class FoodoMap extends MapActivity implements Runnable, LocationListener 
 	 */
 	private void updateOverlays() 
 	{
-		pd = ProgressDialog.show(FoodoMap.this, "Working..", "Updating");
-		Thread thread = new Thread(FoodoMap.this);
-		thread.start();
+		pd = ProgressDialog.show(FoodoMap.this, "Working..", "Updating Restaurants");
+		myLocOverlay.runOnFirstFix(FoodoMap.this);
 	}
 
 	@Override
 	public void run() {
-		if (mService.updateAllRestaurants()) {
+		if (myLocOverlay.isMyLocationEnabled() && (myLocOverlay.getMyLocation() != null)) 
+		{
+			if (mService.updateAllRestaurantsFromLocation(myLocOverlay.getMyLocation(), Filter.radius))
+			{
+				handler.sendEmptyMessage(MSG_UPDATE_LOCATION_SUCCESSFUL);
+			}
+		}
+		else if (mService.updateAllRestaurants()) {
 			handler.sendEmptyMessage(MSG_UPDATE_SUCCESSFUL);
 		} else {
 			handler.sendEmptyMessage(MSG_UPDATE_FAILED);
@@ -409,7 +416,9 @@ public class FoodoMap extends MapActivity implements Runnable, LocationListener 
 		@Override
 		public void handleMessage(Message msg) {
 			pd.dismiss();
+			Log.d(TAG, msg.toString());
 			switch (msg.what) {
+			case MSG_UPDATE_LOCATION_SUCCESSFUL:
 			case MSG_UPDATE_SUCCESSFUL:
 				setupOverlays(START_VIEW);
 				break;

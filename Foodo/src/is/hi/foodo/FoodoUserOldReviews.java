@@ -49,11 +49,12 @@ public class FoodoUserOldReviews extends Activity {
 	private TextView tNoReviews, tOldReview, tEditOldReview;
 	private JSONArray userReviews;
 	private ArrayList<Map<String,String>> mReviews;
-	private Button btnEditReview;
+	private Button btnEditReview, btnDeleteReview;
 	private int mCurSelectedItem;
 
-	private static final int EDITREVIEW = 1;
 	private static final int GETREVIEWS = 0;
+	private static final int EDITREVIEW = 1;
+	private static final int DELETEREVIEW = 2;
 
 	@Override 
 	protected void onCreate(Bundle savedInstanceState) { 
@@ -147,7 +148,16 @@ public class FoodoUserOldReviews extends Activity {
 					public void onClick(View v) {
 						editReview();
 					}
-				});				
+				});	
+
+				btnDeleteReview = (Button) dViewOldReviews.findViewById(R.id.bDeleteReview);
+
+				btnDeleteReview.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick (View v){
+						deleteReview();
+					}
+				});			
 			}
 		});
 	}
@@ -216,7 +226,27 @@ public class FoodoUserOldReviews extends Activity {
 		thread.start();
 		dViewOldReviews.dismiss();
 	}
+	private void deleteReview(){
+		pd = ProgressDialog.show(FoodoUserOldReviews.this, "Working", "Deleting review...");
 
+		Thread thread = new Thread( new Runnable(){
+			public void run(){
+				JSONObject review;
+				try {
+					review = userReviews.getJSONObject(mCurSelectedItem);
+					mService.deleteUserReview(
+							review.getLong(ID),
+							uManager.getApiKey());
+				} catch (Exception e) {
+					Log.d(TAG, "Exception in deleting review");
+					Log.d(TAG, e.toString());
+				}
+				hDialogs.sendEmptyMessage(DELETEREVIEW);				
+			}
+		});
+		thread.start();
+		dViewOldReviews.dismiss();
+	}
 	/**
 	 * Thread handler, used to handle getting 
 	 * all reviews from the server, setup the views
@@ -228,7 +258,11 @@ public class FoodoUserOldReviews extends Activity {
 			if (msg.what == EDITREVIEW){
 				getReviews();
 				Toast.makeText(FoodoUserOldReviews.this.getBaseContext(), R.string.review_edited, Toast.LENGTH_SHORT).show();
-			}else if(msg.what == GETREVIEWS){
+			}else if(msg.what == DELETEREVIEW){
+				getReviews();
+				Toast.makeText(FoodoUserOldReviews.this.getBaseContext(), R.string.review_deleted, Toast.LENGTH_SHORT).show();
+			}
+			else if(msg.what == GETREVIEWS){
 				setupView();
 				fillList();
 				pd.dismiss();

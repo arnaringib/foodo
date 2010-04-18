@@ -66,5 +66,7 @@
    	<string name="need_internet">Woopsie! You need access to the internet to use this app.</string>
    	<string name="edit_review">Edit</string>
    	<string name="review_edited">Your review has been edited</string>
+   	<string name="review_deleted">Your review has been deleted</string>
+   	<string name="delete">Delete</string>
 </resources>
 

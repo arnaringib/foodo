@@ -406,4 +406,18 @@ public class WebService implements FoodoService {
 		}
 
 	}
+	public JSONArray deleteUserReview(long reviewId, String apikey) throws FoodoServiceException{
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);  
+		nameValuePairs.add(new BasicNameValuePair("apikey", apikey));
+		nameValuePairs.add(new BasicNameValuePair("review_id", Long.toString(reviewId)));
+		try {
+			return this.post("/users/delete/review/", nameValuePairs).getJSONArray("Reviews");
+
+		} catch (FoodoServiceException e) {
+			throw e;
+		} catch (Exception e) {
+			Log.d(TAG, "Exception in reviews", e);
+			throw new FoodoServiceException("Error while deleting review");
+		}
+	}
 }

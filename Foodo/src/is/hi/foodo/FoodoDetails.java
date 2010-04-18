@@ -4,7 +4,6 @@ import is.hi.foodo.net.FoodoService;
 import is.hi.foodo.user.UserManager;
 
 import java.io.BufferedInputStream;
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -330,18 +329,20 @@ public class FoodoDetails extends Activity {
 		b.setText(str);
 	}
 	// Code snippet from http://www.anddev.org/
-	public Bitmap getRemoteImage(final URL aURL) { 
+	public Bitmap getRemoteImage(final URL aURL) {
+		Bitmap bm;
 		try { 
 			final URLConnection conn = aURL.openConnection(); 
 			conn.connect(); 
 			final BufferedInputStream bis = new BufferedInputStream(conn.getInputStream()); 
-			final Bitmap bm = BitmapFactory.decodeStream(bis); 
+			bm = BitmapFactory.decodeStream(bis); 
 			bis.close(); 
 			return bm; 
-		} catch (IOException e) { 
-			Log.d("DEBUGTAG", "Oh noooz an error..."); 
+		} catch (Exception e) { 
+			Log.d("DEBUGTAG", "Oh noooz an error...");
+			bm = BitmapFactory.decodeResource(this.getResources(), R.drawable.sample_details);
 		} 
-		return null; 
+		return bm; 
 	}
 	// button click listener
 	class clicker implements Button.OnClickListener

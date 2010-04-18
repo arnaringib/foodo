@@ -363,6 +363,9 @@ public class FoodoMap extends MapActivity implements Runnable, LocationListener 
 				);
 
 				if(myLocOverlay.getMyLocation() != null) {
+
+					mapView.getController().animateTo(myLocOverlay.getMyLocation());
+
 					if(calcDistance(myLocOverlay.getMyLocation().getLatitudeE6()/1000000.0, myLocOverlay.getMyLocation().getLongitudeE6()/1000000.0, item.getPoint().getLatitudeE6()/1000000.0, item.getPoint().getLongitudeE6()/1000000.0) * 1000 < Filter.radius) {
 						Log.d(TAG, item.getTitle() + " : " + calcDistance(myLocOverlay.getMyLocation().getLatitudeE6()/1000000.0, myLocOverlay.getMyLocation().getLongitudeE6()/1000000.0, item.getPoint().getLatitudeE6()/1000000.0, item.getPoint().getLongitudeE6()/1000000.0) * 1000);
 						foodoRestaurantsOverlays.addOverlay(item);

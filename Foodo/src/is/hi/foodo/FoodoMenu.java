@@ -244,7 +244,7 @@ public class FoodoMenu extends ListActivity{
 			return new AlertDialog.Builder(FoodoMenu.this)
 			.setTitle(dialogItem)
 			.setView(itemLayout)	
-			.setPositiveButton("Add to Order", new DialogInterface.OnClickListener() {
+			.setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
 					boolean itemNotFound = true;
 					// Adds a * for selected item on the menu thats added to the order.

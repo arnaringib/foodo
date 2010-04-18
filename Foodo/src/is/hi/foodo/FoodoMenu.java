@@ -179,12 +179,17 @@ public class FoodoMenu extends ListActivity{
 		btnConfOrder.setOnClickListener(new View.OnClickListener(){
 			public void onClick(View v)
 			{
-				Context context = getApplicationContext();
+				Context context = getApplicationContext();				
 				if(v==btnConfOrder){
 					if(uManager.isAuthenticated()){
-						TextView totalOrder = (TextView) orderLayout.findViewById(R.id.totalOrder);
-						totalOrder.setText(createOrder());
-						showDialog(ORDER_DIALOG);
+						if(mOrder.size() > 0){
+							TextView totalOrder = (TextView) orderLayout.findViewById(R.id.totalOrder);
+							totalOrder.setText(createOrder());
+							showDialog(ORDER_DIALOG);
+						}
+						else{
+							Toast.makeText(context, "You haven't picked any items.", Toast.LENGTH_SHORT).show();
+						}
 					}
 					else {
 						Toast.makeText(context, "You have to be signed in", Toast.LENGTH_SHORT).show();

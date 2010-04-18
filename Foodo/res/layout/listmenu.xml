@@ -19,7 +19,6 @@
                         android:layout_height="wrap_content" 
                         android:text="Name"
                         android:textSize="16dip" 
-                        android:paddingLeft="4dip"
                         android:layout_alignParentTop="true"
                         android:layout_alignParentRight="true" 
                         android:focusable="false" />

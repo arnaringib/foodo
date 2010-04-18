@@ -20,7 +20,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -47,6 +46,7 @@ public class FoodoMenu extends ListActivity{
 	public static final String ITEMNAME = "ITEMNAME";
 	public static final String PRICE = "PRICE";
 	public static final String AMOUNT = "AMOUNT";
+	public static final String SELECTED = "SELECTED";
 
 	private static final String TAB = "\t";
 	private static final String TIMES = "x";
@@ -64,7 +64,6 @@ public class FoodoMenu extends ListActivity{
 	private TextView txtItemCounter, txtItemText;
 
 	View listViewItem;
-	private View view;
 	private int tempPrice; 
 	private UserManager uManager;
 
@@ -140,8 +139,8 @@ public class FoodoMenu extends ListActivity{
 				this,
 				mMenu, 
 				R.layout.listmenu,
-				new String[] { ITEMID, ITEMNAME, PRICE },
-				new int[] { R.id.nrMenu, R.id.nameMenu, R.id.priceMenu }
+				new String[] { ITEMID, ITEMNAME, PRICE, SELECTED},
+				new int[] { R.id.nrMenu, R.id.nameMenu, R.id.priceMenu, R.id.itemSelected}
 		);
 		setListAdapter(adapter);
 	}
@@ -248,14 +247,12 @@ public class FoodoMenu extends ListActivity{
 			.setPositiveButton("Add to Order", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
 					boolean itemNotFound = true;
-					// Change background for selected item on the menu
-					if(amount > 0){
-						view.setBackgroundColor(Color.GRAY);
-						Log.i(TAG, view.toString());
-						Log.i(TAG, Integer.toString(view.getId()));
+					// Adds a * for selected item on the menu thats added to the order.
+					if((amount > 0) && (mMenu.get(item).get(SELECTED).length() == 0)){
+						mMenu.get(item).put(SELECTED, "*");
 					}
-					else{
-						view.setBackgroundColor(Color.TRANSPARENT);
+					else if(amount == 0){
+						mMenu.get(item).put(SELECTED, "");
 					}
 					for(int i = 0; i < mOrder.size(); i++){
 						if(Integer.parseInt(mOrder.get(i).get(ID)) == item){
@@ -281,6 +278,8 @@ public class FoodoMenu extends ListActivity{
 						map.put(PRICE, mMenu.get(item).get(PRICE));
 						mOrder.add(map);
 					}
+					setupList();
+					getListView().setSelection(item);
 				}
 			})
 			.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -355,7 +354,6 @@ public class FoodoMenu extends ListActivity{
 		super.onListItemClick(l, v, position, id);
 		item = position;
 		amount = 0;
-		view = v;
 
 		dialogItem = mMenu.get(item).get(ITEMNAME);
 		Log.i(TAG, dialogItem);
@@ -363,7 +361,6 @@ public class FoodoMenu extends ListActivity{
 		for(int i = 0; i < mOrder.size(); i++){
 			if(Integer.parseInt(mOrder.get(i).get(ID)) == item){
 				amount = Integer.parseInt(mOrder.get(i).get(AMOUNT));
-				//itemName = mOrder.get(i).get(ITEMNAME);
 				break;
 			}
 		}
@@ -389,6 +386,7 @@ public class FoodoMenu extends ListActivity{
 						map.put(ITEMID, r.getString("id"));
 						map.put(ITEMNAME, r.getString("name"));
 						map.put(PRICE, r.getString("price"));
+						map.put(SELECTED, "");
 						mMenu.add(map);
 					}
 				}

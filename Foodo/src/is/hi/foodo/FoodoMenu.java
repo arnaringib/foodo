@@ -138,8 +138,8 @@ public class FoodoMenu extends ListActivity{
 				this,
 				mMenu, 
 				R.layout.listmenu,
-				new String[] { ITEMID, ITEMNAME, PRICE, SELECTED},
-				new int[] { R.id.nrMenu, R.id.nameMenu, R.id.priceMenu, R.id.itemSelected}
+				new String[] {ITEMNAME, PRICE, SELECTED},
+				new int[] {R.id.nameMenu, R.id.priceMenu, R.id.itemSelected}
 		);
 		setListAdapter(adapter);
 	}
@@ -364,7 +364,7 @@ public class FoodoMenu extends ListActivity{
 						JSONObject r = jMenu.getJSONObject(i);
 						Map<String,String> map = new HashMap<String, String>();
 						map.put(ID, Integer.toString(i));
-						//map.put(ITEMID, r.getString("id"));
+						map.put(ITEMID, r.getString("id"));
 						map.put(ITEMNAME, r.getString("name"));
 						map.put(PRICE, r.getString("price"));
 						map.put(SELECTED, "");

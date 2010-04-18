@@ -417,4 +417,11 @@ public class RestaurantDbAdapter {
 	public void emptyTypesTable(){
 		mDb.execSQL(DATABASE_T_EMPTY);
 	}
+
+	public void updateRating(long rowId, float rating) {
+		ContentValues args = new ContentValues();
+		args.put(KEY_RATING, rating);
+
+		mDb.update(DATABASE_TABLE, args, KEY_ROWID + "=" + rowId, null);
+	}
 }

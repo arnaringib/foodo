@@ -171,6 +171,9 @@ public class FoodoDetails extends Activity {
 								(int)rb.getRating()
 						).getDouble("rating");  	
 						showRatingbar.setRating(newrating);
+
+						//Update rating in database
+						mDbHelper.updateRating(mRowId, newrating);
 					}
 					catch (Exception e) {
 						//TODO should notify of this?

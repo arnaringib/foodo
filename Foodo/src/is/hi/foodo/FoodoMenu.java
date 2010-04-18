@@ -69,7 +69,6 @@ public class FoodoMenu extends ListActivity{
 
 	static final int MENU_DIALOG = 0;
 	static final int ORDER_DIALOG = 1;
-	static final int BASKET_DIALOG = 2;
 	//private Cursor mRestaurantCursor;
 
 	List< Map<String,String> > mMenu;
@@ -327,24 +326,6 @@ public class FoodoMenu extends ListActivity{
 				}
 			})
 			.create();
-		case BASKET_DIALOG:
-			LayoutInflater factoryBasket = LayoutInflater.from(this);
-			final View layoutBasket = factoryBasket.inflate(R.layout.basketdialog, null);
-			return new AlertDialog.Builder(FoodoMenu.this)
-			.setTitle(R.string.basket)
-			.setView(layoutBasket)
-			.setPositiveButton(R.string.change_order, new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int whichButton) {
-					dismissDialog(BASKET_DIALOG);
-				}
-			})
-			.setNegativeButton(R.string.confirm_order, new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int whichButton) {
-					dismissDialog(BASKET_DIALOG);
-					showDialog(ORDER_DIALOG);
-				}
-			})
-			.create();
 		default:
 			return null;
 		}
@@ -383,7 +364,7 @@ public class FoodoMenu extends ListActivity{
 						JSONObject r = jMenu.getJSONObject(i);
 						Map<String,String> map = new HashMap<String, String>();
 						map.put(ID, Integer.toString(i));
-						map.put(ITEMID, r.getString("id"));
+						//map.put(ITEMID, r.getString("id"));
 						map.put(ITEMNAME, r.getString("name"));
 						map.put(PRICE, r.getString("price"));
 						map.put(SELECTED, "");

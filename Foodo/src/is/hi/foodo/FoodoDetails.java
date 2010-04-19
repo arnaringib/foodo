@@ -35,6 +35,7 @@ public class FoodoDetails extends Activity {
 	private static final int MENU_VIEW = 2;
 
 	static final int RATING_DIALOG = 0;
+	static final int DESCRIPTION_DIALOG = 1;
 	private RatingBar showRatingbar;
 	public RatingBar giveRatingbar;
 	private Long mRowId;
@@ -45,10 +46,11 @@ public class FoodoDetails extends Activity {
 	Cursor restaurant;
 	Cursor types;
 	private UserManager uManager;
+	private String description;
 
 	//View items
-	private Button btnRate, btnReviews, btnCall, btnViewOnMap, btnLog;
-	private Button btnMenu;
+	private Button btnRate, btnReviews, btnCall, btnViewOnMap, btnLog;	
+	private Button btnMenu, btnDescription;
 	private TextView mNameText;
 	private TextView mInfo;
 	private TextView mTypes;
@@ -187,6 +189,16 @@ public class FoodoDetails extends Activity {
 				}
 			})
 			.create();
+		case DESCRIPTION_DIALOG:
+			return new AlertDialog.Builder(FoodoDetails.this)
+			.setTitle(R.string.description)
+			.setMessage(description)
+			.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int whichButton) {
+					// Nothing 
+				}
+			})
+			.create();
 		}
 		return null;
 	}
@@ -251,6 +263,10 @@ public class FoodoDetails extends Activity {
 					+ restaurant.getString(restaurant.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_WEBSITE))
 			);
 		}
+		description = restaurant.getString(restaurant.getColumnIndexOrThrow(RestaurantDbAdapter.KEY_DESCRIPTION));
+		if(description.length() == 0){
+			description = "Sorry no description for this restaurant.";
+		}
 
 		//Initialize login/logout button
 		if(uManager.isAuthenticated()) {
@@ -296,6 +312,7 @@ public class FoodoDetails extends Activity {
 		this.btnReviews = (Button)this.findViewById(R.id.bReviews);
 		this.btnCall = (Button)this.findViewById(R.id.bCall);
 		this.btnLog = (Button)this.findViewById(R.id.bLog);
+		this.btnDescription = (Button)this.findViewById(R.id.bDescription);
 
 		this.btnViewOnMap = (Button)this.findViewById(R.id.bViewOnMap);
 
@@ -305,6 +322,7 @@ public class FoodoDetails extends Activity {
 		btnCall.setOnClickListener(new clicker()); 
 		btnLog.setOnClickListener(new clicker()); 
 		btnViewOnMap.setOnClickListener(new clicker());
+		btnDescription.setOnClickListener(new clicker());
 
 	}
 
@@ -406,7 +424,9 @@ public class FoodoDetails extends Activity {
 			else if(v == btnMenu){
 				menu();				
 			}
-
+			else if(v == btnDescription){
+				showDialog(DESCRIPTION_DIALOG);
+			}
 		}
 	}	
 

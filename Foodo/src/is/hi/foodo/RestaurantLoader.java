@@ -44,6 +44,7 @@ public class RestaurantLoader {
 						o.getString("website"),
 						o.getString("email"),
 						o.getString("phone"),
+						o.getString("description"),
 						o.getInt("pricegroup")
 				);
 

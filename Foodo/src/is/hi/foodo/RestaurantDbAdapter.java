@@ -25,6 +25,7 @@ public class RestaurantDbAdapter {
 	public static final String KEY_EMAIL = "email";
 	public static final String KEY_PHONE = "phone";
 	public static final String KEY_PRICEGROUP = "pricegroup";
+	public static final String KEY_DESCRIPTION = "description";
 
 	public static final String KEY_TROWID = "_id";
 	public static final String KEY_TYPE = "type";
@@ -43,7 +44,7 @@ public class RestaurantDbAdapter {
 		+ "name text not null, lat integer, lng integer, "
 		+ "rating double, rating_count long, address text, " 
 		+ "zip integer, city text, website text, email text, phone text," 
-		+ " pricegroup integer);";
+		+ "description text, pricegroup integer);";
 
 	private static final String DATABASE_T_CREATE =
 		"create table types (_id integer primary key, "
@@ -63,7 +64,7 @@ public class RestaurantDbAdapter {
 	private static final String DATABASE_TABLE = "restaurants";
 	private static final String DATABASE_T_TABLE = "types";
 	private static final String RT_DATABASE_TABLE = "restaurantstypes";
-	private static final int DATABASE_VERSION = 11;
+	private static final int DATABASE_VERSION = 12;
 
 	private final Context mCtx;
 
@@ -172,7 +173,7 @@ public class RestaurantDbAdapter {
 	 */
 	public long createRestaurant(long id, String name, int lat, int lng, double rating, long rating_count, 
 			String address, int zip, String city, String website, String email, String phone,
-			int pricegroup) {
+			String description, int pricegroup) {
 		ContentValues initialValues = new ContentValues();
 		initialValues.put(KEY_ROWID, id);
 		initialValues.put(KEY_NAME, name);
@@ -183,6 +184,7 @@ public class RestaurantDbAdapter {
 		initialValues.put(KEY_ADDRESS, address);
 		initialValues.put(KEY_ZIP, zip);
 		initialValues.put(KEY_CITY, city);
+		initialValues.put(KEY_DESCRIPTION, description);
 		initialValues.put(KEY_WEBSITE, website);
 		initialValues.put(KEY_EMAIL, email);
 		initialValues.put(KEY_PHONE, phone);
@@ -348,7 +350,7 @@ public class RestaurantDbAdapter {
 
 			mDb.query(true, DATABASE_TABLE, new String[] {KEY_ROWID, KEY_NAME,
 					KEY_LAT, KEY_LNG, KEY_RATING, KEY_RATING_COUNT, KEY_ADDRESS, 
-					KEY_ZIP, KEY_CITY, KEY_WEBSITE, KEY_EMAIL, KEY_PHONE, 
+					KEY_ZIP, KEY_CITY, KEY_WEBSITE, KEY_EMAIL, KEY_PHONE, KEY_DESCRIPTION,
 					KEY_PRICEGROUP}, KEY_ROWID + "=" + rowId, null,
 					null, null, null, null);
 		if (mCursor != null) {
@@ -384,7 +386,7 @@ public class RestaurantDbAdapter {
 	 */
 	public boolean updateRestaurant(long rowId, String name, int lat, int lng, double rating, double rating_count,
 			String address, int zip, String city, String website, String email, String phone,
-			int pricegroup) {
+			String description, int pricegroup) {
 		ContentValues args = new ContentValues();
 
 
@@ -396,6 +398,7 @@ public class RestaurantDbAdapter {
 		args.put(KEY_ADDRESS, address);
 		args.put(KEY_ZIP, zip);
 		args.put(KEY_CITY, city);
+		args.put(KEY_DESCRIPTION, description);
 		args.put(KEY_WEBSITE, website);
 		args.put(KEY_EMAIL, email);
 		args.put(KEY_PHONE, phone);

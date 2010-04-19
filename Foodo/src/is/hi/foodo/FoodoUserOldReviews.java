@@ -158,7 +158,7 @@ public class FoodoUserOldReviews extends Activity {
 						deleteReview();
 					}
 				});			
-			}
+			}	
 		});
 	}
 

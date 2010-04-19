@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent"
+  android:orientation="vertical"
+  android:padding="5dip">  
+  	<LinearLayout
+	  xmlns:android="http://schemas.android.com/apk/res/android"
+	  android:layout_width="fill_parent"
+	  android:layout_height="fill_parent"
+	  android:orientation="vertical"
+	  android:padding="5dip">  
+	  	<TextView android:id="@+id/order"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:text="Foodo Order"
+			android:textSize="31dip"
+			android:layout_alignParentTop="true"/>
+	  	<View android:id="@+id/divider"
+		   	android:layout_width="fill_parent"
+		   	android:layout_height="2px"
+		   	android:layout_marginTop="3px"
+		   	android:background="?android:attr/listDivider"
+		   	android:layout_alignBottom="@+id/order"/> 
+	  	<TextView android:id="@+id/listOrder"
+	   		android:layout_marginTop="10px"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:text="Kiwi n bacon"
+			android:layout_alignBottom="@+id/divider"/>
+	</LinearLayout>
+
+	  	<TextView android:id="@+id/status"
+	   		android:layout_marginBottom="60px"
+	   		android:padding="5px"
+	   		android:textSize="20dip"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Status:"
+			android:layout_alignParentBottom="true"/>
+		<TextView android:id="@+id/orderStatus"
+	   		android:layout_marginBottom="60px"
+	   		android:padding="5px"
+	   		android:textSize="20dip"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Ready!"
+			android:layout_toRightOf="@id/status"
+			android:layout_alignParentBottom="true"/>
+		<Button 
+			android:text="Go to restaurant" 
+			android:id="@+id/goRestaurant" 
+			android:layout_width="fill_parent" 
+			android:layout_height="wrap_content"
+			android:background="@drawable/buttonstates"
+			android:textColor="#FFFFFF"
+			android:layout_alignParentBottom="true"/>
+</RelativeLayout>

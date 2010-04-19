@@ -11,30 +11,53 @@
 	  android:layout_height="fill_parent"
 	  android:orientation="vertical"
 	  android:padding="5dip">  
-	  	<TextView android:id="@+id/order"
+	  	<TextView
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
-			android:text="Foodo Order"
-			android:textSize="31dip"
+			android:text="@string/foodo_order"
+			android:textSize="20dip"
 			android:layout_alignParentTop="true"/>
 	  	<View android:id="@+id/divider"
 		   	android:layout_width="fill_parent"
 		   	android:layout_height="2px"
 		   	android:layout_marginTop="3px"
 		   	android:background="?android:attr/listDivider"
-		   	android:layout_alignBottom="@+id/order"/> 
-	  	<TextView android:id="@+id/listOrder"
-	   		android:layout_marginTop="10px"
+		   	android:layout_alignBottom="@+id/order"/>
+		<LinearLayout
+			xmlns:android="http://schemas.android.com/apk/res/android"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
-			android:text="Kiwi n bacon"
-			android:layout_alignBottom="@+id/divider"/>
+			android:orientation="horizontal"
+			>  
+			<TextView
+				android:layout_marginTop="10px"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/restaurant"
+				android:layout_marginRight="2dip"/>
+			<TextView
+				android:id="@+id/tRestaurantName"
+				android:layout_marginTop="10px"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/restaurant"/>	 
+		</LinearLayout>
+		<TextView android:id="@+id/order"
+			android:layout_marginTop="10px"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/order"/> 
+		<TextView 
+			android:id="@+id/listOrder"
+		   	android:layout_marginTop="10px"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"/>
 	</LinearLayout>
 
 	  	<TextView android:id="@+id/status"
 	   		android:layout_marginBottom="60px"
 	   		android:padding="5px"
-	   		android:textSize="20dip"
+	   		android:textSize="16dip"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:text="Status:"
@@ -42,7 +65,7 @@
 		<TextView android:id="@+id/orderStatus"
 	   		android:layout_marginBottom="60px"
 	   		android:padding="5px"
-	   		android:textSize="20dip"
+	   		android:textSize="16dip"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:text="Ready!"

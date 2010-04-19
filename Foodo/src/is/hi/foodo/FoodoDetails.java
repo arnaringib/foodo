@@ -40,6 +40,7 @@ public class FoodoDetails extends Activity {
 	public RatingBar giveRatingbar;
 	private Long mRowId;
 	private float mRating;
+	private int wView;
 
 	RestaurantDbAdapter mDbHelper;
 	RestaurantLoader mService;
@@ -95,6 +96,7 @@ public class FoodoDetails extends Activity {
 		{
 			Bundle extras = getIntent().getExtras();
 			mRowId = extras != null ? extras.getLong(RestaurantDbAdapter.KEY_ROWID) : null;
+			wView = extras != null ? extras.getInt(FoodoOrder.FOODO_ORDER) : 0;
 
 			//Started from URI intent
 			if (mRowId == null)
@@ -103,7 +105,10 @@ public class FoodoDetails extends Activity {
 				mRowId = Long.valueOf(getIntent().getDataString().replace("foodo://restaurant/", "").replace("/",""));
 				closeOnViewMap = false;
 			}
-
+			//Started from notification
+			if(wView == FoodoOrder.DETAILS_VIEW){
+				closeOnViewMap = false;
+			}
 		}
 		try {
 			populateView();

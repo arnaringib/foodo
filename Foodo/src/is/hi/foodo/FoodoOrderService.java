@@ -48,10 +48,12 @@ public class FoodoOrderService extends Service {
 		}
 	}
 
-	public void makeNotification(String restaurantName, long orderId) {
+	public void makeNotification(String restaurantName, long orderId, long restaurantId) {
 		Log.d(TAG, "Creating notification: " + restaurantName + ", order: " + orderId);
 		Intent intent = new Intent(this, FoodoOrder.class);
 		intent.putExtra(FoodoOrder.ORDER_ID, orderId);
+		intent.putExtra(FoodoOrder.RESTAURANT_NAME, restaurantName);
+		intent.putExtra(FoodoOrder.RESTAURANT_ID, restaurantId);
 
 		Notification notification = new Notification(R.drawable.icon, "Your Foodo order!", System.currentTimeMillis());
 		notification.setLatestEventInfo(
@@ -81,7 +83,7 @@ public class FoodoOrderService extends Service {
 					{
 						JSONObject not = notifications.getJSONObject(i);
 						Log.d(TAG, not.toString());
-						makeNotification(not.getString("restaurant"), not.getLong("order_id"));
+						makeNotification(not.getString("restaurant"), not.getLong("order_id"), not.getLong("restaurant_id"));
 					}
 				}
 			} catch (Exception e) {

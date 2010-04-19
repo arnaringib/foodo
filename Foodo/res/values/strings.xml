@@ -69,5 +69,8 @@
    	<string name="description">Description</string>
    	<string name="review_deleted">Your review has been deleted</string>
    	<string name="delete">Delete</string>
+   	<string name="foodo_order">Foodo Order</string>
+   	<string name="restaurant">Restaurant:</string>
+   	<string name="order">Order:</string>
 </resources>
 

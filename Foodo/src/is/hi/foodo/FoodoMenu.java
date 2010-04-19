@@ -314,6 +314,7 @@ public class FoodoMenu extends ListActivity{
 										api_key, 
 										mOrder
 								);
+								//FoodoMenu.this.startService(new Intent(FoodoMenu.this, FoodoOrderService.class));
 							} catch (FoodoServiceException e) {
 								Log.d(TAG, "Not able to send order", e);
 								Toast.makeText(FoodoMenu.this, "Order could not be processed! Please try again", Toast.LENGTH_LONG).show();

@@ -129,10 +129,18 @@ public interface FoodoService {
 	 */
 	public JSONArray editUserReview(long restaurantId, long reviewId, String apikey, String review) throws FoodoServiceException;
 
+	/** 
+	 * Get user notifications 
+	 * @return
+	 */
+	public JSONArray getNotifications(String apiKey) throws FoodoServiceException;
+
 	/**
 	 * Deletes a user review
 	 * @throws FoodoServiceException 
 	 */
 	public JSONArray deleteUserReview(long reviewId, String apikey) throws FoodoServiceException;
+
+	public JSONObject getOrder(Long orderId, String apikey) throws FoodoServiceException;
 
 }

@@ -406,6 +406,18 @@ public class WebService implements FoodoService {
 		}
 
 	}
+
+	@Override
+	public JSONArray getNotifications(String apikey) throws FoodoServiceException {
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);    
+		nameValuePairs.add(new BasicNameValuePair("apikey", apikey));  
+		try {
+			return this.post("/users/notifications/", nameValuePairs).getJSONArray("Notifications");
+		} catch (JSONException e) {
+			throw new FoodoServiceException("Error getting notifications");
+		}
+	}
+
 	public JSONArray deleteUserReview(long reviewId, String apikey) throws FoodoServiceException{
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);  
 		nameValuePairs.add(new BasicNameValuePair("apikey", apikey));
@@ -420,4 +432,16 @@ public class WebService implements FoodoService {
 			throw new FoodoServiceException("Error while deleting review");
 		}
 	}
+
+	@Override
+	public JSONObject getOrder(Long orderId, String apikey) throws FoodoServiceException {
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);    
+		nameValuePairs.add(new BasicNameValuePair("apikey", apikey));  
+		try {
+			return this.post("/users/orderstatus/" + orderId + "/", nameValuePairs).getJSONObject("Order");
+		} catch (JSONException e) {
+			throw new FoodoServiceException("Error loading order");
+		}
+	}
+
 }

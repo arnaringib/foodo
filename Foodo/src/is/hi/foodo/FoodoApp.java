@@ -5,6 +5,7 @@ import is.hi.foodo.net.WebService;
 import is.hi.foodo.user.FoodoUserManager;
 import is.hi.foodo.user.UserManager;
 import android.app.Application;
+import android.content.Intent;
 import android.util.Log;
 
 public class FoodoApp extends Application {
@@ -20,6 +21,9 @@ public class FoodoApp extends Application {
 
 		Log.d(TAG, this.getResources().getString(R.string.api_path));
 		super.onCreate();
+
+		//Should maybe only start the service this when a user orders...
+		this.startService(new Intent(this,FoodoOrderService.class));
 	}
 
 	public UserManager getUserManager() {

@@ -26,10 +26,12 @@
          <activity android:name=".FoodoRegister"/>
          <activity android:name=".ReadReviews"/>
          <activity android:name=".FoodoMenu"/>
+         <activity android:name=".FoodoOrder"/>
          <activity android:name=".WriteReviews"/>
          <activity android:name=".FoodoUserManagement"/>
          <activity android:name=".FoodoUserOldOrders"/>
          <activity android:name=".FoodoUserOldReviews"/>
+         <service android:name=".FoodoOrderService"/>
         <uses-library android:name="com.google.android.maps" />
     </application>
     
